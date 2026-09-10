@@ -103,12 +103,7 @@ export default function Icons() {
         </div>
       </div>
 
-      <h2 className="site-section-title">Accessibility</h2>
-      <ul style={{ color: "var(--site-text-dim)", lineHeight: 1.8, fontSize: 14 }}>
-        <li>A purely decorative icon is <code>aria-hidden="true"</code> by default in the <code>Icon</code> wrapper.</li>
-        <li>An icon that conveys meaning on its own (e.g. a status check) must pass a <code>label</code> prop, which switches it to <code>role="img"</code> with an accessible name.</li>
-        <li>An icon that's the only content of a clickable control must use <code>IconButton</code>, never a bare styled icon with an onClick.</li>
-      </ul>
     </div>
   );
 }
+

@@ -1,5 +1,5 @@
 import React from "react";
-import { Preview, CodeBlock } from "../Preview";
+import { Preview } from "../Preview";
 import { Alert } from "../../../../packages/core/src/components/Misc";
 import { Toast, Spinner } from "../../../../packages/core/src/components/Overlays";
 import { Empty } from "../../../../packages/core/src/components/Primitives";
@@ -24,9 +24,13 @@ function ToastManagerDemo() {
 }
 
 export default function Feedback() {
+  const [dismissed, setDismissed] = React.useState<Set<string>>(new Set());
+  const dismiss = (key: string) => setDismissed((prev) => new Set([...prev, key]));
+  const resetAlerts = () => setDismissed(new Set());
   const sections = [
     {
       id: "01",
+      anchorId: "alert",
       title: "Alert",
       description:
         "Persistent, page-level status banners bound directly to semantics tokens (Success, Warning, Danger, Info).",
@@ -43,24 +47,44 @@ export default function Feedback() {
               gap: 12,
             }}
           >
-            <Alert tone="success" title="Enrollment complete">
-              You are contributing 6% starting next pay cycle.
-            </Alert>
-            <Alert tone="warning" title="Beneficiary missing">
-              Add a beneficiary to finish setting up your account.
-            </Alert>
-            <Alert tone="danger" title="Update failed">
-              We couldn't save your contribution change. Try again.
-            </Alert>
-            <Alert tone="info" title="Scheduled maintenance">
-              The portal will be unavailable Sunday 2–4am ET.
-            </Alert>
+            {!dismissed.has("success") && (
+              <Alert tone="success" title="Enrollment complete" onDismiss={() => dismiss("success")}>
+                You are contributing 6% starting next pay cycle.
+              </Alert>
+            )}
+            {!dismissed.has("warning") && (
+              <Alert tone="warning" title="Beneficiary missing" onDismiss={() => dismiss("warning")}>
+                Add a beneficiary to finish setting up your account.
+              </Alert>
+            )}
+            {!dismissed.has("danger") && (
+              <Alert tone="danger" title="Update failed" onDismiss={() => dismiss("danger")}>
+                We couldn't save your contribution change. Try again.
+              </Alert>
+            )}
+            {!dismissed.has("info") && (
+              <Alert tone="info" title="Scheduled maintenance" onDismiss={() => dismiss("info")}>
+                The portal will be unavailable Sunday 2–4am ET.
+              </Alert>
+            )}
+            {dismissed.size === 4 && (
+              <div style={{ textAlign: "center", padding: "12px 0" }}>
+                <button
+                  type="button"
+                  className="cds-btn cds-btn--secondary cds-btn--sm"
+                  onClick={resetAlerts}
+                >
+                  ↺ Reset alerts
+                </button>
+              </div>
+            )}
           </div>
         </div>
       ),
     },
     {
       id: "02",
+      anchorId: "toast",
       title: "Toast & Notifications",
       description: "Transient notifications that confirm action results and stack bottom-right with auto-dismissal.",
       content: (
@@ -91,6 +115,7 @@ export default function Feedback() {
     },
     {
       id: "03",
+      anchorId: "empty",
       title: "Empty State",
       description: "Fallback illustrations, guidance descriptions, and primary recovery actions for zero-data views.",
       content: (
@@ -116,6 +141,7 @@ export default function Feedback() {
     },
     {
       id: "04",
+      anchorId: "spinner",
       title: "Loading Spinner",
       description: "Indeterminate progress spinner with accessible ARIA status announcements and reduced-motion support.",
       content: (
@@ -124,28 +150,6 @@ export default function Feedback() {
             <Spinner />
             <span style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Saving your changes…</span>
           </Preview>
-        </div>
-      ),
-    },
-    {
-      id: "05",
-      title: "Accessibility & Code",
-      description: "Assertive/polite live regions, screen reader announcements, and React integration examples.",
-      content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <ul style={{ color: "var(--site-text-dim)", lineHeight: 1.8, fontSize: 14, margin: 0, paddingLeft: 20 }}>
-            <li>
-              Danger alerts use <code>role="alert"</code> (assertive live region); others use <code>role="status"</code> (polite).
-            </li>
-            <li>Color is never the only signal — each tone pairs with distinct copy and icons.</li>
-            <li>
-              Spinner exposes <code>role="status"</code> with an <code>aria-label</code>; its animation duration extends under <code>prefers-reduced-motion</code>.
-            </li>
-          </ul>
-
-          <CodeBlock>{`<Alert tone="danger" title="Update failed">We couldn't save your change. Try again.</Alert>
-<Toast tone="success" title="Changes saved">Your contribution rate was updated.</Toast>
-<Spinner label="Saving" />`}</CodeBlock>
         </div>
       ),
     },
@@ -196,7 +200,7 @@ export default function Feedback() {
       {/* Numbered Sections List — matching Logo and Typography sections */}
       <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
         {sections.map((s) => (
-          <div key={s.id} style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
+          <div key={s.id} id={s.anchorId} style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
             <div
               style={{
                 position: "absolute",

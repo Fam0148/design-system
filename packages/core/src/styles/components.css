@@ -1879,6 +1879,17 @@
   box-shadow: var(--core-card-shadow);
 }
 
+/* Arrow pointing down (tooltip above trigger) */
+.cds-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--core-color-text-primary);
+}
+
 .cds-popover {
   background: var(--core-card-bg);
   border: 1px solid var(--core-card-border);

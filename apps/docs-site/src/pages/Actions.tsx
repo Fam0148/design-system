@@ -1,5 +1,6 @@
 import React from "react";
 import { Preview, CodeBlock } from "../Preview";
+import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Button, IconButton, Link } from "../../../../packages/core/src/components/Button";
 import { ButtonGroup } from "../../../../packages/core/src/components/Primitives";
 import { ButtonMatrix } from "../ButtonMatrix";
@@ -8,6 +9,7 @@ export default function Actions() {
   const sections = [
     {
       id: "01",
+      anchorId: "button",
       title: "Matrix & States",
       description:
         "Complete component matrix showcasing each variant across all interactive states (Default, Hover, Active, Focused, Disabled) directly wired to the Color Palette SCSS.",
@@ -15,6 +17,7 @@ export default function Actions() {
     },
     {
       id: "02",
+      anchorId: "icon-button",
       title: "Sizes & Geometry",
       description:
         "Standard 8-pt control heights (32px, 40px, 48px) with 6px corner radius and minimum touch targets.",
@@ -56,11 +59,13 @@ export default function Actions() {
               </tr>
             </tbody>
           </table>
+
         </div>
       ),
     },
     {
       id: "03",
+      anchorId: "icon-button",
       title: "Icon Button",
       description:
         "Square and circular icon actions with required accessible names. Edit action shown across interactive states.",
@@ -163,8 +168,10 @@ export default function Actions() {
         </div>
       ),
     },
+
     {
-      id: "04",
+      id: "05",
+      anchorId: "button-group",
       title: "Button Group & Link",
       description:
         "Segmented controls that merge borders into one cohesive control, and inline text links distinct from standalone buttons.",
@@ -344,7 +351,7 @@ export default function Actions() {
       {/* Numbered Sections List — matching Logo and Typography sections */}
       <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
         {sections.map((s) => (
-          <div key={s.id} style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
+          <div key={s.id} id={s.anchorId} style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
             <div
               style={{
                 position: "absolute",

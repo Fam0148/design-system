@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Preview } from "../Preview";
+import { Preview, CodeBlock } from "../Preview";
+import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Card, Badge, BadgeTone, BadgeSize } from "../../../../packages/core/src/components/Misc";
 import { Table, DataTable, Avatar, AvatarGroup, Progress } from "../../../../packages/core/src/components/DataDisplay";
 import { Item, DescriptionList } from "../../../../packages/core/src/components/Primitives";
@@ -244,6 +245,7 @@ export default function DataDisplay() {
   const sections = [
     {
       id: "01",
+      anchorId: "card",
       title: "Card",
       description: "Default elevated, flat outlined, and interactive clickable card surfaces with elevation tokens.",
       content: (
@@ -297,11 +299,14 @@ export default function DataDisplay() {
               </Card>
             </Preview>
           </div>
+
+
         </div>
       ),
     },
     {
       id: "02",
+      anchorId: "badge",
       title: "Badge",
       description:
         "Soft tinted badge component matrix showcasing interactive states (Default, Hover, Variant, Disable) and size switches.",
@@ -336,17 +341,20 @@ export default function DataDisplay() {
           </table>
 
           <BadgeMatrixDemo />
+
+
         </div>
       ),
     },
     {
       id: "03",
+      anchorId: "data-table",
       title: "Table & Data Table",
       description: "Static and interactive data grids with sorting, filtering, and client-side pagination.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           {/* 1. Basic Data Table */}
-          <div>
+          <div id="table">
             <div
               style={{
                 fontSize: 12,
@@ -616,10 +624,11 @@ export default function DataDisplay() {
     },
     {
       id: "04",
+      anchorId: "item",
       title: "Item & Description List",
       description: "Standard row containers and semantic term/definition lists for account profiles and review flows.",
       content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        <div id="description-list" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div className="site-panel site-panel--flush">
             <div
               className="preview-surface"
@@ -695,6 +704,7 @@ export default function DataDisplay() {
     },
     {
       id: "05",
+      anchorId: "avatar",
       title: "Avatar & Groups",
       description: "User profile initials and stacked avatar group counters across small, medium, and large sizes.",
       content: (
@@ -731,11 +741,14 @@ export default function DataDisplay() {
           </table>
 
           <AvatarSizeDemo />
+
+
         </div>
       ),
     },
     {
       id: "06",
+      anchorId: "progress",
       title: "Progress",
       description: "Visual indicators for task completion percentages and indeterminate network loading.",
       content: (
@@ -747,6 +760,7 @@ export default function DataDisplay() {
                 <Progress indeterminate label="Submitting your request…" />
               </div>
             </Preview>
+
           </div>
         </div>
       ),
@@ -798,7 +812,7 @@ export default function DataDisplay() {
       {/* Numbered Sections List — matching Logo and Typography sections */}
       <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
         {sections.map((s) => (
-          <div key={s.id} style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
+          <div key={s.id} id={s.anchorId} style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
             <div
               style={{
                 position: "absolute",

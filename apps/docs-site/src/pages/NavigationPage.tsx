@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Preview, CodeBlock } from "../Preview";
+import { Preview } from "../Preview";
 import { Tabs, Breadcrumb, Pagination, NavigationMenu, AppSidebar, Stepper } from "../../../../packages/core/src/components/Navigation";
 import { Icon } from "../../../../packages/core/src/components/Primitives";
 
@@ -19,7 +19,7 @@ export default function NavigationPage() {
       </div>
 
       <p className="site-section-sub"><code>variant="rail"</code> — a compact icon-over-label rail. A left accent bar + tinted band mark the active item; icons are plain, no badge. Same tokens as the row layout above, so it's light/dark aware, not a fixed chrome.</p>
-      <div className="site-panel site-panel--flush">
+      <div id="sidebar" className="site-panel site-panel--flush">
         <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)", padding: "24px 32px" }}>
           <AppSidebar
             variant="rail"
@@ -120,17 +120,6 @@ export default function NavigationPage() {
         </Preview>
       </div>
 
-      <h2 className="site-section-title">Accessibility</h2>
-      <ul style={{ color: "var(--site-text-dim)", lineHeight: 1.8, fontSize: 14 }}>
-        <li>Tabs implement the ARIA <code>tablist</code>/<code>tab</code>/<code>tabpanel</code> pattern with <code>aria-selected</code>.</li>
-        <li>Breadcrumb marks the current page with <code>aria-current="page"</code>, wrapped in a <code>nav aria-label="Breadcrumb"</code>.</li>
-        <li>Pagination's active page also carries <code>aria-current="page"</code>; Previous/Next disable correctly at range edges.</li>
-      </ul>
-
-      <h2 className="site-section-title">Code</h2>
-      <CodeBlock>{`<Tabs items={[{ id: "overview", label: "Overview", content: <Overview /> }, ...]} />
-<Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Transactions" }]} />
-<Pagination page={page} pageCount={8} onChange={setPage} />`}</CodeBlock>
     </div>
   );
 }

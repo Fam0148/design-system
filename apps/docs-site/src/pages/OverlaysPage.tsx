@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Preview, CodeBlock } from "../Preview";
+import { Preview } from "../Preview";
+import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Button, IconButton } from "../../../../packages/core/src/components/Button";
 import { Modal, ConfirmDialog, Drawer, Tooltip, Popover, DropdownMenu } from "../../../../packages/core/src/components/Overlays";
 import { HoverCard } from "../../../../packages/core/src/components/HoverCard";
@@ -37,6 +38,8 @@ export default function OverlaysPage() {
         This will replace your current primary beneficiary on file.
       </Modal>
 
+
+
       <h2 className="site-section-title" id="confirm-dialog">Confirmation dialog</h2>
       <p className="site-section-sub">A specialized Modal for destructive or hard-to-reverse actions — always names the consequence, never just "Are you sure?"</p>
       <div className="site-panel site-panel--flush">
@@ -63,6 +66,8 @@ export default function OverlaysPage() {
       <Drawer open={drawer} onClose={() => setDrawer(false)} title="Filter transactions">
         <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Filter controls would go here.</p>
       </Drawer>
+
+
 
       <h2 className="site-section-title" id="slideover">Slideover (form panel)</h2>
       <p className="site-section-sub">
@@ -145,6 +150,8 @@ export default function OverlaysPage() {
         </Preview>
       </div>
 
+
+
       <p className="site-section-sub">
         From an icon — the most common trigger in a dense form or table: a bare info glyph next to a label,
         never relying on the icon's shape alone to communicate its meaning (that's what the tooltip text is for).
@@ -188,6 +195,8 @@ export default function OverlaysPage() {
           </Popover>
         </Preview>
       </div>
+
+
       <p className="site-section-sub">Placement — flips to whichever side fits (top/right/bottom/left):</p>
       <div className="site-panel site-panel--flush">
         <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)", padding: 60 }}>
@@ -209,22 +218,6 @@ export default function OverlaysPage() {
         </Preview>
       </div>
 
-      <h2 className="site-section-title">Accessibility</h2>
-      <ul style={{ color: "var(--site-text-dim)", lineHeight: 1.8, fontSize: 14 }}>
-        <li>Modal and Drawer use <code>role="dialog"</code> + <code>aria-modal="true"</code>, move focus in on open, and close on Escape.</li>
-        <li>Confirmation dialogs always state the consequence in the title/description — never rely on button color alone.</li>
-        <li>Tooltip content is also exposed on keyboard focus, not just mouse hover.</li>
-      </ul>
-
-      <h2 className="site-section-title">Code</h2>
-      <CodeBlock>{`<ConfirmDialog
-  open={open}
-  onConfirm={onDelete}
-  onClose={onClose}
-  title="Delete this account?"
-  description="This permanently removes the account and cannot be undone."
-  danger
-/>`}</CodeBlock>
     </div>
   );
 }

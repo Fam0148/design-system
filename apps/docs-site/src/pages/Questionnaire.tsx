@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Preview, CodeBlock } from "../Preview";
+import { Preview } from "../Preview";
 import { Questionnaire, QuestionDef } from "../../../../packages/core/src/components/Questionnaire";
 
 
@@ -72,28 +72,6 @@ export default function QuestionnairePage() {
           <strong>Submitted:</strong> {JSON.stringify(answers)}
         </div>
       )}
-
-      <h2 className="site-section-title">Accessibility</h2>
-      <ul style={{ color: "var(--site-text-dim)", lineHeight: 1.8, fontSize: 14 }}>
-        <li>The whole flow is one <code>role="form"</code> region labeled by its title, so assistive tech announces which questionnaire is active.</li>
-        <li>Each question is a real <code>RadioGroup</code> (<code>role="radiogroup"</code>) — arrow-key navigable, single managed value.</li>
-        <li>Progress uses CORE's <code>Progress</code> component, which exposes its percentage via <code>aria-valuenow</code>, not just visually.</li>
-        <li>Next/Submit is disabled (not hidden) until answered, so its presence and state are always discoverable.</li>
-      </ul>
-
-      <h2 className="site-section-title">Code</h2>
-      <div className="site-panel site-panel--flush">
-        <CodeBlock>{`<Questionnaire
-  title="Risk tolerance"
-  questions={riskQuestions}
-  answers={answers}
-  currentIndex={i}
-  onAnswer={(id, value) => setAnswers((prev) => ({ ...prev, [id]: value }))}
-  onBack={() => setI((n) => Math.max(0, n - 1))}
-  onNext={() => setI((n) => Math.min(riskQuestions.length - 1, n + 1))}
-  onSubmit={submitAssessment}
-/>`}</CodeBlock>
-      </div>
     </div>
   );
 }

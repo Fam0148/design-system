@@ -91,13 +91,43 @@ export function Badge({
 }
 
 export type AlertTone = "success" | "warning" | "danger" | "info";
-export function Alert({ tone = "info", title, children }: { tone?: AlertTone; title: string; children?: React.ReactNode }) {
+export function Alert({ tone = "info", title, children, onDismiss }: { tone?: AlertTone; title: string; children?: React.ReactNode; onDismiss?: () => void }) {
   return (
-    <div className={`cds-alert cds-alert--${tone}`} role={tone === "danger" ? "alert" : "status"}>
+    <div className={`cds-alert cds-alert--${tone}`} role={tone === "danger" ? "alert" : "status"} style={{ position: "relative", paddingRight: onDismiss ? 40 : undefined }}>
       <div>
         <strong style={{ display: "block", marginBottom: children ? 2 : 0 }}>{title}</strong>
         {children}
       </div>
+      {onDismiss && (
+        <button
+          type="button"
+          onClick={onDismiss}
+          aria-label="Dismiss"
+          style={{
+            position: "absolute",
+            top: 12,
+            right: 12,
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            padding: 4,
+            lineHeight: 1,
+            color: "inherit",
+            opacity: 0.6,
+            fontSize: 18,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 4,
+          }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = "1"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = "0.6"; }}
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M1 1l12 12M13 1L1 13" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 }

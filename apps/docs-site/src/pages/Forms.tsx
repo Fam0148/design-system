@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Preview } from "../Preview";
+import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Field, Input, InputWithIcon } from "../../../../packages/core/src/components/Field";
 import { Icon } from "../../../../packages/core/src/components/Primitives";
 import { Switch } from "../../../../packages/core/src/components/Misc";
@@ -39,6 +40,7 @@ export default function Forms() {
   const sections = [
     {
       id: "01",
+      anchorId: "input",
       title: "Input",
       description: "Standard text fields showing interactive and validation states.",
       content: (
@@ -59,6 +61,7 @@ export default function Forms() {
     },
     {
       id: "02",
+      anchorId: "textarea",
       title: "Textarea",
       description: "Multi-line text input that grows vertically with content. Minimum height 88px.",
       content: (
@@ -87,6 +90,7 @@ export default function Forms() {
     },
     {
       id: "03",
+      anchorId: "select",
       title: "Select",
       description: "Native select dropdown for choosing from a list of options.",
       content: (
@@ -115,6 +119,7 @@ export default function Forms() {
     },
     {
       id: "04",
+      anchorId: "checkbox-radio",
       title: "Checkbox & Radio",
       description: "Controls for boolean states and mutually exclusive choices.",
       content: (
@@ -144,6 +149,7 @@ export default function Forms() {
     },
     {
       id: "05",
+      anchorId: "switch",
       title: "Switch",
       description: "Toggle control for immediate on/off actions.",
       content: (
@@ -172,6 +178,7 @@ export default function Forms() {
     },
     {
       id: "06",
+      anchorId: "toggle",
       title: "Toggle",
       description: "Stateful buttons that hold a pressed state, individually or in groups.",
       content: (
@@ -228,6 +235,7 @@ export default function Forms() {
     },
     {
       id: "07",
+      anchorId: "input-group",
       title: "Input group",
       description: "Text inputs composed with fixed prefix or suffix labels.",
       content: (
@@ -296,6 +304,7 @@ export default function Forms() {
     },
     {
       id: "08",
+      anchorId: "input-otp",
       title: "Input OTP",
       description: "Segmented input for 2FA and verification codes.",
       content: (
@@ -324,6 +333,7 @@ export default function Forms() {
     },
     {
       id: "09",
+      anchorId: "slider",
       title: "Slider",
       description: "Range control for numeric values.",
       content: (
@@ -340,6 +350,7 @@ export default function Forms() {
     },
     {
       id: "10",
+      anchorId: "combobox",
       title: "Combobox",
       description: "Searchable select component for long lists of options.",
       content: (
@@ -373,6 +384,7 @@ export default function Forms() {
     },
     {
       id: "11",
+      anchorId: "date-picker",
       title: "Date Selection",
       description: "Inline calendar and popover date picker components.",
       content: (
@@ -428,6 +440,7 @@ export default function Forms() {
     },
     {
       id: "12",
+      anchorId: "input-icon",
       title: "Input with icon",
       description: "First-class leading or trailing icon slot.",
       content: (
@@ -496,6 +509,7 @@ export default function Forms() {
     },
     {
       id: "13",
+      anchorId: "payment-bank-fields",
       title: "Bank fields",
       description: "Masked and formatted inputs for sensitive data (card, routing, etc.).",
       content: (
@@ -618,6 +632,7 @@ export default function Forms() {
     },
     {
       id: "14",
+      anchorId: "attachment",
       title: "Attachment",
       description: "File upload dropzone and attachment list.",
       content: (
@@ -748,6 +763,7 @@ export default function Forms() {
     },
     {
       id: "15",
+      anchorId: "working-example",
       title: "Working Example",
       description: "A functional form combining multiple control variants, states, and maximum configuration.",
       content: (
@@ -910,7 +926,7 @@ export default function Forms() {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 100 }}>
         {sections.map((s) => (
-          <div key={s.id} style={{ display: "flex", flexDirection: "column", gap: 40, position: "relative" }}>
+          <div key={s.id} id={s.anchorId} style={{ display: "flex", flexDirection: "column", gap: 40, position: "relative" }}>
             <div style={{ position: "absolute", top: 0, left: "-12.5%", width: "125%", height: 1, backgroundColor: "var(--site-border)" }} />
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingTop: 32 }}>
               <div>

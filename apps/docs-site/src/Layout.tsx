@@ -5,34 +5,20 @@ import { CoreLogo } from "./CoreLogo";
 const nav = [
   { group: "Get Started", links: [{ to: "/", label: "Overview" }] },
   {
-    group: "Foundations",
+    group: "Foundation",
     links: [
       { to: "/foundations/logo", label: "Logo" },
       { to: "/foundations/color", label: "Color" },
       { to: "/foundations/typography", label: "Typography" },
     ],
   },
-  // {
-  //   group: "Layout",
-  //   links: [
-  //     { to: "/foundations/layout-grid#header", label: "App Header" },
-  //     { to: "/foundations/layout-grid#footer", label: "App Footer" },
-  //     { to: "/foundations/layout-grid#grid", label: "Grid & Container" },
-  //     { to: "/foundations/layout-grid#page-layouts", label: "Page Layouts" },
-  //   ],
-  // },
   {
-    group: "Actions",
+    group: "Component",
     links: [
       { to: "/components/actions#button", label: "Button" },
       { to: "/components/actions#icon-button", label: "Icon Button" },
       { to: "/components/actions#link", label: "Link" },
       { to: "/components/actions#button-group", label: "Button Group" },
-    ],
-  },
-  {
-    group: "Forms",
-    links: [
       { to: "/components/forms#input", label: "Input" },
       { to: "/components/forms#textarea", label: "Textarea" },
       { to: "/components/forms#select", label: "Select" },
@@ -48,61 +34,31 @@ const nav = [
       { to: "/components/forms#attachment", label: "Attachment" },
       { to: "/components/forms#input-icon", label: "Input (with icon)" },
       { to: "/components/forms#payment-bank-fields", label: "Payment & Bank Fields" },
-    ],
-  },
-  {
-    group: "Data Display",
-    links: [
       { to: "/components/data-display#card", label: "Card" },
       { to: "/components/data-display#badge", label: "Badge" },
       { to: "/components/data-display#data-table", label: "Data Table" },
       { to: "/components/data-display#table", label: "Table" },
       { to: "/components/data-display#item", label: "Item" },
+      { to: "/components/data-display#description-list", label: "Description List" },
       { to: "/components/data-display#avatar", label: "Avatar" },
       { to: "/components/data-display#progress", label: "Progress" },
-    ],
-  },
-  {
-    group: "Charts",
-    links: [
       { to: "/components/charts#line-chart", label: "Line Chart" },
       { to: "/components/charts#bar-chart", label: "Bar Chart" },
-    ],
-  },
-  {
-    group: "Disclosure",
-    links: [
       { to: "/components/disclosure#collapsible", label: "Collapsible" },
       { to: "/components/disclosure#accordion", label: "Accordion" },
       { to: "/components/disclosure#separator", label: "Separator" },
       { to: "/components/disclosure#skeleton", label: "Skeleton" },
-    ],
-  },
-  {
-    group: "Navigation",
-    links: [
       { to: "/components/navigation#navigation-menu", label: "Navigation Menu" },
       { to: "/components/navigation#sidebar", label: "Sidebar" },
       { to: "/components/navigation#tabs", label: "Tabs" },
-      { to: "/components/data-display#description-list", label: "Description List" },
       { to: "/components/navigation#breadcrumb", label: "Breadcrumb" },
       { to: "/components/navigation#stepper", label: "Stepper" },
       { to: "/components/navigation#pagination", label: "Pagination" },
-    ],
-  },
-  {
-    group: "Feedback",
-    links: [
       { to: "/components/feedback#alert", label: "Alert" },
       { to: "/components/feedback#toast", label: "Toast" },
       { to: "/components/feedback#toast-manager", label: "Toast Manager" },
       { to: "/components/feedback#empty", label: "Empty" },
       { to: "/components/feedback#spinner", label: "Spinner" },
-    ],
-  },
-  {
-    group: "Overlays",
-    links: [
       { to: "/components/overlays#modal", label: "Modal" },
       { to: "/components/overlays#confirm-dialog", label: "Confirmation Dialog" },
       { to: "/components/overlays#drawer", label: "Drawer" },
@@ -114,30 +70,45 @@ const nav = [
     ],
   },
   {
-    group: "System",
+    group: "Anatomy",
     links: [
-      { to: "/patterns", label: "Patterns" },
-      { to: "/components/questionnaire", label: "Questionnaire" },
-      { to: "/screens", label: "Screens" },
-      { to: "/tokens", label: "Tokens (SCSS)" },
-      { to: "/accessibility", label: "Accessibility" },
-      { to: "/color-extraction", label: "Color extraction" },
+      { to: "/anatomy#button", label: "Button" },
+      { to: "/anatomy#icon-button", label: "Icon Button" },
+      { to: "/anatomy#button-group", label: "Button Group" },
+      { to: "/anatomy#input", label: "Input" },
+      { to: "/anatomy#checkbox", label: "Checkbox & Radio" },
+      { to: "/anatomy#switch", label: "Switch" },
+      { to: "/anatomy#slider", label: "Slider" },
+      { to: "/anatomy#card", label: "Card" },
+      { to: "/anatomy#badge", label: "Badge" },
+      { to: "/anatomy#avatar", label: "Avatar" },
+      { to: "/anatomy#progress", label: "Progress" },
+      { to: "/anatomy#modal", label: "Modal" },
+      { to: "/anatomy#drawer", label: "Drawer" },
+      { to: "/anatomy#tooltip", label: "Tooltip" },
+      { to: "/anatomy#popover", label: "Popover" },
     ],
   },
 ];
 
-// Scrolls to the element matching the URL's fragment-after-fragment (HashRouter already
-// owns the first #, so component anchors are the SECOND #, e.g. #/components/forms#input).
+// Scrolls to the element matching the hash in the URL.
+// In a HashRouter the location.hash gives us the anchor (e.g. "#accordion").
+// We wait a tick so the page has time to render before scrolling.
 function useAnchorScroll() {
   const location = useLocation();
   React.useEffect(() => {
-    const raw = window.location.href;
-    const parts = raw.split("#");
-    const anchor = parts.length > 2 ? parts[2] : undefined;
+    // location.hash is the anchor part e.g. "#accordion"
+    const anchor = location.hash ? location.hash.slice(1) : undefined;
     const t = setTimeout(() => {
-      if (anchor) document.getElementById(anchor)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      else window.scrollTo(0, 0);
-    }, 60);
+      if (anchor) {
+        const el = document.getElementById(anchor);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }, 80);
     return () => clearTimeout(t);
   }, [location.pathname, location.hash]);
 }
