@@ -1,0 +1,10 @@
+{
+  "name": "CORE Design System",
+  "install": "npm ci && npm run tokens:build",
+  "terminals": [
+    {
+      "name": "docs-site dev",
+      "command": "npm run dev"
+    }
+  ]
+}
