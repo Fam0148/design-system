@@ -1,70 +1,20 @@
 import React from "react";
-import { Preview, CodeBlock } from "../Preview";
+import { Preview } from "../Preview";
 import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Button, IconButton, Link } from "../../../../packages/core/src/components/Button";
-import { ButtonGroup } from "../../../../packages/core/src/components/Primitives";
 import { ButtonMatrix } from "../ButtonMatrix";
+import { ComponentSectionNumber } from "../ComponentSectionNumber";
 
 export default function Actions({ embedded = false }: { embedded?: boolean }) {
   const sections = [
     {
-      id: "01",
       anchorId: "button",
-      title: "Matrix & States",
+      title: "Buttons",
       description:
         "Complete component matrix showcasing each variant across all interactive states (Default, Hover, Active, Focused, Disabled) directly wired to the Color Palette SCSS.",
       content: <ButtonMatrix />,
     },
     {
-      id: "02",
-      anchorId: "icon-button",
-      title: "Sizes & Geometry",
-      description:
-        "Standard 8-pt control heights (32px, 40px, 48px) with 6px corner radius and minimum touch targets.",
-      content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <table className="spec-table">
-            <thead>
-              <tr>
-                <th>Property</th>
-                <th>Small</th>
-                <th>Medium (default)</th>
-                <th>Large</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Height</td>
-                <td>32px</td>
-                <td>40px</td>
-                <td>48px</td>
-              </tr>
-              <tr>
-                <td>Horizontal padding</td>
-                <td>12px</td>
-                <td>16px</td>
-                <td>20px</td>
-              </tr>
-              <tr>
-                <td>Font size</td>
-                <td>14px</td>
-                <td>16px</td>
-                <td>18px</td>
-              </tr>
-              <tr>
-                <td>Minimum touch target</td>
-                <td>32×32px</td>
-                <td>40×40px</td>
-                <td>48×48px</td>
-              </tr>
-            </tbody>
-          </table>
-
-        </div>
-      ),
-    },
-    {
-      id: "03",
       anchorId: "icon-button",
       title: "Icon Button",
       description:
@@ -75,7 +25,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
             <div style={{ display: "flex", gap: 32, alignItems: "flex-end", flexWrap: "wrap" }}>
               {/* DEFAULT */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-                <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DEFAULT</span>
+                <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DEFAULT</span>
                 <button
                   style={{
                     width: 40,
@@ -86,8 +36,8 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
                     justifyContent: "center",
                     cursor: "pointer",
                     backgroundColor: "transparent",
-                    color: "var(--theme-brand-text-primary-default, #1F4F8D)",
-                    border: "1px solid var(--theme-brand-border-primary-default, #3275CD)",
+                    color: "var(--theme-brand-text-primary-default)",
+                    border: "1px solid var(--theme-brand-borders-primary-default)",
                   }}
                   aria-label="Edit"
                 >
@@ -97,7 +47,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
               {/* HOVER */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-                <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>HOVER</span>
+                <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>HOVER</span>
                 <button
                   style={{
                     width: 40,
@@ -107,9 +57,9 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
                     alignItems: "center",
                     justifyContent: "center",
                     cursor: "pointer",
-                    backgroundColor: "var(--theme-brand-background-hover, #1B4479)",
-                    color: "var(--theme-brand-text-primary-oncolor, #FFFFFF)",
-                    border: "1px solid var(--theme-brand-border-hover, #1B4479)",
+                    backgroundColor: "var(--theme-brand-background-hover)",
+                    color: "var(--theme-brand-text-primary-oncolor)",
+                    border: "1px solid var(--theme-brand-borders-hover)",
                   }}
                   aria-label="Edit Hover"
                 >
@@ -119,7 +69,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
               {/* ACTIVE */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-                <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>ACTIVE</span>
+                <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>ACTIVE</span>
                 <button
                   style={{
                     width: 40,
@@ -129,9 +79,9 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
                     alignItems: "center",
                     justifyContent: "center",
                     cursor: "pointer",
-                    backgroundColor: "var(--theme-brand-background-active, #17365E)",
-                    color: "var(--theme-brand-text-primary-oncolor, #FFFFFF)",
-                    border: "1px solid var(--theme-brand-border-active, #17365E)",
+                    backgroundColor: "var(--theme-brand-background-active)",
+                    color: "var(--theme-brand-text-primary-oncolor)",
+                    border: "1px solid var(--theme-brand-background-active)",
                     transform: "translateY(1px)",
                   }}
                   aria-label="Edit Active"
@@ -142,7 +92,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
               {/* DISABLED */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-                <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DISABLED</span>
+                <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DISABLED</span>
                 <button
                   style={{
                     width: 40,
@@ -153,9 +103,8 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
                     justifyContent: "center",
                     cursor: "not-allowed",
                     backgroundColor: "transparent",
-                    color: "var(--theme-brand-text-primary-disabled, #86ADDF)",
-                    border: "1px solid var(--theme-brand-border-primary-disabled, #BACEE9)",
-                    opacity: 0.6,
+                    color: "var(--theme-brand-text-primary-default)",
+                    border: "1px solid var(--theme-brand-borders-primary-disabled)",
                   }}
                   disabled
                   aria-label="Edit Disabled"
@@ -170,59 +119,31 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
     },
 
     {
-      id: "05",
-      anchorId: "button-group",
-      title: "Button Group & Link",
+      anchorId: "link",
+      title: "Link",
       description:
-        "Segmented controls that merge borders into one cohesive control, and inline text links distinct from standalone buttons.",
+        "Inline text links distinct from standalone buttons — shown across default, hover, active, focused, and disabled states.",
       content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div className="site-panel site-panel--flush">
-            <Preview>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-                <div style={{ display: "flex", width: 400 }}>
-                  <span style={{ flex: 1, textAlign: "center", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.04em", color: "var(--site-text-dim)" }}>DEFAULT</span>
-                  <span style={{ flex: 1, textAlign: "center", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.04em", color: "var(--site-text-dim)" }}>HOVER</span>
-                  <span style={{ flex: 1, textAlign: "center", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.04em", color: "var(--site-text-dim)" }}>ACTIVE</span>
-                  <span style={{ flex: 1, textAlign: "center", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.04em", color: "var(--site-text-dim)" }}>FOCUSED</span>
-                  <span style={{ flex: 1, textAlign: "center", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.04em", color: "var(--site-text-dim)" }}>DISABLED</span>
-                </div>
-                <ButtonGroup>
-                  {/* DEFAULT */}
-                  <button className="cds-btn cds-btn--sm" style={{ width: 80, backgroundColor: "transparent", color: "var(--theme-brand-text-primary-default, #1F4F8D)", border: "1px solid var(--theme-brand-border-primary-default, #3275CD)", cursor: "pointer" }}>Day</button>
-                  {/* HOVER (tinted hover background with blue text) */}
-                  <button className="cds-btn cds-btn--sm" style={{ width: 80, backgroundColor: "rgba(31, 79, 141, 0.08)", color: "var(--theme-brand-text-primary-default, #1F4F8D)", border: "1px solid var(--theme-brand-border-hover, #1B4479)", cursor: "pointer" }}>Week</button>
-                  {/* ACTIVE (solid filled brand state with white text) */}
-                  <button className="cds-btn cds-btn--sm" style={{ width: 80, backgroundColor: "var(--theme-brand-background-primary-default, #1F4F8D)", color: "var(--theme-brand-text-primary-oncolor, #FFFFFF)", border: "1px solid var(--theme-brand-background-primary-default, #1F4F8D)", fontWeight: 600, cursor: "pointer", boxShadow: "inset 0 1px 2px rgba(0,0,0,0.18)" }}>Month</button>
-                  {/* FOCUSED */}
-                  <button className="cds-btn cds-btn--sm" style={{ width: 80, backgroundColor: "transparent", color: "var(--theme-brand-text-primary-default, #1F4F8D)", border: "1px solid var(--theme-brand-border-primary-default, #3275CD)", outline: "2px solid var(--theme-brand-border-primary-default, #3275CD)", outlineOffset: "1px", zIndex: 1, cursor: "pointer" }}>Year</button>
-                  {/* DISABLED */}
-                  <button className="cds-btn cds-btn--sm" disabled style={{ width: 80, backgroundColor: "transparent", color: "var(--theme-brand-text-primary-disabled, #86ADDF)", border: "1px solid var(--theme-brand-border-primary-disabled, #BACEE9)", opacity: 0.5, cursor: "not-allowed" }}>All</button>
-                </ButtonGroup>
-              </div>
-            </Preview>
-          </div>
-
-          <div id="link" className="site-panel site-panel--flush docs-section">
+        <div className="site-panel site-panel--flush">
             <Preview>
               <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 24 }}>
                   {/* DEFAULT */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DEFAULT</span>
+                    <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DEFAULT</span>
                     <span style={{ fontSize: 14, color: "var(--core-color-text-primary)", lineHeight: 1.6 }}>
                       Read our{" "}
                       <Link
                         href="#"
                         onClick={(e) => e.preventDefault()}
                         style={{
-                          color: "var(--theme-brand-text-primary-default, #1F4F8D)",
+                          color: "var(--theme-brand-text-primary-default)",
                           textDecoration: "underline",
                           textUnderlineOffset: "3px",
                           textDecorationThickness: "1px"
                         }}
                       >
-                        plan disclosure documents
+                        documents
                       </Link>{" "}
                       before enrolling.
                     </span>
@@ -230,7 +151,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
                   {/* HOVER */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>HOVER</span>
+                    <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>HOVER</span>
                     <span style={{ fontSize: 14, color: "var(--core-color-text-primary)", lineHeight: 1.6 }}>
                       Read our{" "}
                       <a
@@ -238,14 +159,13 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
                         onClick={(e) => e.preventDefault()}
                         className="cds-link"
                         style={{
-                          color: "var(--theme-brand-background-hover, #0D3B73)",
+                          color: "var(--theme-brand-text-primary-hover)",
                           textDecoration: "underline",
-                          textDecorationThickness: "2px",
-                          textUnderlineOffset: "4px",
-                          fontWeight: 600,
+                          textDecorationThickness: "1px",
+                          textUnderlineOffset: "3px",
                         }}
                       >
-                        plan disclosure documents
+                        documents
                       </a>{" "}
                       before enrolling.
                     </span>
@@ -253,7 +173,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
                   {/* ACTIVE */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>ACTIVE</span>
+                    <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>ACTIVE</span>
                     <span style={{ fontSize: 14, color: "var(--core-color-text-primary)", lineHeight: 1.6 }}>
                       Read our{" "}
                       <a
@@ -261,22 +181,42 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
                         onClick={(e) => e.preventDefault()}
                         className="cds-link"
                         style={{
-                          color: "var(--theme-brand-background-active, #0A2548)",
+                          color: "var(--theme-brand-text-primary-active)",
                           textDecoration: "underline",
-                          textDecorationThickness: "2.5px",
-                          textUnderlineOffset: "2px",
-                          fontWeight: 700,
+                          textDecorationThickness: "1px",
+                          textUnderlineOffset: "3px",
                         }}
                       >
-                        plan disclosure documents
+                        documents
                       </a>{" "}
+                      before enrolling.
+                    </span>
+                  </div>
+
+                  {/* FOCUSED */}
+                  <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>FOCUSED</span>
+                    <span style={{ fontSize: 14, color: "var(--core-color-text-primary)", lineHeight: 1.6 }}>
+                      Read our{" "}
+                      <Link
+                        href="#"
+                        onClick={(e) => e.preventDefault()}
+                        style={{
+                          color: "var(--theme-brand-text-primary-default)",
+                          textDecoration: "underline",
+                          textUnderlineOffset: "3px",
+                          textDecorationThickness: "1px",
+                        }}
+                      >
+                        documents
+                      </Link>{" "}
                       before enrolling.
                     </span>
                   </div>
 
                   {/* DISABLED */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DISABLED</span>
+                    <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DISABLED</span>
                     <span style={{ fontSize: 14, color: "var(--core-color-text-primary)", lineHeight: 1.6 }}>
                       Read our{" "}
                       <Link
@@ -284,14 +224,13 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
                         disabled
                         onClick={(e) => e.preventDefault()}
                         style={{
-                          color: "var(--theme-brand-text-primary-disabled, #86ADDF)",
+                          color: "var(--theme-brand-text-primary-default)",
                           textDecoration: "underline",
-                          textDecorationColor: "var(--theme-brand-border-primary-disabled, #BACEE9)",
-                          opacity: 0.5,
+                          textDecorationColor: "var(--theme-brand-borders-primary-disabled)",
                           cursor: "not-allowed",
                         }}
                       >
-                        plan disclosure documents
+                        documents
                       </Link>{" "}
                       before enrolling.
                     </span>
@@ -299,7 +238,13 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
                 </div>
               </div>
             </Preview>
-          </div>
+            <style>{`
+              .force-focus .cds-link {
+                outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400) !important;
+                outline-offset: 2px !important;
+                border-radius: 2px !important;
+              }
+            `}</style>
         </div>
       ),
     },
@@ -309,7 +254,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
   const sectionList = (
     <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
       {sections.map((s) => (
-        <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
+        <div key={s.anchorId} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
           <div
             style={{
               position: "absolute",
@@ -321,16 +266,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
             }}
           />
           <div style={{ paddingTop: 32 }}>
-            <div
-              style={{
-                fontSize: 12,
-                fontWeight: 600,
-                color: "var(--core-color-text-tertiary)",
-                marginBottom: 12,
-              }}
-            >
-              {s.id}
-            </div>
+            <ComponentSectionNumber anchorId={s.anchorId} />
             <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
               {s.title}
             </h2>
@@ -347,18 +283,6 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
     <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
       {/* Centered Hero Header — matching Logo and Typography sections */}
       <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
-        <div
-          style={{
-            fontSize: 14,
-            fontWeight: 700,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "var(--core-color-brand-600)",
-            marginBottom: 12,
-          }}
-        >
-          Components
-        </div>
         <h1
           style={{
             fontSize: 72,

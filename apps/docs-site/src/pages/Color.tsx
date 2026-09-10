@@ -3,7 +3,6 @@ import primitives from "../../../../packages/tokens/src/primitives.json";
 import { ContrastBadge } from "../ContrastBadge";
 import { rgbStringToHex } from "../lib/contrast";
 import { Collapsible } from "../../../../packages/core/src/components/Primitives";
-
 const color = (primitives as any).color;
 const gradient = (primitives as any).gradient;
 
@@ -151,8 +150,8 @@ function BaselineSwatch({ tokenKey, label }: { tokenKey: string; label: string }
       onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.02)"}
       onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
     >
-      <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontFamily: "var(--site-mono)", opacity: 0.85, wordBreak: "break-all", lineHeight: 1.4 }}>{varName}</span>
-      <span style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, marginTop: "12px", wordBreak: "break-word", lineHeight: 1.3 }}>{label}</span>
+      <span style={{ fontSize: "var(--typography-font-size-xs)", fontFamily: "var(--site-mono)", opacity: 0.85, wordBreak: "break-all", lineHeight: 1.4 }}>{varName}</span>
+      <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, marginTop: "12px", wordBreak: "break-word", lineHeight: 1.3 }}>{label}</span>
     </div>
   );
 }
@@ -209,7 +208,7 @@ function BaselineTokensSection() {
             borderRadius: 20,
             border: "1px solid var(--site-border)",
             background: "var(--site-bg-elevated)",
-            fontSize: "var(--core-font-size-xs, 12px)",
+            fontSize: "var(--typography-font-size-xs)",
             fontWeight: 600,
             color: "inherit",
             fontFamily: "inherit",
@@ -265,7 +264,7 @@ function Swatch({ name, hex, token, note, border }: { name: string; hex: string;
       <div className="chip" style={{ background: hex, border: border ? "1px solid var(--site-border)" : undefined }} />
       <div className="meta">
         <div className="name">{name}</div>
-        <div className="value" style={{ fontFamily: "var(--site-mono)", fontSize: "var(--core-font-size-xs, 12px)", marginBottom: 4 }}>{token}</div>
+        <div className="value" style={{ fontFamily: "var(--site-mono)", fontSize: "var(--typography-font-size-xs)", marginBottom: 4 }}>{token}</div>
         <div style={{ marginTop: 6, display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
           <ContrastBadge hex={hex} />
         </div>
@@ -310,39 +309,74 @@ function getContrastColor(hex: string): string {
 
 function RampRow({ name, prefix, scale, isLast }: { name: string; prefix: string; scale: Record<string, string>; isLast?: boolean }) {
   const entries = Object.entries(scale);
+
+  const copyToken = (step: string) => {
+    navigator.clipboard.writeText(`var(--core-color-${prefix}-${step})`);
+  };
+
   return (
     <div style={{ display: "flex", padding: "32px 0", borderBottom: isLast ? "none" : "1px solid var(--site-border)" }}>
-      <div style={{ width: "25%", minWidth: 150, fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, textTransform: "uppercase", color: "var(--core-color-text-primary)", paddingTop: 16 }}>
+      <div style={{ width: "25%", minWidth: 150, fontSize: "var(--typography-font-size-xs)", fontWeight: 700, textTransform: "uppercase", color: "var(--core-color-text-primary)", paddingTop: 16 }}>
         {name}
       </div>
-      <div style={{ width: "75%", display: "flex", flexDirection: "column" }}>
+      <div style={{ width: "75%", display: "flex", flexDirection: "column", gap: 6 }}>
         <div style={{ display: "flex", width: "100%", height: 80, borderRadius: 6, overflow: "hidden", border: "1px solid rgba(128,128,128,0.15)" }}>
           {entries.map(([step, hex]) => {
             const textColor = getContrastColor(hex);
             return (
-              <div
+              <button
                 key={step}
+                type="button"
+                aria-label={`${name} ${hex}`}
+                title={`Click to copy ${hex}`}
+                onClick={() => navigator.clipboard.writeText(hex)}
                 style={{
                   flex: 1,
+                  position: "relative",
+                  border: "none",
+                  padding: 0,
                   background: hex,
                   cursor: "pointer",
                   display: "flex",
-                  flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
                   color: textColor,
-                  transition: "opacity 0.2s"
+                  fontSize: "var(--core-font-size-xs, 11px)",
+                  fontFamily: "var(--site-mono)",
+                  lineHeight: 1.3,
+                  transition: "opacity 0.2s",
                 }}
-                title={`Click to copy var(--core-color-${prefix}-${step})`}
-                onClick={() => navigator.clipboard.writeText(`var(--core-color-${prefix}-${step})`)}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = "0.9"}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
               >
-                <div style={{ fontSize: 12, fontWeight: 700 }}>{step}</div>
-                <div style={{ fontSize: "var(--core-font-size-xs, 12px)", fontFamily: "var(--site-mono)", marginTop: 4 }}>{hex}</div>
-              </div>
+                {hex}
+              </button>
             );
           })}
+        </div>
+        <div style={{ display: "flex", width: "100%" }}>
+          {entries.map(([step]) => (
+            <button
+              key={`${step}-label`}
+              type="button"
+              onClick={() => copyToken(step)}
+              title={`Click to copy var(--core-color-${prefix}-${step})`}
+              style={{
+                flex: 1,
+                border: "none",
+                background: "transparent",
+                padding: "4px 2px 0",
+                fontSize: 12,
+                fontWeight: 700,
+                color: "var(--core-color-text-primary)",
+                cursor: "pointer",
+                textAlign: "center",
+                lineHeight: 1.3,
+              }}
+            >
+              {step}
+            </button>
+          ))}
         </div>
       </div>
     </div>
@@ -386,9 +420,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "primary",
     type: "text",
     lightHex: "#FFFFFF",
-    darkHex: "#FFFFFF",
+    darkHex: "#F5F7FA",
     paletteNameLight: "Neutral 0",
-    paletteNameDark: "Neutral 0",
+    paletteNameDark: "Brand 50",
     description: "High-contrast text placed on top of solid primary brand backgrounds.",
   },
   {
@@ -404,9 +438,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "primary",
     type: "text",
     lightHex: "#86ADDF",
-    darkHex: "#5C5C6B",
+    darkHex: "#86ADDF",
     paletteNameLight: "Brand 300",
-    paletteNameDark: "Neutral 600",
+    paletteNameDark: "Brand 300",
     description: "Disabled state for primary brand typography and interactive labels.",
   },
   {
@@ -422,9 +456,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "primary",
     type: "text",
     lightHex: "#1F4F8D",
-    darkHex: "#86ADDF",
+    darkHex: "#1F4F8D",
     paletteNameLight: "Brand 500",
-    paletteNameDark: "Brand 300",
+    paletteNameDark: "Brand 500",
     description: "Default primary brand text color for headings, brand links, and prominent labels.",
   },
   {
@@ -514,9 +548,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "primary",
     type: "background",
     lightHex: "#EEEEF2",
-    darkHex: "#2E2D38",
+    darkHex: "#EEEEF2",
     paletteNameLight: "Neutral 100",
-    paletteNameDark: "Neutral 800",
+    paletteNameDark: "Neutral 100",
     description: "Light disabled container fill for inactive buttons and controls.",
   },
   {
@@ -528,13 +562,13 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     path: "Primary / Background / disabled-strong",
     cssVar: "--theme-brand-background-disabled-strong",
     aliasCssVar: "--brand-background-disabled-strong",
-    coreRef: "--core-color-brand-200",
+    coreRef: "--core-color-brand-300",
     category: "primary",
     type: "background",
-    lightHex: "#BACEE9",
-    darkHex: "#17365E",
-    paletteNameLight: "Brand 200",
-    paletteNameDark: "Brand 800",
+    lightHex: "#86ADDF",
+    darkHex: "#86ADDF",
+    paletteNameLight: "Brand 300",
+    paletteNameDark: "Brand 300",
     description: "Muted solid background for disabled primary actions.",
   },
   {
@@ -550,7 +584,7 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "primary",
     type: "background",
     lightHex: "#1F4F8D",
-    darkHex: "#3275CD",
+    darkHex: "#1F4F8D",
     paletteNameLight: "Brand 500",
     paletteNameDark: "Brand 500",
     description: "Solid primary brand fill for primary buttons, active badges, and key banners.",
@@ -602,13 +636,13 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     path: "Primary / Borders / primary-disabled",
     cssVar: "--theme-brand-borders-primary-disabled",
     aliasCssVar: "--brand-borders-primary-disabled",
-    coreRef: "--core-color-brand-200",
+    coreRef: "--core-color-brand-300",
     category: "primary",
     type: "borders",
-    lightHex: "#BACEE9",
-    darkHex: "#17365E",
-    paletteNameLight: "Brand 200",
-    paletteNameDark: "Brand 700",
+    lightHex: "#86ADDF",
+    darkHex: "#86ADDF",
+    paletteNameLight: "Brand 300",
+    paletteNameDark: "Brand 300",
     description: "Border color for disabled outlined brand controls.",
   },
   {
@@ -620,13 +654,13 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     path: "Primary / Borders / primary-default",
     cssVar: "--theme-brand-borders-primary-default",
     aliasCssVar: "--brand-borders-primary-default",
-    coreRef: "--core-color-brand-400",
+    coreRef: "--core-color-brand-500",
     category: "primary",
     type: "borders",
-    lightHex: "#3275CD",
-    darkHex: "#3275CD",
-    paletteNameLight: "Brand 400",
-    paletteNameDark: "Brand 400",
+    lightHex: "#1F4F8D",
+    darkHex: "#1F4F8D",
+    paletteNameLight: "Brand 500",
+    paletteNameDark: "Brand 500",
     description: "Default brand border for outline buttons, active tab indicators, and focus rings.",
   },
   {
@@ -679,9 +713,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "secondary",
     type: "text",
     lightHex: "#71CAF4",
-    darkHex: "#5C5C6B",
+    darkHex: "#71CAF4",
     paletteNameLight: "Secondary 300",
-    paletteNameDark: "Neutral 600",
+    paletteNameDark: "Secondary 300",
     description: "Disabled state for secondary typography and interactive labels.",
   },
   {
@@ -696,9 +730,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "secondary",
     type: "text",
     lightHex: "#39BCF9",
-    darkHex: "#71CAF4",
+    darkHex: "#39BCF9",
     paletteNameLight: "Secondary 500",
-    paletteNameDark: "Secondary 300",
+    paletteNameDark: "Secondary 500",
     description: "Default secondary text color for subheadings, category links, and emphasis tags.",
   },
   {
@@ -783,9 +817,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "secondary",
     type: "background",
     lightHex: "#EEEEF2",
-    darkHex: "#2E2D38",
+    darkHex: "#EEEEF2",
     paletteNameLight: "Neutral 100",
-    paletteNameDark: "Neutral 800",
+    paletteNameDark: "Neutral 100",
     description: "Light disabled container fill for inactive secondary controls.",
   },
   {
@@ -800,9 +834,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "secondary",
     type: "background",
     lightHex: "#AFDEF4",
-    darkHex: "#0B5E84",
+    darkHex: "#AFDEF4",
     paletteNameLight: "Secondary 200",
-    paletteNameDark: "Secondary 800",
+    paletteNameDark: "Secondary 200",
     description: "Muted solid background for disabled secondary actions.",
   },
   {
@@ -870,9 +904,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "secondary",
     type: "borders",
     lightHex: "#AFDEF4",
-    darkHex: "#0B81B7",
+    darkHex: "#AFDEF4",
     paletteNameLight: "Secondary 200",
-    paletteNameDark: "Secondary 700",
+    paletteNameDark: "Secondary 200",
     description: "Border color for disabled outlined secondary controls.",
   },
   {
@@ -883,13 +917,13 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     subgroup: "Borders",
     path: "Secondary / Borders / secondary-default",
     cssVar: "--theme-secondary-borders-primary-default",
-    coreRef: "--core-color-secondary-400",
+    coreRef: "--core-color-secondary-500",
     category: "secondary",
     type: "borders",
-    lightHex: "#56C3F5",
-    darkHex: "#56C3F5",
-    paletteNameLight: "Secondary 400",
-    paletteNameDark: "Secondary 400",
+    lightHex: "#39BCF9",
+    darkHex: "#39BCF9",
+    paletteNameLight: "Secondary 500",
+    paletteNameDark: "Secondary 500",
     description: "Default outline border for secondary buttons and cards.",
   },
   {
@@ -941,9 +975,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "tertiary",
     type: "text",
     lightHex: "#FBCB6B",
-    darkHex: "#5C5C6B",
+    darkHex: "#FBCB6B",
     paletteNameLight: "Tertiary 300",
-    paletteNameDark: "Neutral 600",
+    paletteNameDark: "Tertiary 300",
     description: "Disabled state for tertiary typography.",
   },
   {
@@ -958,9 +992,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "tertiary",
     type: "text",
     lightHex: "#E89A1C",
-    darkHex: "#FBCB6B",
+    darkHex: "#E89A1C",
     paletteNameLight: "Tertiary 500",
-    paletteNameDark: "Tertiary 300",
+    paletteNameDark: "Tertiary 500",
     description: "Default tertiary accent text color for hints, tags, and annotations.",
   },
   {
@@ -1045,9 +1079,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "tertiary",
     type: "background",
     lightHex: "#EEEEF2",
-    darkHex: "#2E2D38",
+    darkHex: "#EEEEF2",
     paletteNameLight: "Neutral 100",
-    paletteNameDark: "Neutral 800",
+    paletteNameDark: "Neutral 100",
     description: "Light disabled container fill for inactive tertiary controls.",
   },
   {
@@ -1062,9 +1096,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "tertiary",
     type: "background",
     lightHex: "#FCDB94",
-    darkHex: "#784708",
+    darkHex: "#FCDB94",
     paletteNameLight: "Tertiary 200",
-    paletteNameDark: "Tertiary 800",
+    paletteNameDark: "Tertiary 200",
     description: "Muted solid background for disabled tertiary actions.",
   },
   {
@@ -1132,9 +1166,9 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     category: "tertiary",
     type: "borders",
     lightHex: "#FCDB94",
-    darkHex: "#95590A",
+    darkHex: "#FCDB94",
     paletteNameLight: "Tertiary 200",
-    paletteNameDark: "Tertiary 700",
+    paletteNameDark: "Tertiary 200",
     description: "Border color for disabled outlined tertiary controls.",
   },
   {
@@ -1145,13 +1179,13 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     subgroup: "Borders",
     path: "Tertiary / Borders / tertiary-default",
     cssVar: "--theme-tertiary-borders-primary-default",
-    coreRef: "--core-color-tertiary-400",
+    coreRef: "--core-color-tertiary-500",
     category: "tertiary",
     type: "borders",
-    lightHex: "#F2B244",
-    darkHex: "#F2B244",
-    paletteNameLight: "Tertiary 400",
-    paletteNameDark: "Tertiary 400",
+    lightHex: "#E89A1C",
+    darkHex: "#E89A1C",
+    paletteNameLight: "Tertiary 500",
+    paletteNameDark: "Tertiary 500",
     description: "Default outline border for tertiary tags and accent cards.",
   },
   {
@@ -1317,6 +1351,59 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     description: "High-contrast border for selected elements.",
   },
 
+  // Neutral / Disabled (control surfaces — inputs, tables, pagination)
+  {
+    id: "neutral-disabled-background",
+    name: "disabled-background",
+    displayName: "Disabled Background",
+    group: "Neutral / Disabled",
+    subgroup: "Disabled",
+    path: "Neutral / Disabled / background",
+    cssVar: "--theme-semantics-disabled-background",
+    coreRef: "--core-color-control-disabled-bg",
+    category: "neutral",
+    type: "background",
+    lightHex: "#EEEEF2",
+    darkHex: "#EEEEF2",
+    paletteNameLight: "Neutral 100",
+    paletteNameDark: "Neutral 100",
+    description: "Muted fill for disabled inputs, selects, and inactive control surfaces.",
+  },
+  {
+    id: "neutral-disabled-border",
+    name: "disabled-border",
+    displayName: "Disabled Border",
+    group: "Neutral / Disabled",
+    subgroup: "Disabled",
+    path: "Neutral / Disabled / border",
+    cssVar: "--theme-semantics-disabled-border",
+    coreRef: "--core-color-control-disabled-border",
+    category: "neutral",
+    type: "borders",
+    lightHex: "#DFDFE6",
+    darkHex: "#DFDFE6",
+    paletteNameLight: "Neutral 200",
+    paletteNameDark: "Neutral 200",
+    description: "Subdued border for disabled fields and neutral controls.",
+  },
+  {
+    id: "neutral-disabled-text",
+    name: "disabled-text",
+    displayName: "Disabled Text",
+    group: "Neutral / Disabled",
+    subgroup: "Disabled",
+    path: "Neutral / Disabled / text",
+    cssVar: "--theme-semantics-disabled-text",
+    coreRef: "--core-color-control-disabled-text",
+    category: "neutral",
+    type: "text",
+    lightHex: "#787887",
+    darkHex: "#787887",
+    paletteNameLight: "Neutral 500",
+    paletteNameDark: "Neutral 500",
+    description: "Muted text for disabled inputs, labels, and pagination controls.",
+  },
+
   // ── 5. CRITICAL COLORS ──
   {
     id: "critical-light-background",
@@ -1387,6 +1474,91 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     paletteNameLight: "Danger 700",
     paletteNameDark: "Danger 300",
     description: "Critical error text for validation messages.",
+  },
+  {
+    id: "critical-disabled-background",
+    name: "disabled-background",
+    displayName: "Disabled Background",
+    group: "Critical / Disabled",
+    subgroup: "Disabled",
+    path: "Critical / Disabled / background",
+    cssVar: "--theme-semantics-critical-disabled-background",
+    coreRef: "--core-semantics-critical-disabled-background",
+    category: "critical",
+    type: "background",
+    lightHex: "#FDEFEF",
+    darkHex: "#FDEFEF",
+    paletteNameLight: "Danger 50",
+    paletteNameDark: "Danger 50",
+    description: "Faded critical fill for disabled danger badges and alerts.",
+  },
+  {
+    id: "critical-disabled-text",
+    name: "disabled-text",
+    displayName: "Disabled Text",
+    group: "Critical / Disabled",
+    subgroup: "Disabled",
+    path: "Critical / Disabled / text",
+    cssVar: "--theme-semantics-critical-disabled-text",
+    coreRef: "--core-semantics-critical-disabled-text",
+    category: "critical",
+    type: "text",
+    lightHex: "#D8434A",
+    darkHex: "#D8434A",
+    paletteNameLight: "Danger 500",
+    paletteNameDark: "Danger 500",
+    description: "Muted critical text that preserves danger identity.",
+  },
+  {
+    id: "critical-disabled-border",
+    name: "disabled-border",
+    displayName: "Disabled Border",
+    group: "Critical / Disabled",
+    subgroup: "Disabled",
+    path: "Critical / Disabled / border",
+    cssVar: "--theme-semantics-critical-disabled-border",
+    coreRef: "--core-semantics-critical-disabled-border",
+    category: "critical",
+    type: "borders",
+    lightHex: "#F4B1B1",
+    darkHex: "#F4B1B1",
+    paletteNameLight: "Danger 200",
+    paletteNameDark: "Danger 200",
+    description: "Subdued critical border for disabled destructive controls.",
+  },
+  {
+    id: "critical-disabled-strong-background",
+    name: "disabled-strong-background",
+    displayName: "Disabled Strong Background",
+    group: "Critical / Disabled",
+    subgroup: "Disabled",
+    path: "Critical / Disabled / strong-background",
+    cssVar: "--theme-semantics-critical-disabled-strong-background",
+    coreRef: "--core-semantics-critical-disabled-strong-background",
+    category: "critical",
+    type: "background",
+    lightHex: "#F4B1B1",
+    darkHex: "#F4B1B1",
+    paletteNameLight: "Danger 200",
+    paletteNameDark: "Danger 200",
+    description: "Muted solid fill for disabled destructive buttons.",
+  },
+  {
+    id: "critical-disabled-strong-text",
+    name: "disabled-strong-text",
+    displayName: "Disabled Strong Text",
+    group: "Critical / Disabled",
+    subgroup: "Disabled",
+    path: "Critical / Disabled / strong-text",
+    cssVar: "--theme-semantics-critical-disabled-strong-text",
+    coreRef: "--core-semantics-critical-disabled-strong-text",
+    category: "critical",
+    type: "text",
+    lightHex: "#731922",
+    darkHex: "#731922",
+    paletteNameLight: "Danger 800",
+    paletteNameDark: "Danger 800",
+    description: "Readable text on disabled destructive button fills.",
   },
 
   // ── 6. WARNING COLORS ──
@@ -1460,6 +1632,91 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     paletteNameDark: "Warning 300",
     description: "Warning text for caution notices.",
   },
+  {
+    id: "warning-disabled-background",
+    name: "disabled-background",
+    displayName: "Disabled Background",
+    group: "Warning / Disabled",
+    subgroup: "Disabled",
+    path: "Warning / Disabled / background",
+    cssVar: "--theme-semantics-warning-disabled-background",
+    coreRef: "--core-semantics-warning-disabled-background",
+    category: "warning",
+    type: "background",
+    lightHex: "#FFF8EA",
+    darkHex: "#FFF8EA",
+    paletteNameLight: "Warning 50",
+    paletteNameDark: "Warning 50",
+    description: "Faded warning fill for disabled caution badges.",
+  },
+  {
+    id: "warning-disabled-text",
+    name: "disabled-text",
+    displayName: "Disabled Text",
+    group: "Warning / Disabled",
+    subgroup: "Disabled",
+    path: "Warning / Disabled / text",
+    cssVar: "--theme-semantics-warning-disabled-text",
+    coreRef: "--core-semantics-warning-disabled-text",
+    category: "warning",
+    type: "text",
+    lightHex: "#E89A1C",
+    darkHex: "#E89A1C",
+    paletteNameLight: "Warning 500",
+    paletteNameDark: "Warning 500",
+    description: "Muted warning text that preserves amber identity.",
+  },
+  {
+    id: "warning-disabled-border",
+    name: "disabled-border",
+    displayName: "Disabled Border",
+    group: "Warning / Disabled",
+    subgroup: "Disabled",
+    path: "Warning / Disabled / border",
+    cssVar: "--theme-semantics-warning-disabled-border",
+    coreRef: "--core-semantics-warning-disabled-border",
+    category: "warning",
+    type: "borders",
+    lightHex: "#FCDB94",
+    darkHex: "#FCDB94",
+    paletteNameLight: "Warning 200",
+    paletteNameDark: "Warning 200",
+    description: "Subdued warning border for disabled caution controls.",
+  },
+  {
+    id: "warning-disabled-strong-background",
+    name: "disabled-strong-background",
+    displayName: "Disabled Strong Background",
+    group: "Warning / Disabled",
+    subgroup: "Disabled",
+    path: "Warning / Disabled / strong-background",
+    cssVar: "--theme-semantics-warning-disabled-strong-background",
+    coreRef: "--core-semantics-warning-disabled-strong-background",
+    category: "warning",
+    type: "background",
+    lightHex: "#FCDB94",
+    darkHex: "#FCDB94",
+    paletteNameLight: "Warning 200",
+    paletteNameDark: "Warning 200",
+    description: "Muted solid fill for disabled warning buttons.",
+  },
+  {
+    id: "warning-disabled-strong-text",
+    name: "disabled-strong-text",
+    displayName: "Disabled Strong Text",
+    group: "Warning / Disabled",
+    subgroup: "Disabled",
+    path: "Warning / Disabled / strong-text",
+    cssVar: "--theme-semantics-warning-disabled-strong-text",
+    coreRef: "--core-semantics-warning-disabled-strong-text",
+    category: "warning",
+    type: "text",
+    lightHex: "#784708",
+    darkHex: "#784708",
+    paletteNameLight: "Warning 800",
+    paletteNameDark: "Warning 800",
+    description: "Readable text on disabled warning button fills.",
+  },
 
   // ── 7. SUCCESS COLORS ──
   {
@@ -1531,6 +1788,91 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     paletteNameLight: "Success 700",
     paletteNameDark: "Success 300",
     description: "Success text for confirmed state labels.",
+  },
+  {
+    id: "success-disabled-background",
+    name: "disabled-background",
+    displayName: "Disabled Background",
+    group: "Success / Disabled",
+    subgroup: "Disabled",
+    path: "Success / Disabled / background",
+    cssVar: "--theme-semantics-success-disabled-background",
+    coreRef: "--core-semantics-success-disabled-background",
+    category: "success",
+    type: "background",
+    lightHex: "#EDFAF2",
+    darkHex: "#EDFAF2",
+    paletteNameLight: "Success 50",
+    paletteNameDark: "Success 50",
+    description: "Faded success fill for disabled positive badges.",
+  },
+  {
+    id: "success-disabled-text",
+    name: "disabled-text",
+    displayName: "Disabled Text",
+    group: "Success / Disabled",
+    subgroup: "Disabled",
+    path: "Success / Disabled / text",
+    cssVar: "--theme-semantics-success-disabled-text",
+    coreRef: "--core-semantics-success-disabled-text",
+    category: "success",
+    type: "text",
+    lightHex: "#22A369",
+    darkHex: "#22A369",
+    paletteNameLight: "Success 500",
+    paletteNameDark: "Success 500",
+    description: "Muted success text that preserves green identity.",
+  },
+  {
+    id: "success-disabled-border",
+    name: "disabled-border",
+    displayName: "Disabled Border",
+    group: "Success / Disabled",
+    subgroup: "Disabled",
+    path: "Success / Disabled / border",
+    cssVar: "--theme-semantics-success-disabled-border",
+    coreRef: "--core-semantics-success-disabled-border",
+    category: "success",
+    type: "borders",
+    lightHex: "#A8E7C6",
+    darkHex: "#A8E7C6",
+    paletteNameLight: "Success 200",
+    paletteNameDark: "Success 200",
+    description: "Subdued success border for disabled confirmation controls.",
+  },
+  {
+    id: "success-disabled-strong-background",
+    name: "disabled-strong-background",
+    displayName: "Disabled Strong Background",
+    group: "Success / Disabled",
+    subgroup: "Disabled",
+    path: "Success / Disabled / strong-background",
+    cssVar: "--theme-semantics-success-disabled-strong-background",
+    coreRef: "--core-semantics-success-disabled-strong-background",
+    category: "success",
+    type: "background",
+    lightHex: "#A8E7C6",
+    darkHex: "#A8E7C6",
+    paletteNameLight: "Success 200",
+    paletteNameDark: "Success 200",
+    description: "Muted solid fill for disabled success buttons.",
+  },
+  {
+    id: "success-disabled-strong-text",
+    name: "disabled-strong-text",
+    displayName: "Disabled Strong Text",
+    group: "Success / Disabled",
+    subgroup: "Disabled",
+    path: "Success / Disabled / strong-text",
+    cssVar: "--theme-semantics-success-disabled-strong-text",
+    coreRef: "--core-semantics-success-disabled-strong-text",
+    category: "success",
+    type: "text",
+    lightHex: "#0E5233",
+    darkHex: "#0E5233",
+    paletteNameLight: "Success 800",
+    paletteNameDark: "Success 800",
+    description: "Readable text on disabled success button fills.",
   },
 
   // ── 8. INFO COLORS ──
@@ -1604,6 +1946,91 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     paletteNameDark: "Info 300",
     description: "Informational guidance text.",
   },
+  {
+    id: "info-disabled-background",
+    name: "disabled-background",
+    displayName: "Disabled Background",
+    group: "Info / Disabled",
+    subgroup: "Disabled",
+    path: "Info / Disabled / background",
+    cssVar: "--theme-semantics-highlight-disabled-background",
+    coreRef: "--core-semantics-highlight-disabled-background",
+    category: "info",
+    type: "background",
+    lightHex: "#EBF6FD",
+    darkHex: "#EBF6FD",
+    paletteNameLight: "Info 50",
+    paletteNameDark: "Info 50",
+    description: "Faded info fill for disabled guidance badges.",
+  },
+  {
+    id: "info-disabled-text",
+    name: "disabled-text",
+    displayName: "Disabled Text",
+    group: "Info / Disabled",
+    subgroup: "Disabled",
+    path: "Info / Disabled / text",
+    cssVar: "--theme-semantics-highlight-disabled-text",
+    coreRef: "--core-semantics-highlight-disabled-text",
+    category: "info",
+    type: "text",
+    lightHex: "#2E8CD6",
+    darkHex: "#2E8CD6",
+    paletteNameLight: "Info 500",
+    paletteNameDark: "Info 500",
+    description: "Muted info text that preserves blue identity (not Secondary cyan).",
+  },
+  {
+    id: "info-disabled-border",
+    name: "disabled-border",
+    displayName: "Disabled Border",
+    group: "Info / Disabled",
+    subgroup: "Disabled",
+    path: "Info / Disabled / border",
+    cssVar: "--theme-semantics-highlight-disabled-border",
+    coreRef: "--core-semantics-highlight-disabled-border",
+    category: "info",
+    type: "borders",
+    lightHex: "#A9D8F6",
+    darkHex: "#A9D8F6",
+    paletteNameLight: "Info 200",
+    paletteNameDark: "Info 200",
+    description: "Subdued info border for disabled guidance controls.",
+  },
+  {
+    id: "info-disabled-strong-background",
+    name: "disabled-strong-background",
+    displayName: "Disabled Strong Background",
+    group: "Info / Disabled",
+    subgroup: "Disabled",
+    path: "Info / Disabled / strong-background",
+    cssVar: "--theme-semantics-highlight-disabled-strong-background",
+    coreRef: "--core-semantics-highlight-disabled-strong-background",
+    category: "info",
+    type: "background",
+    lightHex: "#A9D8F6",
+    darkHex: "#A9D8F6",
+    paletteNameLight: "Info 200",
+    paletteNameDark: "Info 200",
+    description: "Muted solid fill for disabled info buttons.",
+  },
+  {
+    id: "info-disabled-strong-text",
+    name: "disabled-strong-text",
+    displayName: "Disabled Strong Text",
+    group: "Info / Disabled",
+    subgroup: "Disabled",
+    path: "Info / Disabled / strong-text",
+    cssVar: "--theme-semantics-highlight-disabled-strong-text",
+    coreRef: "--core-semantics-highlight-disabled-strong-text",
+    category: "info",
+    type: "text",
+    lightHex: "#103E69",
+    darkHex: "#103E69",
+    paletteNameLight: "Info 800",
+    paletteNameDark: "Info 800",
+    description: "Readable text on disabled info button fills.",
+  },
 ];
 
 /* Figma Library Icon matching the reference screenshot */
@@ -1636,7 +2063,7 @@ function BaseColorPillarSegment({
   token: FigmaTokenItem;
   mode: "light" | "dark";
   isCopied: boolean;
-  onCopy: (cssVar: string, id: string) => void;
+  onCopy: (text: string, id: string) => void;
 }) {
   const currentHex = mode === "light" ? token.lightHex : token.darkHex;
   const paletteName = mode === "light" ? token.paletteNameLight : token.paletteNameDark;
@@ -1648,8 +2075,8 @@ function BaseColorPillarSegment({
 
   return (
     <div
-      onClick={() => onCopy(`var(${token.cssVar})`, token.id)}
-      title={`Click to copy var(${token.cssVar})`}
+      onClick={() => onCopy(currentHex, token.id)}
+      title={`Click to copy ${currentHex}`}
       style={{
         background: currentHex,
         color: textColor,
@@ -1674,7 +2101,7 @@ function BaseColorPillarSegment({
       {/* Line 1: Token Name */}
       <div
         style={{
-          fontSize: "var(--core-font-size-sm, 14px)",
+          fontSize: "var(--typography-body-md-size)",
           fontWeight: 600,
           letterSpacing: "-0.01em",
           lineHeight: 1.25,
@@ -1749,7 +2176,7 @@ function BaseColorPillar({
       {title && (
         <div
           style={{
-            fontSize: "var(--core-font-size-sm, 14px)",
+            fontSize: "var(--typography-body-md-size)",
             fontWeight: 700,
             color: "var(--site-text)",
             marginBottom: 8,
@@ -1830,43 +2257,29 @@ function BaseColorsRedesignedSection() {
     tokens: FIGMA_BASE_TOKENS.filter((t) => t.category === "tertiary" && t.subgroup === subgroup),
   }));
 
-  // 4. Neutral Pillars (Text, Border)
-  const neutralPillars = ["Text", "Border"].map((subgroup) => ({
+  // 4. Neutral Pillars (Text, Border, Disabled)
+  const neutralPillars = ["Text", "Border", "Disabled"].map((subgroup) => ({
     subgroup,
     tokens: FIGMA_BASE_TOKENS.filter((t) => t.category === "neutral" && t.subgroup === subgroup),
   }));
 
-  // 5. Critical Pillars (Light Background, Border, Strong Background, Text)
-  const criticalPillars = [
-    {
-      subgroup: "Critical Tokens",
-      tokens: FIGMA_BASE_TOKENS.filter((t) => t.category === "critical"),
-    },
-  ];
+  const semanticFamilyPillars = (category: FigmaTokenItem["category"]) =>
+    [
+      {
+        subgroup: "Default",
+        tokens: FIGMA_BASE_TOKENS.filter((t) => t.category === category && t.subgroup !== "Disabled"),
+      },
+      {
+        subgroup: "Disabled",
+        tokens: FIGMA_BASE_TOKENS.filter((t) => t.category === category && t.subgroup === "Disabled"),
+      },
+    ].filter((pillar) => pillar.tokens.length > 0);
 
-  // 6. Warning Pillars (Light Background, Border, Strong Background, Text)
-  const warningPillars = [
-    {
-      subgroup: "Warning Tokens",
-      tokens: FIGMA_BASE_TOKENS.filter((t) => t.category === "warning"),
-    },
-  ];
-
-  // 7. Success Pillars (Light Background, Border, Strong Background, Text)
-  const successPillars = [
-    {
-      subgroup: "Success Tokens",
-      tokens: FIGMA_BASE_TOKENS.filter((t) => t.category === "success"),
-    },
-  ];
-
-  // 8. Info Pillars (Light Background, Border, Strong Background, Text)
-  const infoPillars = [
-    {
-      subgroup: "Info Tokens",
-      tokens: FIGMA_BASE_TOKENS.filter((t) => t.category === "info"),
-    },
-  ];
+  // 5–8. Semantic family pillars with separate Default / Disabled columns
+  const criticalPillars = semanticFamilyPillars("critical");
+  const warningPillars = semanticFamilyPillars("warning");
+  const successPillars = semanticFamilyPillars("success");
+  const infoPillars = semanticFamilyPillars("info");
 
   const editorialGroups: EditorialColorGroup[] = [
     {
@@ -1999,7 +2412,7 @@ function BaseColorsRedesignedSection() {
                 style={{
                   padding: "6px 14px",
                   borderRadius: 20,
-                  fontSize: "var(--core-font-size-xs, 12px)",
+                  fontSize: "var(--typography-font-size-xs)",
                   fontWeight: active ? 600 : 500,
                   border: active ? "1px solid var(--site-accent, #0270A9)" : "1px solid var(--site-border)",
                   background: active ? "var(--site-accent-soft, rgba(2,112,169,0.12))" : "transparent",
@@ -2077,7 +2490,7 @@ function BaseColorsRedesignedSection() {
                 {/* Eyebrow */}
                 <div
                   style={{
-                    fontSize: "var(--core-font-size-xs, 12px)",
+                    fontSize: "var(--typography-font-size-xs)",
                     fontWeight: 600,
                     color: "var(--site-text-dim)",
                     marginBottom: 8,
@@ -2103,7 +2516,7 @@ function BaseColorsRedesignedSection() {
 
                 <p
                   style={{
-                    fontSize: "var(--core-font-size-xs, 12px)",
+                    fontSize: "var(--typography-font-size-xs)",
                     lineHeight: 1.55,
                     color: "var(--site-text-faint, #888)",
                     margin: "0 0 22px 0",
@@ -2127,7 +2540,7 @@ function BaseColorsRedesignedSection() {
                     borderRadius: 12,
                     background: "var(--site-bg)",
                     border: "1px solid var(--site-border)",
-                    fontSize: "var(--core-font-size-sm, 14px)",
+                    fontSize: "var(--typography-body-md-size)",
                     fontWeight: 600,
                     color: "var(--site-text)",
                     cursor: "pointer",
@@ -2152,7 +2565,7 @@ function BaseColorsRedesignedSection() {
               <div style={{ marginTop: 28 }}>
                 <span
                   style={{
-                    fontSize: "var(--core-font-size-xs, 12px)",
+                    fontSize: "var(--typography-font-size-xs)",
                     fontFamily: "var(--site-mono)",
                     fontWeight: 600,
                     padding: "4px 10px",
@@ -2204,7 +2617,7 @@ function BaseColorsRedesignedSection() {
             padding: "12px 20px",
             borderRadius: 12,
             boxShadow: "0 8px 30px rgba(0,0,0,0.25)",
-            fontSize: "var(--core-font-size-xs, 12px)",
+            fontSize: "var(--typography-font-size-xs)",
             fontWeight: 600,
             display: "flex",
             alignItems: "center",
@@ -2232,7 +2645,7 @@ export default function Color() {
       description: "You shouldn't need to pick from these directly — they're what the roles below are built from.",
       content: (
         <div style={{ background: "var(--core-color-surface-default)", borderRadius: 14, padding: "32px", border: "1px solid rgba(128,128,128,0.15)" }}>
-          <div style={{ display: "flex", paddingBottom: 16, borderBottom: "1px solid var(--site-border)", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 600, color: "var(--core-color-text-secondary)" }}>
+          <div style={{ display: "flex", paddingBottom: 16, borderBottom: "1px solid var(--site-border)", fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--core-color-text-secondary)" }}>
             <div style={{ width: "25%", minWidth: 150 }}>Name</div>
             <div style={{ width: "75%" }}>Swatches</div>
           </div>
@@ -2268,8 +2681,8 @@ export default function Color() {
           <table style={{ width: "100%", textAlign: "left", borderCollapse: "collapse" }}>
             <thead>
               <tr>
-                <th style={{ paddingBottom: 16, borderBottom: "1px solid var(--site-border)", fontSize: "var(--core-font-size-xs, 12px)", color: "var(--core-color-text-secondary)" }}>If you're building this…</th>
-                <th style={{ paddingBottom: 16, borderBottom: "1px solid var(--site-border)", fontSize: "var(--core-font-size-xs, 12px)", color: "var(--core-color-text-secondary)" }}>…use this token</th>
+                <th style={{ paddingBottom: 16, borderBottom: "1px solid var(--site-border)", fontSize: "var(--typography-font-size-xs)", color: "var(--core-color-text-secondary)" }}>If you're building this…</th>
+                <th style={{ paddingBottom: 16, borderBottom: "1px solid var(--site-border)", fontSize: "var(--typography-font-size-xs)", color: "var(--core-color-text-secondary)" }}>…use this token</th>
               </tr>
             </thead>
             <tbody>
@@ -2279,7 +2692,7 @@ export default function Color() {
                   <td style={{ padding: "16px 0", borderBottom: "1px solid var(--site-border)" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <span style={{ background: `var(${r.token})`, display: "inline-block", width: 24, height: 24, borderRadius: 6, border: "1px solid rgba(128,128,128,0.2)" }} />
-                      <code style={{ cursor: "pointer", color: "var(--core-color-brand-600)", fontSize: "var(--core-font-size-xs, 12px)", fontFamily: "var(--site-mono)" }} onClick={() => navigator.clipboard.writeText(`var(${r.token})`)} title="Copy token">
+                      <code style={{ cursor: "pointer", color: "var(--core-color-brand-600)", fontSize: "var(--typography-font-size-xs)", fontFamily: "var(--site-mono)" }} onClick={() => navigator.clipboard.writeText(`var(${r.token})`)} title="Copy token">
                         {r.token}
                       </code>
                     </div>
@@ -2417,7 +2830,6 @@ ${darkSemanticLines}
   return (
     <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
       <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--core-color-brand-600)", marginBottom: 12 }}>Foundation</div>
         <h1 style={{ fontSize: 72, fontWeight: 800, letterSpacing: "-0.06em", margin: "0 0 16px 0", color: "var(--core-color-text-primary)", lineHeight: 1.1 }}>
           Colors
         </h1>
@@ -2439,7 +2851,7 @@ ${darkSemanticLines}
               borderRadius: 30,
               border: "none",
               cursor: "pointer",
-              fontSize: "var(--core-font-size-sm, 14px)",
+              fontSize: "var(--typography-body-md-size)",
               transition: "transform 0.2s, opacity 0.2s",
               boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
             }}

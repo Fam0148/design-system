@@ -31,18 +31,6 @@ export default function Components() {
   return (
     <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
       <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
-        <div
-          style={{
-            fontSize: 14,
-            fontWeight: 700,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "var(--core-color-brand-600)",
-            marginBottom: 12,
-          }}
-        >
-          Components
-        </div>
         <h1
           style={{
             fontSize: 72,

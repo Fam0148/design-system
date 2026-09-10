@@ -73,17 +73,19 @@ export function DatePicker({ value, onChange, placeholder = "Select date", disab
       id={id}
       readOnly
       disabled={disabled}
-      value={value ? value.toLocaleDateString() : ""}
+      value={value ? value.toLocaleDateString("en-GB") : ""}
       placeholder={placeholder}
       style={{ cursor: disabled ? "not-allowed" : "pointer" }}
     />
   );
   if (disabled) {
-    return trigger;
+    return <div className="cds-date-picker">{trigger}</div>;
   }
   return (
-    <Popover trigger={trigger}>
-      <Calendar selected={value} onSelect={onChange ?? (() => {})} />
-    </Popover>
+    <div className="cds-date-picker">
+      <Popover trigger={trigger}>
+        <Calendar selected={value} onSelect={onChange ?? (() => {})} />
+      </Popover>
+    </div>
   );
 }

@@ -510,7 +510,7 @@ export default function LayoutGrid() {
                     background: i === 0 ? "var(--core-color-action-primary-bg)" : "var(--core-color-surface-sunken)",
                     color: i === 0 ? "#fff" : "var(--core-color-text-secondary)",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700,
+                    fontSize: "var(--typography-font-size-xs)", fontWeight: 700,
                   }}>{i + 1}</div>
                   <span style={{ fontSize: "var(--core-font-size-sm)", fontWeight: i === 0 ? 600 : 400, color: i === 0 ? "var(--core-color-action-primary-bg)" : "var(--core-color-text-secondary)" }}>{step}</span>
                 </div>
@@ -602,7 +602,7 @@ export default function LayoutGrid() {
 
       <h2 className="site-section-title">Code</h2>
       <div className="site-panel site-panel--flush">
-        <pre style={{ margin: 0, padding: 20, fontSize: "var(--core-font-size-xs, 12px)", overflowX: "auto" }}>{`<AppShell
+        <pre style={{ margin: 0, padding: 20, fontSize: "var(--typography-font-size-xs)", overflowX: "auto" }}>{`<AppShell
   header={<AppHeader brand="Meridian" actions={<Avatar name="Taylor Hale" size="sm" />} />}
   sidebar={<AppSidebar items={navItems} />}
   footer={<AppFooter copyright="© 2026 Meridian." links={<a href="/privacy">Privacy</a>} />}

@@ -55,7 +55,7 @@ const sections = [
             <p
               style={{
                 margin: 0,
-                fontSize: "var(--core-font-size-sm, 14px)",
+                fontSize: "var(--typography-body-md-size)",
                 lineHeight: 1.6,
                 color: "var(--core-color-text-secondary)",
                 flex: 1,
@@ -66,9 +66,9 @@ const sections = [
             <Link
               to={item.to}
               style={{
-                fontSize: "var(--core-font-size-sm, 14px)",
+                fontSize: "var(--typography-body-md-size)",
                 fontWeight: 600,
-                color: "var(--theme-brand-text-primary-default, #1F4F8D)",
+                color: "var(--theme-brand-text-primary-default)",
                 textDecoration: "none",
               }}
             >
@@ -106,7 +106,7 @@ const sections = [
               transition: "border-color 0.15s ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "var(--theme-brand-border-primary-default, #3275CD)";
+              e.currentTarget.style.borderColor = "var(--theme-brand-borders-primary-default)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = "rgba(128,128,128,0.15)";
@@ -123,7 +123,7 @@ const sections = [
             >
               {item.title}
             </span>
-            <span style={{ fontSize: "var(--core-font-size-sm, 14px)", lineHeight: 1.6, color: "var(--core-color-text-secondary)" }}>
+            <span style={{ fontSize: "var(--typography-body-md-size)", lineHeight: 1.6, color: "var(--core-color-text-secondary)" }}>
               {item.desc}
             </span>
           </Link>
@@ -154,13 +154,13 @@ const sections = [
               border: "1px solid rgba(128,128,128,0.12)",
               background: "var(--core-color-surface-default)",
               textDecoration: "none",
-              fontSize: "var(--core-font-size-sm, 14px)",
+              fontSize: "var(--typography-body-md-size)",
               fontWeight: 500,
               color: "var(--core-color-text-primary)",
               transition: "border-color 0.15s ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "var(--theme-brand-border-primary-default, #3275CD)";
+              e.currentTarget.style.borderColor = "var(--theme-brand-borders-primary-default)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = "rgba(128,128,128,0.12)";
@@ -186,31 +186,31 @@ const sections = [
         }}
       >
         <ol style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 14 }}>
-          <li style={{ fontSize: "var(--core-font-size-sm, 14px)", lineHeight: 1.6, color: "var(--core-color-text-secondary)" }}>
+          <li style={{ fontSize: "var(--typography-body-md-size)", lineHeight: 1.6, color: "var(--core-color-text-secondary)" }}>
             Review{" "}
-            <Link to="/foundations/color" style={{ color: "var(--theme-brand-text-primary-default, #1F4F8D)", fontWeight: 600, textDecoration: "none" }}>
+            <Link to="/foundations/color" style={{ color: "var(--theme-brand-text-primary-default)", fontWeight: 600, textDecoration: "none" }}>
               Color
             </Link>{" "}
             and{" "}
-            <Link to="/foundations/typography" style={{ color: "var(--theme-brand-text-primary-default, #1F4F8D)", fontWeight: 600, textDecoration: "none" }}>
+            <Link to="/foundations/typography" style={{ color: "var(--theme-brand-text-primary-default)", fontWeight: 600, textDecoration: "none" }}>
               Typography
             </Link>{" "}
             to understand tokens and naming.
           </li>
-          <li style={{ fontSize: "var(--core-font-size-sm, 14px)", lineHeight: 1.6, color: "var(--core-color-text-secondary)" }}>
+          <li style={{ fontSize: "var(--typography-body-md-size)", lineHeight: 1.6, color: "var(--core-color-text-secondary)" }}>
             Explore{" "}
-            <Link to="/components/actions" style={{ color: "var(--theme-brand-text-primary-default, #1F4F8D)", fontWeight: 600, textDecoration: "none" }}>
+            <Link to="/components/actions" style={{ color: "var(--theme-brand-text-primary-default)", fontWeight: 600, textDecoration: "none" }}>
               Actions
             </Link>{" "}
             and{" "}
-            <Link to="/components/forms" style={{ color: "var(--theme-brand-text-primary-default, #1F4F8D)", fontWeight: 600, textDecoration: "none" }}>
+            <Link to="/components/forms" style={{ color: "var(--theme-brand-text-primary-default)", fontWeight: 600, textDecoration: "none" }}>
               Forms
             </Link>{" "}
             for the most common UI patterns.
           </li>
-          <li style={{ fontSize: "var(--core-font-size-sm, 14px)", lineHeight: 1.6, color: "var(--core-color-text-secondary)" }}>
+          <li style={{ fontSize: "var(--typography-body-md-size)", lineHeight: 1.6, color: "var(--core-color-text-secondary)" }}>
             Check{" "}
-            <Link to="/anatomy" style={{ color: "var(--theme-brand-text-primary-default, #1F4F8D)", fontWeight: 600, textDecoration: "none" }}>
+            <Link to="/anatomy" style={{ color: "var(--theme-brand-text-primary-default)", fontWeight: 600, textDecoration: "none" }}>
               Component Anatomy
             </Link>{" "}
             when you need exact spacing and structure for handoff.
@@ -232,18 +232,6 @@ export default function Home() {
   return (
     <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
       <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
-        <div
-          style={{
-            fontSize: 14,
-            fontWeight: 700,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "var(--core-color-brand-600)",
-            marginBottom: 12,
-          }}
-        >
-          Get Started
-        </div>
         <h1
           style={{
             fontSize: 72,

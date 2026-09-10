@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Preview } from "../Preview";
+import { ComponentSectionNumber } from "../ComponentSectionNumber";
 import { Tabs, Breadcrumb, Pagination, NavigationMenu, AppSidebar, Stepper } from "../../../../packages/core/src/components/Navigation";
 import { Icon } from "../../../../packages/core/src/components/Primitives";
 
@@ -14,7 +15,10 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
         </>
       )}
 
-      <h2 className="site-section-title docs-section" id="navigation-menu">Navigation menu (top nav)</h2>
+      <div id="navigation-menu" className="docs-section">
+        <ComponentSectionNumber anchorId="navigation-menu" />
+        <h2 className="site-section-title">Navigation menu (top nav)</h2>
+      </div>
       <p className="site-section-sub">The current item is underlined, not just recolored, so it survives color-blindness and grayscale print.</p>
       <div className="site-panel site-panel--flush">
         <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)" }}>
@@ -23,7 +27,8 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
       </div>
 
       <p className="site-section-sub"><code>variant="rail"</code> — a compact icon-over-label rail. A left accent bar + tinted band mark the active item; icons are plain, no badge. Same tokens as the row layout above, so it's light/dark aware, not a fixed chrome.</p>
-      <div id="sidebar" className="site-panel site-panel--flush">
+      <div id="sidebar" className="docs-section site-panel site-panel--flush">
+        <ComponentSectionNumber anchorId="sidebar" />
         <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)", padding: "24px 32px" }}>
           <AppSidebar
             variant="rail"
@@ -38,7 +43,10 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
         </div>
       </div>
 
-      <h2 className="site-section-title" id="tabs">Tabs</h2>
+      <div id="tabs" className="docs-section">
+        <ComponentSectionNumber anchorId="tabs" />
+        <h2 className="site-section-title">Tabs</h2>
+      </div>
       <p className="site-section-sub">Active tab has an underline indicator; the whole strip is an ARIA <code>tablist</code>.</p>
       <div className="site-panel site-panel--flush">
         <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)", flexDirection: "column", alignItems: "stretch" }}>
@@ -67,7 +75,10 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
         </div>
       </div>
 
-      <h2 className="site-section-title" id="breadcrumb">Breadcrumb</h2>
+      <div id="breadcrumb" className="docs-section">
+        <ComponentSectionNumber anchorId="breadcrumb" />
+        <h2 className="site-section-title">Breadcrumb</h2>
+      </div>
       <p className="site-section-sub">The current page is plain text, not a link, and carries <code>aria-current="page"</code>.</p>
       <div className="site-panel site-panel--flush">
         <Preview>
@@ -83,7 +94,10 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
         </div>
       </div>
 
-      <h2 className="site-section-title" id="stepper">Stepper</h2>
+      <div id="stepper" className="docs-section">
+        <ComponentSectionNumber anchorId="stepper" />
+        <h2 className="site-section-title">Stepper</h2>
+      </div>
       <p className="site-section-sub">Drives multi-step flows: complete / current / upcoming states, each visually distinct.</p>
       <div className="site-panel site-panel--flush">
         <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)" }}>
@@ -116,7 +130,10 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
         </div>
       </div>
 
-      <h2 className="site-section-title" id="pagination">Pagination</h2>
+      <div id="pagination" className="docs-section">
+        <ComponentSectionNumber anchorId="pagination" />
+        <h2 className="site-section-title">Pagination</h2>
+      </div>
       <p className="site-section-sub">Active page number, disabled edges, 40×40px minimum touch targets.</p>
       <div className="site-panel site-panel--flush">
         <Preview>

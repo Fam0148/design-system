@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Preview } from "../Preview";
+import { ComponentSectionNumber } from "../ComponentSectionNumber";
 import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Button, IconButton } from "../../../../packages/core/src/components/Button";
 import { Modal, ConfirmDialog, Drawer, Tooltip, Popover, DropdownMenu } from "../../../../packages/core/src/components/Overlays";
@@ -25,7 +26,10 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
         </>
       )}
 
-      <h2 className="site-section-title docs-section" id="modal">Modal</h2>
+      <div id="modal" className="docs-section">
+        <ComponentSectionNumber anchorId="modal" />
+        <h2 className="site-section-title">Modal</h2>
+      </div>
       <p className="site-section-sub">Traps focus, dims the page behind an overlay, closes on Escape or the overlay click.</p>
       <div className="site-panel site-panel--flush">
         <Preview>
@@ -44,7 +48,10 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
 
 
 
-      <h2 className="site-section-title" id="confirm-dialog">Confirmation dialog</h2>
+      <div id="confirm-dialog" className="docs-section">
+        <ComponentSectionNumber anchorId="confirm-dialog" />
+        <h2 className="site-section-title">Confirmation dialog</h2>
+      </div>
       <p className="site-section-sub">A specialized Modal for destructive or hard-to-reverse actions — always names the consequence, never just "Are you sure?"</p>
       <div className="site-panel site-panel--flush">
         <Preview>
@@ -60,7 +67,10 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
         danger
       />
 
-      <h2 className="site-section-title" id="drawer">Drawer</h2>
+      <div id="drawer" className="docs-section">
+        <ComponentSectionNumber anchorId="drawer" />
+        <h2 className="site-section-title">Drawer</h2>
+      </div>
       <p className="site-section-sub">Slides in from the edge, full-height, for filters or supplementary panels that don't need a form's dedicated slideover layout.</p>
       <div className="site-panel site-panel--flush">
         <Preview>
@@ -73,7 +83,10 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
 
 
 
-      <h2 className="site-section-title" id="slideover">Slideover (form panel)</h2>
+      <div id="slideover" className="docs-section">
+        <ComponentSectionNumber anchorId="slideover" />
+        <h2 className="site-section-title">Slideover (form panel)</h2>
+      </div>
       <p className="site-section-sub">
         The same <code>Drawer</code> component with two extra slots: <code>actions</code> (Cancel/Save inline
         with the title) and <code>aside</code> (a summary panel alongside the form) — the pattern used for
@@ -120,7 +133,10 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
         </div>
       </Drawer>
 
-      <h2 className="site-section-title" id="dropdown-menu">Dropdown menu</h2>
+      <div id="dropdown-menu" className="docs-section">
+        <ComponentSectionNumber anchorId="dropdown-menu" />
+        <h2 className="site-section-title">Dropdown menu</h2>
+      </div>
       <div className="site-panel site-panel--flush">
         <Preview>
           <DropdownMenu
@@ -144,7 +160,10 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
         </Preview>
       </div>
 
-      <h2 className="site-section-title" id="tooltip">Tooltip</h2>
+      <div id="tooltip" className="docs-section">
+        <ComponentSectionNumber anchorId="tooltip" />
+        <h2 className="site-section-title">Tooltip</h2>
+      </div>
       <p className="site-section-sub">Brief, single line, appears on hover and keyboard focus alike.</p>
       <div className="site-panel site-panel--flush">
         <Preview>
@@ -186,7 +205,10 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
         text is announced, and keyboard-focusable/-triggerable like every other Tooltip trigger.
       </p>
 
-      <h2 className="site-section-title" id="popover">Popover</h2>
+      <div id="popover" className="docs-section">
+        <ComponentSectionNumber anchorId="popover" />
+        <h2 className="site-section-title">Popover</h2>
+      </div>
       <p className="site-section-sub">Richer than a Tooltip: can hold links, buttons, or a small form; dismisses on outside click or Escape.</p>
       <div className="site-panel site-panel--flush">
         <Preview>
@@ -206,13 +228,16 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
         <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)", padding: 60 }}>
           {(["top", "right", "bottom", "left"] as const).map((pl) => (
             <Popover key={pl} placement={pl} trigger={<Button variant="secondary" size="sm">{pl}</Button>}>
-              <div style={{ fontSize: "var(--core-font-size-sm, 14px)", minWidth: 100 }}>Popover on {pl}</div>
+              <div style={{ fontSize: "var(--typography-body-md-size)", minWidth: 100 }}>Popover on {pl}</div>
             </Popover>
           ))}
         </div>
       </div>
 
-      <h2 className="site-section-title" id="hover-card">Hover card</h2>
+      <div id="hover-card" className="docs-section">
+        <ComponentSectionNumber anchorId="hover-card" />
+        <h2 className="site-section-title">Hover card</h2>
+      </div>
       <p className="site-section-sub">Richer than a Tooltip — for a preview of an entity (fund, account, person) without navigating away.</p>
       <div className="site-panel site-panel--flush">
         <Preview>

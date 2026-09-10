@@ -108,13 +108,22 @@ function getNavHashesForPath(pathname: string) {
 // Overlays' Modal/Drawer/Popover/… links, which all point at
 // /components/overlays with a different hash each) would light up together,
 // since none of them differ by pathname. That was a real, reproduced bug.
-// scrollHash comes from useScrollSpy so the sidebar updates while scrolling.
+// scrollHash comes from useScrollSpy so hash links update while scrolling.
 function isNavLinkActive(to: string, pathname: string, hash: string, scrollHash: string) {
   const { path: toPath, hash: toHash } = splitNavTo(to);
   if (pathname !== toPath) return false;
-  const effectiveHash = scrollHash || hash;
-  if (toHash) return effectiveHash === toHash;
-  return !effectiveHash;
+
+  if (toHash) {
+    const effectiveHash = scrollHash || hash;
+    return effectiveHash === toHash;
+  }
+
+  // Page link without hash (e.g. Typography, All Components).
+  const hasInNavSubLinks = getNavHashesForPath(pathname).length > 0;
+  if (hasInNavSubLinks) {
+    return !scrollHash && !hash;
+  }
+  return true;
 }
 
 /** Flat, ordered list of unique pages derived from the sidebar `nav` array.
@@ -192,15 +201,17 @@ export default function Layout() {
   const scrollHash = useScrollSpy(location.pathname, spyHashes, location.hash);
   const onPageNav = pageSections[location.pathname] ?? [];
 
-  // Keep the active sidebar link visible inside the sticky sidebar.
+  // Scroll sidebar only when the user clicks a link — not on every scroll-spy tick.
   useEffect(() => {
+    if (!location.hash) return;
     const sidebar = sidebarRef.current;
     if (!sidebar) return;
-    const active = sidebar.querySelector(".site-nav-link.active");
-    if (active) {
-      active.scrollIntoView({ block: "nearest", behavior: "smooth" });
-    }
-  }, [scrollHash, location.pathname, location.hash]);
+    const timer = window.setTimeout(() => {
+      const active = sidebar.querySelector(".site-nav-link.active");
+      active?.scrollIntoView({ block: "nearest", behavior: "auto" });
+    }, 120);
+    return () => window.clearTimeout(timer);
+  }, [location.pathname, location.hash]);
 
   return (
     // data-theme/data-mode here is what makes every CORE component actually
@@ -219,7 +230,7 @@ export default function Layout() {
       <aside className="site-sidebar" ref={sidebarRef}>
         <div className="site-logo" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 6, padding: "8px 12px 20px" }}>
           <CoreLogo size={22} />
-          <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 700, color: "var(--site-text-dim)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+          <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, color: "var(--site-text-dim)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
             Participant Portal
           </span>
         </div>
@@ -248,7 +259,10 @@ export default function Layout() {
               <Link
                 key={s.hash}
                 to={{ pathname: location.pathname, hash: s.hash.replace(/^#/, "") }}
-                className={"site-nav-link site-nav-link--sub" + (scrollHash === s.hash || location.hash === s.hash ? " active" : "")}
+                className={
+                  "site-nav-link site-nav-link--sub" +
+                  ((scrollHash || location.hash) === s.hash ? " active" : "")
+                }
               >
                 {s.label}
               </Link>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Preview } from "../Preview";
+import { ComponentSectionNumber } from "../ComponentSectionNumber";
 import { Alert } from "../../../../packages/core/src/components/Misc";
 import { Toast, Spinner } from "../../../../packages/core/src/components/Overlays";
 import { Empty } from "../../../../packages/core/src/components/Primitives";
@@ -158,7 +159,7 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
   const sectionList = (
     <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
       {sections.map((s) => (
-        <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
+        <div key={s.anchorId} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
             <div
               style={{
                 position: "absolute",
@@ -170,16 +171,7 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
               }}
             />
             <div style={{ paddingTop: 32 }}>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "var(--core-color-text-tertiary)",
-                  marginBottom: 12,
-                }}
-              >
-                {s.id}
-              </div>
+              <ComponentSectionNumber anchorId={s.anchorId} />
               <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
                 {s.title}
               </h2>
@@ -195,7 +187,6 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
   return (
     <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
       <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--core-color-brand-600)", marginBottom: 12 }}>Components</div>
         <h1 style={{ fontSize: 72, fontWeight: 800, letterSpacing: "-0.06em", margin: "0 0 16px 0", color: "var(--core-color-text-primary)", lineHeight: 1.1 }}>Feedback</h1>
         <p style={{ maxWidth: 580, margin: "0 auto", color: "var(--core-color-text-tertiary)", fontSize: 18, lineHeight: 1.6, fontWeight: 400 }}>
           Alerts, transient toasts, empty states, and activity spinners for user reassurance and operational statuses.

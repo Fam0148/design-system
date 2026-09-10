@@ -16,7 +16,6 @@ export const pageSections: Record<string, { hash: string; label: string }[]> = {
     { hash: "#type-scale", label: "Type scale" },
     { hash: "#spacing-padding", label: "Spacing & Padding" },
     { hash: "#border-radius", label: "Border Radius" },
-    { hash: "#breakpoints", label: "Breakpoints" },
     { hash: "#elevation-shadows", label: "Elevation & Shadows" },
     { hash: "#icon-sizing", label: "Icon Sizing" },
   ],

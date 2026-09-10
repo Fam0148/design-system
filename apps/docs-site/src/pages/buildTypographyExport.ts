@@ -1,15 +1,8 @@
 import typography from "../../../../packages/tokens/src/typography.json";
-
-type PxRem = { rem: string; px: number };
+import { buildFontSizeScaleExport, parsePx, type PxRem } from "./typographyScale";
 
 /** Matches the Typography page — letter spacing is always shown as 0px. */
 const SITE_LETTER_SPACING: PxRem = { rem: "0", px: 0 };
-
-function parsePx(pxStr: string): PxRem {
-  const val = parseFloat(pxStr.replace("px", ""));
-  if (!Number.isFinite(val)) return { px: 0, rem: "0" };
-  return { px: val, rem: `${val / 16}rem` };
-}
 
 function parseLineHeight(lhStr: string, sizePx: number): PxRem {
   if (lhStr.includes("px")) return parsePx(lhStr);
@@ -55,6 +48,7 @@ export function buildTypographyExportJson() {
       bold: 700,
       extrabold: 800,
     },
+    fontSize: buildFontSizeScaleExport(),
     letterSpacing: {
       tightest: SITE_LETTER_SPACING,
       tighter: SITE_LETTER_SPACING,

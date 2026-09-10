@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Preview, CodeBlock } from "../Preview";
+import { ComponentSectionNumber } from "../ComponentSectionNumber";
 import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Card, Badge, BadgeTone, BadgeSize } from "../../../../packages/core/src/components/Misc";
 import { Table, DataTable, Avatar, AvatarGroup, Progress } from "../../../../packages/core/src/components/DataDisplay";
-import { Item, DescriptionList } from "../../../../packages/core/src/components/Primitives";
+import { Icon, Item, DescriptionList } from "../../../../packages/core/src/components/Primitives";
 import { Button } from "../../../../packages/core/src/components/Button";
 
 const manyRows = [
@@ -23,138 +24,119 @@ const rows = [
   { id: 4, date: "Jul 15, 2026", type: "Fee", amount: "-$4.00", status: "danger" as const },
 ];
 
+function CardQuickLink({ icon, label }: { icon: string; label: string }) {
+  return (
+    <div className="cds-card__quick-link">
+      <span className="cds-card__quick-link-icon" aria-hidden="true">
+        <Icon name={icon} size="md" />
+      </span>
+      <span className="cds-card__quick-link-label">{label}</span>
+    </div>
+  );
+}
+
+const stateEyebrowStyle: React.CSSProperties = {
+  fontSize: "var(--typography-eyebrow-size)",
+  lineHeight: "var(--typography-eyebrow-line-height)",
+  fontWeight: "var(--typography-eyebrow-weight)",
+  letterSpacing: "var(--typography-eyebrow-letter-spacing)",
+  color: "var(--theme-neutral-text-subtle)",
+};
+
+const sectionLabelStyle: React.CSSProperties = {
+  fontSize: "var(--typography-label-size)",
+  lineHeight: "var(--typography-label-line-height)",
+  fontWeight: "var(--typography-label-weight)",
+  letterSpacing: "var(--typography-label-letter-spacing)",
+  color: "var(--theme-neutral-text-subtle)",
+  marginBottom: "var(--core-space-3, 12px)",
+};
+
+const badgeMatrixHeaderStyle: React.CSSProperties = {
+  fontSize: "var(--typography-eyebrow-size)",
+  lineHeight: "var(--typography-eyebrow-line-height)",
+  fontWeight: "var(--typography-eyebrow-weight)",
+  letterSpacing: "var(--typography-eyebrow-letter-spacing)",
+  color: "var(--theme-neutral-text-subtle)",
+  textTransform: "uppercase",
+};
+
 function BadgeMatrixDemo() {
   const [size, setSize] = useState<BadgeSize>("md");
   const tones: BadgeTone[] = ["primary", "neutral", "success", "warning", "danger", "info"];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      {/* Interactive Control Toolbar - Size Tabswitch */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          background: "var(--site-bg-elevated, #FFFFFF)",
-          border: "1px solid var(--site-border, rgba(128,128,128,0.18))",
-          borderRadius: 12,
-          padding: "12px 18px",
-          boxShadow: "0 1px 4px rgba(0,0,0,0.03)",
-        }}
-      >
-        <span
-          style={{
-            fontSize: "var(--core-font-size-xs, 12px)",
-            fontWeight: 700,
-            textTransform: "uppercase",
-            letterSpacing: "0.08em",
-            color: "var(--site-text-dim, #787887)",
-          }}
-        >
-          Size:
-        </span>
-        <div
-          style={{
-            display: "inline-flex",
-            background: "var(--site-bg, rgba(128,128,128,0.08))",
-            borderRadius: 8,
-            padding: 3,
-            border: "1px solid var(--site-border, rgba(128,128,128,0.15))",
-          }}
-        >
-          {(["md", "sm"] as const).map((s) => (
-            <button
-              key={s}
-              type="button"
-              onClick={() => setSize(s)}
-              style={{
-                border: "none",
-                background: size === s ? "var(--theme-brand-background-primary-default, #1F4F8D)" : "transparent",
-                color: size === s ? "#FFFFFF" : "var(--site-text, inherit)",
-                borderRadius: 6,
-                padding: "5px 14px",
-                fontSize: "var(--core-font-size-xs, 12px)",
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "all 120ms ease",
-              }}
-            >
-              {s === "md" ? "Medium (md)" : "Small (sm)"}
-            </button>
-          ))}
-        </div>
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-4, 16px)" }}>
+      <div style={{ display: "inline-flex", gap: "var(--core-space-1, 4px)", padding: 3, borderRadius: "var(--core-radius-sm)", border: "1px solid var(--theme-neutral-border-primary-default)", background: "var(--theme-colors-neutral-50)" }}>
+        {(["md", "sm"] as const).map((s) => (
+          <button
+            key={s}
+            type="button"
+            onClick={() => setSize(s)}
+            style={{
+              border: "none",
+              background: size === s ? "var(--theme-brand-background-strong)" : "transparent",
+              color: size === s ? "var(--theme-brand-text-primary-oncolor)" : "var(--theme-neutral-text-primary-default)",
+              borderRadius: "var(--core-radius-sm)",
+              padding: "5px 14px",
+              fontFamily: "var(--typography-font-family-sans)",
+              fontSize: "var(--typography-body-xs-size)",
+              lineHeight: "var(--typography-body-xs-line-height)",
+              fontWeight: "var(--typography-font-weight-semibold)",
+              cursor: "pointer",
+              transition: "background-color 120ms ease, color 120ms ease",
+            }}
+          >
+            {s === "md" ? "Medium" : "Small"}
+          </button>
+        ))}
       </div>
 
-      {/* Complete All Tones Matrix Surface */}
       <div className="site-panel site-panel--flush">
         <div
           className="preview-surface"
           data-theme="core"
           data-mode="light"
           style={{
-            background: "var(--core-color-bg-page)",
+            background: "var(--theme-colors-neutral-0)",
             flexDirection: "column",
             alignItems: "stretch",
-            gap: 16,
-            padding: "24px 28px",
+            gap: "var(--core-space-4, 16px)",
+            padding: "var(--core-space-6, 24px) var(--core-space-6, 28px)",
           }}
         >
-          <div
-            style={{
-              fontSize: "var(--core-font-size-xs, 12px)",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              color: "var(--site-text-dim)",
-              marginBottom: 4,
-            }}
-          >
-            Complete Tone &amp; State Matrix (Soft Tinted Style)
-          </div>
           <div style={{ overflowX: "auto" }}>
             <table className="cds-table" data-density="comfortable">
               <thead>
                 <tr>
-                  <th scope="col" style={{ width: 110, fontSize: "var(--core-font-size-xs, 12px)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Tone</th>
-                  <th scope="col" style={{ fontSize: "var(--core-font-size-xs, 12px)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Default</th>
-                  <th scope="col" style={{ fontSize: "var(--core-font-size-xs, 12px)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Hover</th>
-                  <th scope="col" style={{ fontSize: "var(--core-font-size-xs, 12px)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>With Dot</th>
-                  <th scope="col" style={{ fontSize: "var(--core-font-size-xs, 12px)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Removable</th>
-                  <th scope="col" style={{ fontSize: "var(--core-font-size-xs, 12px)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Disable</th>
+                  <th scope="col" style={{ ...badgeMatrixHeaderStyle, width: 110 }}>Tone</th>
+                  <th scope="col" style={badgeMatrixHeaderStyle}>Default</th>
+                  <th scope="col" style={badgeMatrixHeaderStyle}>Hover</th>
+                  <th scope="col" style={badgeMatrixHeaderStyle}>With Dot</th>
+                  <th scope="col" style={badgeMatrixHeaderStyle}>Removable</th>
+                  <th scope="col" style={badgeMatrixHeaderStyle}>Disable</th>
                 </tr>
               </thead>
               <tbody>
                 {tones.map((t) => (
                   <tr key={t}>
-                    <td style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, textTransform: "capitalize", color: "var(--core-color-text-primary)" }}>{t}</td>
+                    <td style={{ fontSize: "var(--typography-body-md-size)", lineHeight: "var(--typography-body-md-line-height)", fontWeight: "var(--typography-font-weight-semibold)", textTransform: "capitalize", color: "var(--theme-neutral-text-primary-default)" }}>{t}</td>
                     <td>
-                      <Badge tone={t} size={size} variant="soft">
-                        {t}
-                      </Badge>
+                      <Badge tone={t} size={size} variant="soft">{t}</Badge>
                     </td>
                     <td>
                       <div className="force-hover" style={{ display: "inline-block" }}>
-                        <Badge tone={t} size={size} variant="soft" interactive className={`cds-badge-state--hover cds-badge--${t}`}>
-                          {t}
-                        </Badge>
+                        <Badge tone={t} size={size} variant="soft" interactive className={`cds-badge-state--hover cds-badge--${t}`}>{t}</Badge>
                       </div>
                     </td>
                     <td>
-                      <Badge tone={t} size={size} variant="soft" dot>
-                        with dot
-                      </Badge>
+                      <Badge tone={t} size={size} variant="soft" dot>{t}</Badge>
                     </td>
                     <td>
-                      <Badge tone={t} size={size} variant="soft" onRemove={() => {}}>
-                        removable
-                      </Badge>
+                      <Badge tone={t} size={size} variant="soft" onRemove={() => {}}>{t}</Badge>
                     </td>
                     <td>
-                      <div className="force-disabled" style={{ display: "inline-block" }}>
-                        <Badge tone={t} size={size} variant="soft" disabled>
-                          {t}
-                        </Badge>
-                      </div>
+                      <Badge tone={t} size={size} variant="soft" disabled>{t}</Badge>
                     </td>
                   </tr>
                 ))}
@@ -193,15 +175,15 @@ function AvatarSizeDemo() {
           <table className="cds-table" data-density="comfortable">
             <thead>
               <tr>
-                <th scope="col" style={{ width: 140, fontSize: "var(--core-font-size-xs, 12px)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Component</th>
-                <th scope="col" style={{ fontSize: "var(--core-font-size-xs, 12px)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Small (sm) — 24px</th>
-                <th scope="col" style={{ fontSize: "var(--core-font-size-xs, 12px)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Medium (md) — 36px</th>
-                <th scope="col" style={{ fontSize: "var(--core-font-size-xs, 12px)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Large (lg) — 48px</th>
+                <th scope="col" style={{ width: 140, fontSize: "var(--typography-font-size-xs)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Component</th>
+                <th scope="col" style={{ fontSize: "var(--typography-font-size-xs)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Small (sm) — 24px</th>
+                <th scope="col" style={{ fontSize: "var(--typography-font-size-xs)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Medium (md) — 36px</th>
+                <th scope="col" style={{ fontSize: "var(--typography-font-size-xs)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-secondary)" }}>Large (lg) — 48px</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-primary)" }}>Single Avatar</td>
+                <td style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-primary)" }}>Single Avatar</td>
                 <td>
                   <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
                     <Avatar name="Jordan Lee" size="sm" />
@@ -222,7 +204,7 @@ function AvatarSizeDemo() {
                 </td>
               </tr>
               <tr>
-                <td style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-primary)" }}>Avatar Group</td>
+                <td style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-primary)" }}>Avatar Group</td>
                 <td>
                   <AvatarGroup avatars={sampleAvatars} size="sm" max={3} />
                 </td>
@@ -245,62 +227,62 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
   const sections = [
     {
       id: "01",
-      anchorId: "card",
-      title: "Card",
-      description: "Default elevated, flat outlined, and interactive clickable card surfaces with elevation tokens.",
+      anchorId: "quick-links",
+      title: "Quick links",
+      description: "Icon + label navigation tiles built on elevated, outlined, and interactive card surfaces.",
       content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <table className="spec-table">
-            <thead>
-              <tr>
-                <th>Property</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Padding</td>
-                <td>20px</td>
-              </tr>
-              <tr>
-                <td>Border radius</td>
-                <td>
-                  <code>card.radius</code> — 8px on CORE
-                </td>
-              </tr>
-              <tr>
-                <td>Shadow</td>
-                <td>
-                  <code>elevation.1</code> (default/outlined) — none on interactive until hover (<code>elevation.2</code>)
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div className="site-panel site-panel--flush">
-            <Preview>
-              <Card style={{ minWidth: 220 }}>
-                <div style={{ fontSize: "var(--core-font-size-sm, 14px)", color: "var(--core-color-text-secondary)" }}>Default</div>
-                <div style={{ fontSize: 20, fontWeight: 700, marginTop: 4, color: "var(--core-color-text-primary)" }}>
-                  $84,213.05
+        <div className="site-panel site-panel--flush">
+          <Preview>
+            <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-8, 32px)", width: "100%", padding: "var(--core-space-2, 8px) 0" }}>
+              <div>
+                <div style={sectionLabelStyle}>Variants</div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--core-space-4, 16px)" }}>
+                  <Card style={{ minWidth: 200, maxWidth: 260 }}>
+                    <CardQuickLink icon="fa-solid fa-user-plus" label="Add beneficiary" />
+                  </Card>
+                  <Card variant="outlined" style={{ minWidth: 200, maxWidth: 260 }}>
+                    <CardQuickLink icon="fa-solid fa-file-lines" label="My documents" />
+                  </Card>
                 </div>
-              </Card>
-              <Card variant="outlined" style={{ minWidth: 220 }}>
-                <div style={{ fontSize: "var(--core-font-size-sm, 14px)", color: "var(--core-color-text-secondary)" }}>Outlined</div>
-                <div style={{ fontSize: 20, fontWeight: 700, marginTop: 4, color: "var(--core-color-text-primary)" }}>
-                  Oct 15
-                </div>
-              </Card>
-              <Card variant="interactive" style={{ minWidth: 220 }} onClick={() => {}}>
-                <div style={{ fontSize: "var(--core-font-size-sm, 14px)", color: "var(--core-color-text-secondary)" }}>Interactive — click me</div>
-                <div style={{ fontSize: 20, fontWeight: 700, marginTop: 4, color: "var(--core-color-text-primary)" }}>
-                  Roth 401(k)
-                </div>
-              </Card>
-            </Preview>
-          </div>
+              </div>
 
-
+              <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: "var(--core-space-6, 24px)" }}>
+                <div style={sectionLabelStyle}>Interactive states</div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(160px, 1fr))", gap: "var(--core-space-4, 16px)" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
+                    <span style={stateEyebrowStyle}>DEFAULT</span>
+                    <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
+                      <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
+                    </Card>
+                  </div>
+                  <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
+                    <span style={stateEyebrowStyle}>HOVER</span>
+                    <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
+                      <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
+                    </Card>
+                  </div>
+                  <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
+                    <span style={stateEyebrowStyle}>FOCUS</span>
+                    <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
+                      <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
+                    </Card>
+                  </div>
+                  <div className="force-active" style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
+                    <span style={stateEyebrowStyle}>CLICKED</span>
+                    <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
+                      <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
+                    </Card>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
+                    <span style={stateEyebrowStyle}>DISABLED</span>
+                    <Card variant="interactive" disabled style={{ minWidth: 0 }} onClick={() => {}}>
+                      <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
+                    </Card>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Preview>
         </div>
       ),
     },
@@ -310,41 +292,7 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
       title: "Badge",
       description:
         "Soft tinted badge component matrix showcasing interactive states (Default, Hover, Variant, Disable) and size switches.",
-      content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <table className="spec-table">
-            <thead>
-              <tr>
-                <th>Property</th>
-                <th>Small (sm)</th>
-                <th>Medium (md - default)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Padding</td>
-                <td>2px 8px</td>
-                <td>4px 12px</td>
-              </tr>
-              <tr>
-                <td>Font size</td>
-                <td>12px (<code>font.size.xs</code>)</td>
-                <td>14px (<code>font.size.sm</code>)</td>
-              </tr>
-              <tr>
-                <td>Radius</td>
-                <td colSpan={2}>
-                  Fully rounded (<code>badge.radius</code>)
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <BadgeMatrixDemo />
-
-
-        </div>
-      ),
+      content: <BadgeMatrixDemo />,
     },
     {
       id: "03",
@@ -355,16 +303,7 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           {/* 1. Basic Data Table */}
           <div id="table">
-            <div
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                color: "var(--site-text-dim)",
-                marginBottom: 8,
-              }}
-            >
+            <div style={{ ...sectionLabelStyle, marginBottom: "var(--core-space-2, 8px)" }}>
               Basic Data Table
             </div>
             <div className="site-panel site-panel--flush">
@@ -372,7 +311,7 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
                 className="preview-surface"
                 data-theme="core"
                 data-mode="light"
-                style={{ background: "var(--core-color-bg-page)", flexDirection: "column", alignItems: "stretch" }}
+                style={{ background: "var(--theme-colors-neutral-0)", flexDirection: "column", alignItems: "stretch" }}
               >
                 <Table
                   columns={[
@@ -397,16 +336,7 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
 
           {/* 2. Interactive Paginated & Searchable Table */}
           <div>
-            <div
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                color: "var(--site-text-dim)",
-                marginBottom: 8,
-              }}
-            >
+            <div style={{ ...sectionLabelStyle, marginBottom: "var(--core-space-2, 8px)" }}>
               Interactive Paginated &amp; Searchable Table
             </div>
             <div className="site-panel site-panel--flush">
@@ -414,7 +344,7 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
                 className="preview-surface"
                 data-theme="core"
                 data-mode="light"
-                style={{ background: "var(--core-color-bg-page)", flexDirection: "column", alignItems: "stretch" }}
+                style={{ background: "var(--theme-colors-neutral-0)", flexDirection: "column", alignItems: "stretch" }}
               >
                 <DataTable
                   pageSize={4}
@@ -475,19 +405,11 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
                 marginBottom: 8,
               }}
             >
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.06em",
-                  color: "var(--site-text-dim)",
-                }}
-              >
+              <div style={sectionLabelStyle}>
                 View Mode (Read-Only Table)
               </div>
               <span className="cds-table-view-badge">
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--core-color-brand-500, #3275CD)" }} />
+                <span className="cds-table-view-badge__dot" aria-hidden="true" />
                 Read-Only View
               </span>
             </div>
@@ -496,10 +418,11 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
                 className="preview-surface"
                 data-theme="core"
                 data-mode="light"
-                style={{ background: "var(--core-color-bg-page)", flexDirection: "column", alignItems: "stretch" }}
+                style={{ background: "var(--theme-colors-neutral-0)", flexDirection: "column", alignItems: "stretch" }}
               >
                 <DataTable
                   viewMode
+                  zebra={false}
                   pageSize={4}
                   searchable
                   searchPlaceholder="Filter records in view mode…"
@@ -551,7 +474,7 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
               </div>
               <span
                 style={{
-                  fontSize: "var(--core-font-size-xs, 12px)",
+                  fontSize: "var(--typography-font-size-xs)",
                   fontWeight: 600,
                   color: "var(--core-color-neutral-500, #787887)",
                   background: "var(--core-color-neutral-50, #F7F7F9)",
@@ -770,7 +693,7 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
   const sectionList = (
     <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
       {sections.map((s) => (
-        <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
+        <div key={s.anchorId} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
             <div
               style={{
                 position: "absolute",
@@ -782,16 +705,7 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
               }}
             />
             <div style={{ paddingTop: 32 }}>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "var(--core-color-text-tertiary)",
-                  marginBottom: 12,
-                }}
-              >
-                {s.id}
-              </div>
+              <ComponentSectionNumber anchorId={s.anchorId} />
               <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
                 {s.title}
               </h2>
@@ -802,15 +716,52 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
     </div>
   );
 
-  if (embedded) return sectionList;
+  const cardStateStyles = (
+    <style>{`
+      .force-hover .cds-card--interactive:not(:disabled) {
+        box-shadow: var(--core-elevation-2) !important;
+        border-color: var(--theme-neutral-border-strong) !important;
+        background: var(--theme-colors-neutral-0) !important;
+        transform: none !important;
+      }
+      .force-hover .cds-card--interactive:not(:disabled) .cds-card__quick-link-icon {
+        background: var(--theme-brand-background-primary-subtle) !important;
+        color: var(--theme-brand-text-primary-hover) !important;
+      }
+      .force-focus .cds-card--interactive:not(:disabled) {
+        outline: none !important;
+        border-color: var(--theme-primitive-color-primary-400) !important;
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important;
+      }
+      .force-active .cds-card--interactive:not(:disabled) {
+        transform: translateY(1px) !important;
+        box-shadow: none !important;
+        border-color: var(--theme-brand-borders-primary-default) !important;
+        background: var(--theme-brand-background-primary-subtle) !important;
+      }
+      .force-active .cds-card--interactive:not(:disabled) .cds-card__quick-link-icon {
+        background: var(--theme-brand-background-primary-light) !important;
+        color: var(--theme-brand-text-primary-active) !important;
+      }
+    `}</style>
+  );
+
+  if (embedded) {
+    return (
+      <>
+        {cardStateStyles}
+        {sectionList}
+      </>
+    );
+  }
 
   return (
     <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
+      {cardStateStyles}
       <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--core-color-brand-600)", marginBottom: 12 }}>Components</div>
         <h1 style={{ fontSize: 72, fontWeight: 800, letterSpacing: "-0.06em", margin: "0 0 16px 0", color: "var(--core-color-text-primary)", lineHeight: 1.1 }}>Data Display</h1>
         <p style={{ maxWidth: 580, margin: "0 auto", color: "var(--core-color-text-tertiary)", fontSize: "var(--core-font-size-lg, 20px)", lineHeight: 1.6, fontWeight: 400 }}>
-          Cards, Badges, Tables, Avatars, Progress meters, and description lists designed for metrics and data summaries.
+          Quick links, Badges, Tables, Avatars, Progress meters, and description lists designed for metrics and data summaries.
         </p>
       </div>
       {sectionList}

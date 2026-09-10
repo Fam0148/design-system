@@ -9,10 +9,9 @@ export const componentSections: NavSection[] = [
   {
     title: "Actions",
     links: [
-      componentLink("button", "Button"),
+      componentLink("button", "Buttons"),
       componentLink("icon-button", "Icon Button"),
       componentLink("link", "Link"),
-      componentLink("button-group", "Button Group"),
     ],
   },
   {
@@ -38,7 +37,7 @@ export const componentSections: NavSection[] = [
   {
     title: "Data Display",
     links: [
-      componentLink("card", "Card"),
+      componentLink("quick-links", "Quick links"),
       componentLink("badge", "Badge"),
       componentLink("data-table", "Data Table"),
       componentLink("table", "Table"),
@@ -103,6 +102,19 @@ export const componentSections: NavSection[] = [
 export const componentLinks = componentSections.flatMap((section) => section.links);
 
 export const totalComponentCount = componentLinks.length;
+
+const componentAnchorSectionIds = new Map<string, string>();
+componentLinks.forEach((link, index) => {
+  const anchor = link.to.split("#")[1];
+  if (anchor) {
+    componentAnchorSectionIds.set(anchor, String(index + 1).padStart(2, "0"));
+  }
+});
+
+/** Global section number (01–52) for a component anchor on the unified /components page. */
+export function sectionIdForAnchor(anchorId: string): string | null {
+  return componentAnchorSectionIds.get(anchorId) ?? null;
+}
 
 /** Render order for the unified /components page (category title → page module). */
 export const componentPageOrder = componentSections.map((section) => section.title);

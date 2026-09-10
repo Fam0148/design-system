@@ -7,7 +7,7 @@ function InteractiveLogoPanel({ title, darkImg, lightImg, height }: { title: str
     <div style={{ position: "relative", borderRadius: 14, overflow: "hidden", border: "1px solid rgba(128,128,128,0.15)", background: "var(--core-color-surface-default)" }}>
       {/* Absolute Toggle Switch */}
       <div style={{ position: "absolute", top: 20, right: 24, display: "flex", alignItems: "center", gap: 12, zIndex: 10 }}>
-        <span style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: mode === "light" ? "var(--core-color-text-primary)" : "var(--core-color-text-tertiary)", transition: "color 0.3s" }}>Light</span>
+        <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: mode === "light" ? "var(--core-color-text-primary)" : "var(--core-color-text-tertiary)", transition: "color 0.3s" }}>Light</span>
         <button 
           onClick={() => setMode(mode === "light" ? "dark" : "light")}
           style={{
@@ -34,7 +34,7 @@ function InteractiveLogoPanel({ title, darkImg, lightImg, height }: { title: str
             boxShadow: "0 2px 4px rgba(0,0,0,0.15)"
           }} />
         </button>
-        <span style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: mode === "dark" ? "var(--core-color-text-primary)" : "var(--core-color-text-tertiary)", transition: "color 0.3s" }}>Dark</span>
+        <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: mode === "dark" ? "var(--core-color-text-primary)" : "var(--core-color-text-tertiary)", transition: "color 0.3s" }}>Dark</span>
       </div>
 
       <div className="preview-surface" data-theme="core" data-mode={mode} style={{ background: "var(--core-color-surface-default)", minHeight: 240, display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.3s" }}>
@@ -58,8 +58,8 @@ function LogoAnatomy() {
             padding: "6px 14px",
             borderRadius: 8,
             border: "1px solid",
-            borderColor: orientation === "horizontal" ? "var(--theme-brand-background-primary-default, #1F4F8D)" : "rgba(128,128,128,0.2)",
-            background: orientation === "horizontal" ? "var(--theme-brand-background-primary-default, #1F4F8D)" : "transparent",
+            borderColor: orientation === "horizontal" ? "var(--theme-brand-background-primary-default)" : "rgba(128,128,128,0.2)",
+            background: orientation === "horizontal" ? "var(--theme-brand-background-primary-default)" : "transparent",
             color: orientation === "horizontal" ? "#FFFFFF" : "var(--core-color-text-secondary)",
             fontSize: 12,
             fontWeight: 600,
@@ -76,8 +76,8 @@ function LogoAnatomy() {
             padding: "6px 14px",
             borderRadius: 8,
             border: "1px solid",
-            borderColor: orientation === "vertical" ? "var(--theme-brand-background-primary-default, #1F4F8D)" : "rgba(128,128,128,0.2)",
-            background: orientation === "vertical" ? "var(--theme-brand-background-primary-default, #1F4F8D)" : "transparent",
+            borderColor: orientation === "vertical" ? "var(--theme-brand-background-primary-default)" : "rgba(128,128,128,0.2)",
+            background: orientation === "vertical" ? "var(--theme-brand-background-primary-default)" : "transparent",
             color: orientation === "vertical" ? "#FFFFFF" : "var(--core-color-text-secondary)",
             fontSize: 12,
             fontWeight: 600,
@@ -103,22 +103,22 @@ function LogoAnatomy() {
 
           {/* Labels & Lines */}
           {/* Top label (4) */}
-          <div style={{ position: "absolute", top: -2, left: -24, background: "#118D57", color: "white", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1 }}>4</div>
+          <div style={{ position: "absolute", top: -2, left: -24, background: "#118D57", color: "white", fontSize: "var(--typography-font-size-xs)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1 }}>4</div>
           <div style={{ position: "absolute", top: 2, left: -9, width: 8, height: 1, background: "#118D57" }}></div>
           <div style={{ position: "absolute", top: 2, left: -2, width: 1, height: 32, background: "#118D57", opacity: 0.5 }}></div>
 
           {/* Left label (8) */}
-          <div style={{ position: "absolute", top: -26, left: 4, background: "#118D57", color: "white", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1, transform: "translateX(-50%)" }}>8</div>
+          <div style={{ position: "absolute", top: -26, left: 4, background: "#118D57", color: "white", fontSize: "var(--typography-font-size-xs)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1, transform: "translateX(-50%)" }}>8</div>
           <div style={{ position: "absolute", top: -12, left: 4, width: 1, height: 10, background: "#118D57" }}></div>
           <div style={{ position: "absolute", top: -12, left: 0, width: 18, height: 1, background: "#118D57", opacity: 0.5 }}></div>
 
           {/* Right label (8) */}
-          <div style={{ position: "absolute", top: -26, right: 4, background: "#118D57", color: "white", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1, transform: "translateX(50%)" }}>8</div>
+          <div style={{ position: "absolute", top: -26, right: 4, background: "#118D57", color: "white", fontSize: "var(--typography-font-size-xs)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1, transform: "translateX(50%)" }}>8</div>
           <div style={{ position: "absolute", top: -12, right: 4, width: 1, height: 10, background: "#118D57" }}></div>
           <div style={{ position: "absolute", top: -12, right: 0, width: 18, height: 1, background: "#118D57", opacity: 0.5 }}></div>
           
           {/* Bottom label (4) */}
-          <div style={{ position: "absolute", bottom: -2, left: -24, background: "#118D57", color: "white", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1 }}>4</div>
+          <div style={{ position: "absolute", bottom: -2, left: -24, background: "#118D57", color: "white", fontSize: "var(--typography-font-size-xs)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1 }}>4</div>
           <div style={{ position: "absolute", bottom: 2, left: -9, width: 8, height: 1, background: "#118D57" }}></div>
           <div style={{ position: "absolute", bottom: -30, left: -2, width: 1, height: 32, background: "#118D57", opacity: 0.5 }}></div>
 
@@ -141,27 +141,27 @@ function LogoAnatomy() {
 
           {/* Labels & Lines */}
           {/* Top label (4) */}
-          <div style={{ position: "absolute", top: -2, left: -24, background: "#118D57", color: "white", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1 }}>4</div>
+          <div style={{ position: "absolute", top: -2, left: -24, background: "#118D57", color: "white", fontSize: "var(--typography-font-size-xs)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1 }}>4</div>
           <div style={{ position: "absolute", top: 2, left: -9, width: 8, height: 1, background: "#118D57" }}></div>
           <div style={{ position: "absolute", top: 2, left: -2, width: 1, height: 32, background: "#118D57", opacity: 0.5 }}></div>
 
           {/* Left label (8) */}
-          <div style={{ position: "absolute", top: -26, left: 4, background: "#118D57", color: "white", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1, transform: "translateX(-50%)" }}>8</div>
+          <div style={{ position: "absolute", top: -26, left: 4, background: "#118D57", color: "white", fontSize: "var(--typography-font-size-xs)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1, transform: "translateX(-50%)" }}>8</div>
           <div style={{ position: "absolute", top: -12, left: 4, width: 1, height: 10, background: "#118D57" }}></div>
           <div style={{ position: "absolute", top: -12, left: 0, width: 18, height: 1, background: "#118D57", opacity: 0.5 }}></div>
 
           {/* Right label (8) */}
-          <div style={{ position: "absolute", top: -26, right: 4, background: "#118D57", color: "white", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1, transform: "translateX(50%)" }}>8</div>
+          <div style={{ position: "absolute", top: -26, right: 4, background: "#118D57", color: "white", fontSize: "var(--typography-font-size-xs)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1, transform: "translateX(50%)" }}>8</div>
           <div style={{ position: "absolute", top: -12, right: 4, width: 1, height: 10, background: "#118D57" }}></div>
           <div style={{ position: "absolute", top: -12, right: 0, width: 18, height: 1, background: "#118D57", opacity: 0.5 }}></div>
 
           {/* Bottom label (4) */}
-          <div style={{ position: "absolute", bottom: -2, left: -24, background: "#118D57", color: "white", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1 }}>4</div>
+          <div style={{ position: "absolute", bottom: -2, left: -24, background: "#118D57", color: "white", fontSize: "var(--typography-font-size-xs)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1 }}>4</div>
           <div style={{ position: "absolute", bottom: 2, left: -9, width: 8, height: 1, background: "#118D57" }}></div>
           <div style={{ position: "absolute", bottom: -30, left: -2, width: 1, height: 32, background: "#118D57", opacity: 0.5 }}></div>
 
           {/* Center gap label (8) */}
-          <div style={{ position: "absolute", top: 56, right: -24, background: "#118D57", color: "white", fontSize: "var(--core-font-size-xs, 12px)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1 }}>8</div>
+          <div style={{ position: "absolute", top: 56, right: -24, background: "#118D57", color: "white", fontSize: "var(--typography-font-size-xs)", fontWeight: "bold", padding: "1px 5px", borderRadius: 4, lineHeight: 1 }}>8</div>
           <div style={{ position: "absolute", top: 64, right: -8, width: 8, height: 1, background: "#118D57" }}></div>
 
           {/* Vertical Stacked Logo Content */}
@@ -250,7 +250,6 @@ export default function LogoPage() {
   return (
     <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
       <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--core-color-brand-600)", marginBottom: 12 }}>Foundation</div>
         <h1 style={{ fontSize: 72, fontWeight: 800, letterSpacing: "-0.06em", margin: "0 0 16px 0", color: "var(--core-color-text-primary)", lineHeight: 1.1 }}>
           Logo
         </h1>

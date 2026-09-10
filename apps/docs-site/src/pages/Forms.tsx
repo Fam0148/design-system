@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { ComponentSectionNumber } from "../ComponentSectionNumber";
 import { Preview } from "../Preview";
 import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Field, Input, InputWithIcon } from "../../../../packages/core/src/components/Field";
 import { Icon } from "../../../../packages/core/src/components/Primitives";
 import { Switch } from "../../../../packages/core/src/components/Misc";
-import { Textarea, Select, Checkbox, RadioGroup } from "../../../../packages/core/src/components/FormControls";
+import { Textarea, Select, Checkbox, Radio, RadioGroup } from "../../../../packages/core/src/components/FormControls";
 import { Toggle, ToggleGroup, InputGroup, InputOTP } from "../../../../packages/core/src/components/ToggleInputs";
 import { Slider } from "../../../../packages/core/src/components/Primitives";
 import { Combobox } from "../../../../packages/core/src/components/Combobox";
@@ -21,8 +22,7 @@ const employers = [
 export default function Forms({ embedded = false }: { embedded?: boolean }) {
   const [on, setOn] = useState(true);
   const [plan, setPlan] = useState("roth");
-  const [view, setView] = useState<"list" | "grid">("list");
-  const [starred, setStarred] = useState(false);
+  const [segment, setSegment] = useState<"sources" | "investments">("sources");
   const [otp, setOtp] = useState("");
   const [filledOtp, setFilledOtp] = useState("482916");
   const [errorOtp, setErrorOtp] = useState("830174");
@@ -30,12 +30,24 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
   const [employer, setEmployer] = useState("");
   const [dob, setDob] = useState<Date | undefined>(undefined);
   const [files, setFiles] = useState<AttachmentFile[]>([{ id: "1", name: "beneficiary-form.pdf", size: "212 KB" }]);
-  const [freq, setFreq] = useState("monthly");
   const [cardNumber, setCardNumber] = useState("");
   const [routing, setRouting] = useState("");
   const [account, setAccount] = useState("");
 
   const formatCardNumber = (raw: string) => raw.replace(/\D/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
+
+  const toggleGroupOptions = [
+    {
+      value: "sources" as const,
+      label: "Sources",
+      icon: <Icon name="fa-solid fa-database" size="sm" />,
+    },
+    {
+      value: "investments" as const,
+      label: "Investments",
+      icon: <Icon name="fa-solid fa-chart-pie" size="sm" />,
+    },
+  ];
 
   const sections = [
     {
@@ -47,12 +59,25 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
           <div className="site-panel site-panel--flush">
             <Preview>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
-                <Field label="Default" required>{(p) => <Input {...p} placeholder="Jordan Lee" />}</Field>
-                <Field label="Hover">{(p) => <Input {...p} placeholder="Jordan Lee" style={{ borderColor: "var(--core-input-borderHover)" }} />}</Field>
-                <Field label="Filled">{(p) => <Input {...p} defaultValue="Jordan Lee" />}</Field>
-                <Field label="With error" error="Must be between 1% and 100%">{(p) => <Input {...p} defaultValue="150" />}</Field>
-                <Field label="Disabled">{(p) => <Input {...p} disabled placeholder="Locked" />}</Field>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 16 }}>
+                <div className="force-default">
+                  <Field label="Default" required>{(p) => <Input {...p} placeholder="Jordan Lee" />}</Field>
+                </div>
+                <div className="force-hover">
+                  <Field label="Hover">{(p) => <Input {...p} placeholder="Jordan Lee" />}</Field>
+                </div>
+                <div className="force-focus">
+                  <Field label="Focus">{(p) => <Input {...p} placeholder="Jordan Lee" />}</Field>
+                </div>
+                <div className="force-filled">
+                  <Field label="Filled">{(p) => <Input {...p} defaultValue="Jordan Lee" />}</Field>
+                </div>
+                <div className="force-error">
+                  <Field label="With error" error="Must be between 1% and 100%">{(p) => <Input {...p} defaultValue="150" />}</Field>
+                </div>
+                <div className="force-disabled">
+                  <Field label="Disabled">{(p) => <Input {...p} disabled placeholder="Locked" />}</Field>
+                </div>
               </div>
             </Preview>
           </div>
@@ -125,23 +150,58 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <Checkbox label="I agree to the plan terms" defaultChecked />
-              <Checkbox label="Send me email confirmations" />
-              <Checkbox label="Select all (some selected)" indeterminate />
-              <Checkbox label="Disabled option" disabled />
-            </div>
-            <div style={{ marginLeft: 32 }}>
-              <RadioGroup
-                name="freq"
-                value={freq}
-                onChange={setFreq}
-                options={[
-                  { value: "monthly", label: "Monthly" },
-                  { value: "quarterly", label: "Quarterly" },
-                  { value: "annually", label: "Annually" },
-                ]}
-              />
+            <div style={{ display: "flex", flexDirection: "column", gap: 32, width: "100%" }}>
+              <div>
+                <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Checkbox</div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(120px, 1fr))", gap: 32, padding: "8px 0" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
+                    <Checkbox label="Option" readOnly />
+                  </div>
+                  <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>HOVER</span>
+                    <Checkbox label="Option" readOnly />
+                  </div>
+                  <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                    <Checkbox label="Option" readOnly />
+                  </div>
+                  <div className="force-active" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>CLICKED</span>
+                    <Checkbox label="Option" defaultChecked readOnly />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
+                    <Checkbox label="Option" disabled />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Radio</div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(120px, 1fr))", gap: 32, padding: "8px 0" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
+                    <Radio name="radio-default" label="Option" value="opt" checked={false} readOnly onChange={() => {}} />
+                  </div>
+                  <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>HOVER</span>
+                    <Radio name="radio-hover" label="Option" value="opt" checked={false} readOnly onChange={() => {}} />
+                  </div>
+                  <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                    <Radio name="radio-focus" label="Option" value="opt" checked={false} readOnly onChange={() => {}} />
+                  </div>
+                  <div className="force-active" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>CLICKED</span>
+                    <Radio name="radio-active" label="Option" value="opt" checked readOnly onChange={() => {}} />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
+                    <Radio name="radio-disabled" label="Option" value="opt" checked={false} disabled readOnly onChange={() => {}} />
+                  </div>
+                </div>
+              </div>
             </div>
           </Preview>
         </div>
@@ -155,21 +215,26 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 20 }}>
-              <div className="force-default">
-                <Switch label="Default" checked={false} onChange={() => { }} />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(140px, 1fr))", gap: 32, width: "100%", padding: "16px 8px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
+                <Switch label="Option" checked={false} onChange={() => { }} />
               </div>
-              <div className="force-hover">
-                <Switch label="Hover" checked={false} onChange={() => { }} />
+              <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>HOVER</span>
+                <Switch label="Option" checked={false} onChange={() => { }} />
               </div>
-              <div className="force-focus">
-                <Switch label="Focus" checked={false} onChange={() => { }} />
+              <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                <Switch label="Option" checked={false} onChange={() => { }} />
               </div>
-              <div className="force-active">
-                <Switch label="Active (On)" checked={true} onChange={() => { }} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>ACTIVE (ON)</span>
+                <Switch label="Option" checked={true} onChange={() => { }} />
               </div>
-              <div className="force-disabled">
-                <Switch label="Disabled" disabled checked={false} onChange={() => { }} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
+                <Switch label="Option" disabled checked={false} onChange={() => { }} />
               </div>
             </div>
           </Preview>
@@ -185,45 +250,39 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div className="site-panel site-panel--flush">
             <Preview>
-              <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 32, width: "100%" }}>
                 <div>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>Single Toggle</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
-                    <div>
-                      <div style={{ fontSize: 12, color: "var(--core-color-text-tertiary)", marginBottom: 8 }}>Default</div>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Single Toggle</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(140px, 1fr))", gap: 32, padding: "8px 0" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
                       <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
                     </div>
-                    <div>
-                      <div style={{ fontSize: 12, color: "var(--core-color-text-tertiary)", marginBottom: 8 }}>Hover</div>
-                      <div className="force-hover">
-                        <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
-                      </div>
+                    <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>HOVER</span>
+                      <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
                     </div>
-                    <div>
-                      <div style={{ fontSize: 12, color: "var(--core-color-text-tertiary)", marginBottom: 8 }}>Pressed</div>
-                      <Toggle pressed={true} onPressedChange={() => { }}>★ Favorite</Toggle>
+                    <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                      <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
                     </div>
-                    <div>
-                      <div style={{ fontSize: 12, color: "var(--core-color-text-tertiary)", marginBottom: 8 }}>Disabled</div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
                       <Toggle disabled pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 12, color: "var(--core-color-text-tertiary)", marginBottom: 8 }}>Disabled (Pressed)</div>
-                      <Toggle disabled pressed={true} onPressedChange={() => { }}>★ Favorite</Toggle>
                     </div>
                   </div>
                 </div>
 
-                <div style={{ borderTop: "1px solid var(--site-border)", paddingTop: 20 }}>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>Toggle Group</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 24 }}>
-                    <div>
-                      <div style={{ fontSize: 12, color: "var(--core-color-text-tertiary)", marginBottom: 8 }}>Default</div>
-                      <ToggleGroup value={view} onChange={setView} options={[{ value: "list", label: "List" }, { value: "grid", label: "Grid" }]} />
+                <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 24 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Toggle Group</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(280px, 1fr))", gap: 32, padding: "8px 0" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
+                      <ToggleGroup value={segment} onChange={setSegment} options={toggleGroupOptions} />
                     </div>
-                    <div>
-                      <div style={{ fontSize: 12, color: "var(--core-color-text-tertiary)", marginBottom: 8 }}>Disabled</div>
-                      <ToggleGroup disabled value="list" onChange={() => { }} options={[{ value: "list", label: "List" }, { value: "grid", label: "Grid" }]} />
+                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
+                      <ToggleGroup disabled value="investments" onChange={() => { }} options={toggleGroupOptions} />
                     </div>
                   </div>
                 </div>
@@ -245,8 +304,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
               <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
                 {/* Prefix variant row */}
                 <div>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>Prefix Addon ($)</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Prefix Addon ($)</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
                     <div className="force-default">
                       <Field label="Default">
                         {(p) => <InputGroup prefix="$"><Input {...p} placeholder="0.00" /></InputGroup>}
@@ -254,6 +313,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     </div>
                     <div className="force-hover">
                       <Field label="Hover">
+                        {(p) => <InputGroup prefix="$"><Input {...p} placeholder="0.00" /></InputGroup>}
+                      </Field>
+                    </div>
+                    <div className="force-focus">
+                      <Field label="Focus">
                         {(p) => <InputGroup prefix="$"><Input {...p} placeholder="0.00" /></InputGroup>}
                       </Field>
                     </div>
@@ -271,9 +335,9 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                 </div>
 
                 {/* Suffix variant row */}
-                <div style={{ borderTop: "1px solid var(--site-border)", paddingTop: 20 }}>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>Suffix Addon (%)</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+                <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 20 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Suffix Addon (%)</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
                     <div className="force-default">
                       <Field label="Default">
                         {(p) => <InputGroup suffix="%"><Input {...p} placeholder="0" /></InputGroup>}
@@ -281,6 +345,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     </div>
                     <div className="force-hover">
                       <Field label="Hover">
+                        {(p) => <InputGroup suffix="%"><Input {...p} placeholder="0" /></InputGroup>}
+                      </Field>
+                    </div>
+                    <div className="force-focus">
+                      <Field label="Focus">
                         {(p) => <InputGroup suffix="%"><Input {...p} placeholder="0" /></InputGroup>}
                       </Field>
                     </div>
@@ -339,10 +408,25 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
-            <div style={{ width: 260 }}>
-              <Field label="Contribution rate">{() => (
-                <Slider value={contribPct} min={0} max={25} onChange={setContribPct} formatValue={(v) => `${v}%`} />
-              )}</Field>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(220px, 1fr))", gap: 32, width: "100%", padding: "8px 0" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
+                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
+                <Field label="Contribution rate">{() => (
+                  <Slider value={contribPct} min={0} max={25} onChange={setContribPct} formatValue={(v) => `${v}%`} />
+                )}</Field>
+              </div>
+              <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
+                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                <Field label="Contribution rate">{() => (
+                  <Slider value={6} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
+                )}</Field>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
+                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
+                <Field label="Contribution rate">{() => (
+                  <Slider disabled value={6} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
+                )}</Field>
+              </div>
             </div>
           </Preview>
         </div>
@@ -352,11 +436,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "10",
       anchorId: "combobox",
       title: "Combobox",
-      description: "Searchable select component for long lists of options.",
+      description: "Search input and combobox — type to filter options, then select from the list.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, width: "100%" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16, width: "100%" }}>
               <div className="force-default">
                 <Field label="Default">
                   {(p) => <Combobox {...p} options={employers} value="" onChange={() => { }} placeholder="Search employer…" />}
@@ -364,6 +448,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
               </div>
               <div className="force-hover">
                 <Field label="Hover">
+                  {(p) => <Combobox {...p} options={employers} value="" onChange={() => { }} placeholder="Search employer…" />}
+                </Field>
+              </div>
+              <div className="force-focus">
+                <Field label="Focus">
                   {(p) => <Combobox {...p} options={employers} value="" onChange={() => { }} placeholder="Search employer…" />}
                 </Field>
               </div>
@@ -393,8 +482,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
             <Preview>
               <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
                 <div>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>DatePicker Popover</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>DatePicker Popover</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
                     <div className="force-default">
                       <Field label="Default">
                         {() => <DatePicker placeholder="Select date" />}
@@ -402,6 +491,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     </div>
                     <div className="force-hover">
                       <Field label="Hover">
+                        {() => <DatePicker placeholder="Select date" />}
+                      </Field>
+                    </div>
+                    <div className="force-focus">
+                      <Field label="Focus">
                         {() => <DatePicker placeholder="Select date" />}
                       </Field>
                     </div>
@@ -425,11 +519,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
             <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)", padding: 24 }}>
               <div style={{ display: "flex", gap: 40, flexWrap: "wrap" }}>
                 <div>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>Calendar (Active)</div>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Calendar (Active)</div>
                   <Calendar selected={dob} onSelect={setDob} maxDate={new Date()} />
                 </div>
                 <div>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>Calendar (Disabled)</div>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Calendar (Disabled)</div>
                   <Calendar disabled selected={dob} onSelect={() => { }} />
                 </div>
               </div>
@@ -450,8 +544,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
               <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
                 {/* Leading icon */}
                 <div>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>Leading Icon (Search)</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Leading Icon (Search)</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
                     <div className="force-default">
                       <Field label="Default">
                         {(p) => <InputWithIcon {...p} leadingIcon={<Icon name="fa-solid fa-magnifying-glass" size="sm" />} placeholder="Search transactions…" />}
@@ -459,6 +553,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     </div>
                     <div className="force-hover">
                       <Field label="Hover">
+                        {(p) => <InputWithIcon {...p} leadingIcon={<Icon name="fa-solid fa-magnifying-glass" size="sm" />} placeholder="Search transactions…" />}
+                      </Field>
+                    </div>
+                    <div className="force-focus">
+                      <Field label="Focus">
                         {(p) => <InputWithIcon {...p} leadingIcon={<Icon name="fa-solid fa-magnifying-glass" size="sm" />} placeholder="Search transactions…" />}
                       </Field>
                     </div>
@@ -476,9 +575,9 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                 </div>
 
                 {/* Trailing icon */}
-                <div style={{ borderTop: "1px solid var(--site-border)", paddingTop: 20 }}>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>Trailing Icon (Currency)</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+                <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 20 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Trailing Icon (Currency)</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
                     <div className="force-default">
                       <Field label="Default">
                         {(p) => <InputWithIcon {...p} trailingIcon={<Icon name="fa-solid fa-dollar-sign" size="sm" />} placeholder="0.00" />}
@@ -486,6 +585,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     </div>
                     <div className="force-hover">
                       <Field label="Hover">
+                        {(p) => <InputWithIcon {...p} trailingIcon={<Icon name="fa-solid fa-dollar-sign" size="sm" />} placeholder="0.00" />}
+                      </Field>
+                    </div>
+                    <div className="force-focus">
+                      <Field label="Focus">
                         {(p) => <InputWithIcon {...p} trailingIcon={<Icon name="fa-solid fa-dollar-sign" size="sm" />} placeholder="0.00" />}
                       </Field>
                     </div>
@@ -519,8 +623,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
               <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
                 {/* Card Number */}
                 <div>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>Card Number</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Card Number</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
                     <div className="force-default">
                       <Field label="Default">
                         {(p) => (
@@ -535,6 +639,18 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     </div>
                     <div className="force-hover">
                       <Field label="Hover">
+                        {(p) => (
+                          <InputWithIcon
+                            {...p}
+                            trailingIcon={<Icon name="fa-solid fa-credit-card" size="sm" />}
+                            inputMode="numeric"
+                            placeholder="1234 5678 9012 3456"
+                          />
+                        )}
+                      </Field>
+                    </div>
+                    <div className="force-focus">
+                      <Field label="Focus">
                         {(p) => (
                           <InputWithIcon
                             {...p}
@@ -574,9 +690,9 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                 </div>
 
                 {/* Routing & Account Number */}
-                <div style={{ borderTop: "1px solid var(--site-border)", paddingTop: 20 }}>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>Routing Number (9 Digits)</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+                <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 20 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Routing Number (9 Digits)</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
                     <div className="force-default">
                       <Field label="Default">
                         {(p) => <Input {...p} inputMode="numeric" maxLength={9} placeholder="021000021" />}
@@ -584,6 +700,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     </div>
                     <div className="force-hover">
                       <Field label="Hover">
+                        {(p) => <Input {...p} inputMode="numeric" maxLength={9} placeholder="021000021" />}
+                      </Field>
+                    </div>
+                    <div className="force-focus">
+                      <Field label="Focus">
                         {(p) => <Input {...p} inputMode="numeric" maxLength={9} placeholder="021000021" />}
                       </Field>
                     </div>
@@ -601,8 +722,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                 </div>
 
                 {/* Expiration & CVC */}
-                <div style={{ borderTop: "1px solid var(--site-border)", paddingTop: 20 }}>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)", marginBottom: 12 }}>Interactive Card Verification Entry</div>
+                <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 20 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Interactive Card Verification Entry</div>
                   <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 16 }}>
                     <Field label="Card number" hint="Stored securely — last 4 digits only.">
                       {(p) => (
@@ -642,10 +763,10 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
               {/* Default State */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-secondary)" }}>
+                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-secondary)" }}>
                     Default (Interactive)
                   </span>
-                  <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 500, color: "var(--core-color-text-tertiary)" }}>Ready to upload</span>
+                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 500, color: "var(--core-color-text-tertiary)" }}>Ready to upload</span>
                 </div>
                 <Dropzone
                   onFiles={(fl) =>
@@ -661,10 +782,10 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
               {/* Success State */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-status-success-text)", display: "flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-status-success-text)", display: "flex", alignItems: "center", gap: 6 }}>
                     <Icon name="fa-solid fa-circle-check" size="sm" /> Success State
                   </span>
-                  <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 600, color: "var(--core-color-status-success-text)", background: "var(--core-color-status-success-bg)", border: "1px solid var(--core-color-status-success-border)", padding: "1px 8px", borderRadius: 999 }}>
+                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--core-color-status-success-text)", background: "var(--core-color-status-success-bg)", border: "1px solid var(--core-color-status-success-border)", padding: "1px 8px", borderRadius: 999 }}>
                     Complete
                   </span>
                 </div>
@@ -686,10 +807,10 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
               {/* Error State */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-status-danger-text)", display: "flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-status-danger-text)", display: "flex", alignItems: "center", gap: 6 }}>
                     <Icon name="fa-solid fa-circle-exclamation" size="sm" /> Error State
                   </span>
-                  <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 600, color: "var(--core-color-status-danger-text)", background: "var(--core-color-status-danger-bg)", border: "1px solid var(--core-color-status-danger-border)", padding: "1px 8px", borderRadius: 999 }}>
+                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--core-color-status-danger-text)", background: "var(--core-color-status-danger-bg)", border: "1px solid var(--core-color-status-danger-border)", padding: "1px 8px", borderRadius: 999 }}>
                     Failed
                   </span>
                 </div>
@@ -711,10 +832,10 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
               {/* Warning State */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-status-warning-text)", display: "flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-status-warning-text)", display: "flex", alignItems: "center", gap: 6 }}>
                     <Icon name="fa-solid fa-triangle-exclamation" size="sm" /> Warning State
                   </span>
-                  <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 600, color: "var(--core-color-status-warning-text)", background: "var(--core-color-status-warning-bg)", border: "1px solid var(--core-color-status-warning-border)", padding: "1px 8px", borderRadius: 999 }}>
+                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--core-color-status-warning-text)", background: "var(--core-color-status-warning-bg)", border: "1px solid var(--core-color-status-warning-border)", padding: "1px 8px", borderRadius: 999 }}>
                     Warning
                   </span>
                 </div>
@@ -736,16 +857,16 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
               {/* Disable State */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-tertiary)", display: "flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-tertiary)", display: "flex", alignItems: "center", gap: 6 }}>
                     <Icon name="fa-solid fa-lock" size="sm" /> Disable State
                   </span>
-                  <span style={{ fontSize: "var(--core-font-size-xs, 12px)", fontWeight: 600, color: "#A0AAB8", background: "#F5F7FA", border: "1px solid var(--theme-brand-border-primary-disabled, #BACEE9)", padding: "1px 8px", borderRadius: 999 }}>
+                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--theme-neutral-text-subtleleast)", background: "var(--theme-brand-background-disabled-light)", border: "1px solid var(--theme-brand-borders-primary-disabled)", padding: "1px 8px", borderRadius: 999 }}>
                     Disabled
                   </span>
                 </div>
                 <Dropzone
                   disabled={true}
-                  icon={<Icon name="fa-solid fa-lock" size="md" color="#A0AAB8" />}
+                  icon={<Icon name="fa-solid fa-lock" size="md" color="var(--theme-neutral-text-subtleleast)" />}
                   label={<span>File uploads are disabled</span>}
                   hint="Attachments are locked and read-only for submitted requests."
                 />
@@ -804,7 +925,7 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 0", borderTop: "1px solid var(--site-border)", borderBottom: "1px solid var(--site-border)" }}>
                       <div>
                         <div style={{ fontWeight: 600, fontSize: 14 }}>Two-factor authentication</div>
-                        <div style={{ fontSize: "var(--core-font-size-xs, 12px)", color: "var(--core-color-text-tertiary)", marginTop: 2 }}>Secure your account.</div>
+                        <div style={{ fontSize: "var(--typography-font-size-xs)", color: "var(--core-color-text-tertiary)", marginTop: 2 }}>Secure your account.</div>
                       </div>
                       <Switch checked={on} onChange={setOn} />
                     </div>
@@ -828,10 +949,10 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
   const sectionList = (
     <div style={{ display: "flex", flexDirection: "column", gap: 100 }}>
       {sections.map((s) => (
-        <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 40, position: "relative" }}>
+        <div key={s.anchorId} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 40, position: "relative" }}>
           <div style={{ position: "absolute", top: 0, left: "-12.5%", width: "125%", height: 1, backgroundColor: "var(--site-border)" }} />
           <div style={{ paddingTop: 32 }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--core-color-text-tertiary)", marginBottom: 12 }}>{s.id}</div>
+            <ComponentSectionNumber anchorId={s.anchorId} />
             <h2 style={{ fontSize: 48, fontWeight: 500, letterSpacing: "-0.04em", margin: 0, textTransform: "lowercase" }}>{s.title}</h2>
           </div>
           <div>{s.content}</div>
@@ -849,82 +970,175 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-hover .cds-input-affix-wrap .cds-input,
         .force-hover .cds-input-group .cds-input,
         .force-hover .cds-input-group-addon { 
-          border-color: var(--core-input-borderHover) !important; 
+          border-color: var(--theme-neutral-border-strong) !important; 
         }
-        .force-hover .cds-toggle:not(:disabled) { 
-          background: var(--core-color-surface-sunken) !important; 
+        .force-hover .cds-toggle:not(:disabled):not([aria-pressed="true"]) { 
+          background: var(--brand-background-hover) !important;
+          color: var(--theme-primitive-color-primary-100) !important;
+          border-color: var(--brand-borders-hover) !important;
         }
-        .force-hover .cds-switch-track { opacity: 0.8; }
+        .force-hover .cds-toggle-group__item:not(:disabled):not([aria-pressed="true"]) {
+          color: var(--theme-brand-text-primary-default) !important;
+        }
+        .force-hover .cds-switch input:not(:checked):not(:disabled) + .cds-switch-track {
+          background: var(--theme-colors-neutral-400) !important;
+        }
+        .force-hover .cds-switch input:checked:not(:disabled) + .cds-switch-track {
+          background: var(--brand-background-hover) !important;
+        }
+        .force-hover .cds-checkbox input:not(:checked):not(:disabled) + .cds-checkbox-box,
+        .force-hover .cds-radio input:not(:checked):not(:disabled) + .cds-radio-box {
+          border-color: var(--theme-primitive-color-primary-400) !important;
+          background: var(--theme-brand-background-primary-subtle) !important;
+        }
+        .force-hover .cds-checkbox input:checked:not(:disabled) + .cds-checkbox-box,
+        .force-hover .cds-radio input:checked:not(:disabled) + .cds-radio-box {
+          background: var(--brand-background-hover) !important;
+          border-color: var(--brand-background-hover) !important;
+        }
         
         .force-focus .cds-input,
         .force-focus .cds-textarea, 
         .force-focus .cds-select,
-        .force-focus .cds-combobox .cds-input { 
-          border-color: var(--core-input-borderFocus) !important; 
-          box-shadow: 0 0 0 3px color-mix(in srgb, var(--core-input-borderFocus) 25%, transparent) !important; 
+        .force-focus .cds-combobox .cds-input,
+        .force-focus .cds-date-picker .cds-input,
+        .force-focus .cds-input-affix-wrap .cds-input { 
+          border-color: var(--theme-primitive-color-primary-400) !important; 
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important; 
+        }
+        .force-focus .cds-input-affix-wrap .cds-input-icon {
+          color: var(--theme-neutral-text-subtle) !important;
+        }
+        .force-focus .cds-input-group {
+          border-radius: var(--core-input-radius) !important;
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important;
+        }
+        .force-focus .cds-input-group .cds-input,
+        .force-focus .cds-input-group-addon {
+          border-color: var(--theme-primitive-color-primary-400) !important;
+        }
+        .force-focus .cds-input-group .cds-input {
+          box-shadow: none !important;
+        }
+        .force-focus .cds-checkbox input:not(:checked):not(:disabled) + .cds-checkbox-box,
+        .force-focus .cds-radio input:not(:checked):not(:disabled) + .cds-radio-box {
+          border-color: var(--theme-primitive-color-primary-400) !important;
+          background: var(--theme-colors-neutral-0) !important;
+          outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400) !important;
+          outline-offset: 2px !important;
         }
         .force-focus .cds-switch-track { 
-          outline: var(--core-focusRing-width) solid var(--core-focusRing-color) !important; 
-          outline-offset: 2px !important; 
+          outline: none !important;
+          box-shadow:
+            0 0 0 2px var(--theme-colors-neutral-0),
+            0 0 0 calc(2px + var(--core-focusRing-width)) var(--theme-primitive-color-primary-400) !important;
+        }
+        .force-focus .cds-toggle:not(:disabled) {
+          outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400) !important;
+          outline-offset: var(--core-focusRing-offset) !important;
+        }
+        .force-focus .cds-slider input[type="range"] {
+          outline: none !important;
+        }
+        .force-focus .cds-slider input[type="range"]::-webkit-slider-thumb {
+          box-shadow:
+            0 0 0 2px var(--theme-colors-neutral-0),
+            0 0 0 calc(2px + var(--core-focusRing-width)) var(--theme-primitive-color-primary-400) !important;
+        }
+        .force-focus .cds-slider input[type="range"]::-moz-range-thumb {
+          box-shadow:
+            0 0 0 2px var(--theme-colors-neutral-0),
+            0 0 0 calc(2px + var(--core-focusRing-width)) var(--theme-primitive-color-primary-400) !important;
         }
 
         .force-active .cds-textarea, .force-active .cds-select { 
-          border-color: var(--core-input-borderFocus) !important; 
-          box-shadow: 0 0 0 3px color-mix(in srgb, var(--core-input-borderFocus) 25%, transparent) !important; 
-          background: var(--core-color-surface-sunken) !important;
+          border-color: var(--theme-primitive-color-primary-400) !important; 
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important; 
+          background: var(--theme-brand-background-primary-subtle) !important;
+        }
+        .force-active .cds-checkbox input:checked:not(:disabled) + .cds-checkbox-box,
+        .force-active .cds-radio input:checked:not(:disabled) + .cds-radio-box {
+          background: var(--brand-background-active) !important;
+          border-color: var(--brand-background-active) !important;
+        }
+        .force-error .cds-input[aria-invalid="true"] {
+          border-color: var(--theme-semantics-critical-border) !important;
         }
 
         .force-disabled .cds-select, .cds-select:disabled, .cds-select[aria-disabled="true"] { 
-          background: #F5F7FA !important; 
-          color: #A0AAB8 !important; 
-          border-color: #E2E8F0 !important; 
+          background: var(--theme-brand-background-disabled-light) !important; 
+          color: var(--theme-neutral-text-subtleleast) !important; 
+          border-color: var(--theme-neutral-border-primary-default) !important; 
           opacity: 1 !important; 
           cursor: not-allowed !important;
         }
         .force-disabled .cds-textarea, .cds-textarea:disabled { 
-          background: #F5F7FA !important; 
-          color: #A0AAB8 !important; 
-          border-color: #E2E8F0 !important; 
+          background: var(--theme-brand-background-disabled-light) !important; 
+          color: var(--theme-neutral-text-subtleleast) !important; 
+          border-color: var(--theme-neutral-border-primary-default) !important; 
           opacity: 1 !important; 
           cursor: not-allowed !important;
         }
         .force-disabled .cds-input, .cds-input:disabled { 
-          background: #F5F7FA !important; 
-          color: #A0AAB8 !important; 
-          border-color: #E2E8F0 !important; 
+          background: var(--theme-brand-background-disabled-light) !important; 
+          color: var(--theme-neutral-text-subtleleast) !important; 
+          border-color: var(--theme-neutral-border-primary-default) !important; 
           opacity: 1 !important; 
           cursor: not-allowed !important;
         }
         .force-disabled .cds-input-group-addon, .cds-input-group:has(.cds-input:disabled) .cds-input-group-addon {
-          background: #F5F7FA !important; 
-          color: #A0AAB8 !important; 
-          border-color: #E2E8F0 !important; 
+          background: var(--theme-brand-background-disabled-light) !important; 
+          color: var(--theme-neutral-text-subtleleast) !important; 
+          border-color: var(--theme-neutral-border-primary-default) !important; 
           cursor: not-allowed !important;
         }
         .force-disabled .cds-input-icon, .cds-input-affix-wrap:has(.cds-input:disabled) .cds-input-icon {
-          color: #A0AAB8 !important;
+          color: var(--theme-neutral-text-subtleleast) !important;
         }
         .force-disabled .cds-toggle, .cds-toggle:disabled {
-          background: #F5F7FA !important; 
-          color: #A0AAB8 !important; 
-          border-color: #E2E8F0 !important; 
+          background: var(--theme-brand-background-disabled-light) !important; 
+          color: var(--theme-neutral-text-subtleleast) !important; 
+          border-color: var(--theme-neutral-border-primary-default) !important; 
           opacity: 1 !important; 
           cursor: not-allowed !important;
         }
         .force-disabled .cds-toggle[aria-pressed="true"], .cds-toggle:disabled[aria-pressed="true"] {
-          background: #E2E8F0 !important;
-          color: #8C9BAE !important;
+          background: var(--theme-neutral-border-subtle) !important;
+          color: var(--theme-neutral-text-subtleleast) !important;
+        }
+        .force-disabled .cds-slider input[type="range"],
+        .cds-slider input[type="range"]:disabled {
+          background: var(--theme-brand-background-disabled-light) !important;
+          cursor: not-allowed !important;
+        }
+        .force-disabled .cds-slider input[type="range"]::-webkit-slider-thumb,
+        .cds-slider input[type="range"]:disabled::-webkit-slider-thumb {
+          background: var(--theme-colors-neutral-300) !important;
+          border-color: var(--theme-colors-neutral-0) !important;
+          box-shadow: none !important;
+          cursor: not-allowed !important;
+        }
+        .force-disabled .cds-slider input[type="range"]::-moz-range-thumb,
+        .cds-slider input[type="range"]:disabled::-moz-range-thumb {
+          background: var(--theme-colors-neutral-300) !important;
+          border-color: var(--theme-colors-neutral-0) !important;
+          box-shadow: none !important;
+          cursor: not-allowed !important;
+        }
+        .force-disabled .cds-slider-value,
+        .cds-slider--disabled .cds-slider-value {
+          color: var(--theme-neutral-text-subtleleast) !important;
         }
         .force-hover .cds-otp-digit:not(:disabled) {
-          border-color: var(--core-input-borderHover) !important;
+          border-color: var(--theme-neutral-border-strong) !important;
         }
         .force-error .cds-otp-digit {
-          border-color: var(--core-input-borderError, #EF8E8E) !important;
+          border-color: var(--theme-semantics-critical-border) !important;
         }
         .force-disabled .cds-otp-digit {
-          background: #F5F7FA !important;
-          color: #A0AAB8 !important;
-          border-color: var(--theme-brand-border-primary-disabled, #BACEE9) !important;
+          background: var(--theme-brand-background-disabled-light) !important;
+          color: var(--theme-neutral-text-subtleleast) !important;
+          border-color: var(--theme-brand-borders-primary-disabled) !important;
           cursor: not-allowed !important;
         }
       `}</style>
@@ -943,7 +1157,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
     <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
       {formStyles}
       <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--core-color-brand-600)", marginBottom: 12 }}>Components</div>
         <h1 style={{ fontSize: 72, fontWeight: 800, letterSpacing: "-0.06em", margin: "0 0 16px 0", color: "var(--core-color-text-primary)", lineHeight: 1.1 }}>
           Form Controls
         </h1>

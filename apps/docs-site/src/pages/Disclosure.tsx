@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Preview } from "../Preview";
+import { ComponentSectionNumber } from "../ComponentSectionNumber";
 import {
   Accordion,
   Separator,
@@ -29,7 +30,7 @@ function CollapsibleVariantsDemo() {
       >
         <span
           style={{
-            fontSize: "var(--core-font-size-xs, 12px)",
+            fontSize: "var(--typography-font-size-xs)",
             fontWeight: 700,
             textTransform: "uppercase",
             letterSpacing: "0.08em",
@@ -56,11 +57,11 @@ function CollapsibleVariantsDemo() {
                 onClick={() => setActiveVariant(v)}
                 style={{
                   border: "none",
-                  background: activeVariant === v ? "var(--theme-brand-background-primary-default, #1F4F8D)" : "transparent",
+                  background: activeVariant === v ? "var(--theme-brand-background-primary-default)" : "transparent",
                   color: activeVariant === v ? "#FFFFFF" : "var(--site-text, inherit)",
                   borderRadius: 6,
                   padding: "5px 14px",
-                  fontSize: "var(--core-font-size-xs, 12px)",
+                  fontSize: "var(--typography-font-size-xs)",
                   fontWeight: 600,
                   cursor: "pointer",
                   transition: "all 120ms ease",
@@ -94,7 +95,7 @@ function CollapsibleVariantsDemo() {
               defaultOpen
             >
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <p style={{ margin: 0, fontSize: "var(--core-font-size-sm, 14px)", lineHeight: 1.6, color: "var(--core-color-text-secondary)" }}>
+                <p style={{ margin: 0, fontSize: "var(--typography-body-md-size)", lineHeight: 1.6, color: "var(--core-color-text-secondary)" }}>
                   Participants age 50 or older at calendar year end may make catch-up contributions up to $7,500 beyond normal elective deferral limits.
                 </p>
                 <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
@@ -112,10 +113,10 @@ function CollapsibleVariantsDemo() {
                 title="View Catch-Up Details"
               >
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  <div style={{ fontWeight: 600, color: "var(--core-color-text-primary)", fontSize: "var(--core-font-size-sm, 14px)" }}>
+                  <div style={{ fontWeight: 600, color: "var(--core-color-text-primary)", fontSize: "var(--typography-body-md-size)" }}>
                     Section 414(v) Provisions
                   </div>
-                  <p style={{ margin: 0, fontSize: "var(--core-font-size-sm, 14px)", color: "var(--core-color-text-secondary)", lineHeight: 1.6 }}>
+                  <p style={{ margin: 0, fontSize: "var(--typography-body-md-size)", color: "var(--core-color-text-secondary)", lineHeight: 1.6 }}>
                     Elective catch-up deferrals are processed on each bi-weekly payroll cycle once base statutory limits ($23,000) are attained.
                   </p>
                 </div>
@@ -129,7 +130,7 @@ function CollapsibleVariantsDemo() {
                 variant="ghost"
                 title="Plan sponsor disclaimer and tax disclosure"
               >
-                <p style={{ margin: 0, fontSize: "var(--core-font-size-sm, 14px)", color: "var(--core-color-text-secondary)", lineHeight: 1.6 }}>
+                <p style={{ margin: 0, fontSize: "var(--typography-body-md-size)", color: "var(--core-color-text-secondary)", lineHeight: 1.6 }}>
                   Investment values fluctuate daily with financial markets. Past performance does not guarantee future results. Consult a qualified tax advisor before requesting changes.
                 </p>
               </Collapsible>
@@ -185,7 +186,7 @@ function AccordionVariantsDemo() {
       >
         <span
           style={{
-            fontSize: "var(--core-font-size-xs, 12px)",
+            fontSize: "var(--typography-font-size-xs)",
             fontWeight: 700,
             textTransform: "uppercase",
             letterSpacing: "0.08em",
@@ -212,11 +213,11 @@ function AccordionVariantsDemo() {
                 onClick={() => setVariant(v)}
                 style={{
                   border: "none",
-                  background: variant === v ? "var(--theme-brand-background-primary-default, #1F4F8D)" : "transparent",
+                  background: variant === v ? "var(--theme-brand-background-primary-default)" : "transparent",
                   color: variant === v ? "#FFFFFF" : "var(--site-text, inherit)",
                   borderRadius: 6,
                   padding: "5px 14px",
-                  fontSize: "var(--core-font-size-xs, 12px)",
+                  fontSize: "var(--typography-font-size-xs)",
                   fontWeight: 600,
                   cursor: "pointer",
                   transition: "all 120ms ease",
@@ -421,19 +422,19 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
                 }}
               >
                 <div>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-primary)" }}>
+                  <div style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-primary)" }}>
                     Plan Overview
                   </div>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", color: "var(--core-color-text-secondary)", marginTop: 4 }}>
+                  <div style={{ fontSize: "var(--typography-body-md-size)", color: "var(--core-color-text-secondary)", marginTop: 4 }}>
                     Primary account balance and portfolio asset allocations across equities and fixed income.
                   </div>
                 </div>
                 <Separator />
                 <div>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", fontWeight: 600, color: "var(--core-color-text-primary)" }}>
+                  <div style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-primary)" }}>
                     Contribution History
                   </div>
-                  <div style={{ fontSize: "var(--core-font-size-sm, 14px)", color: "var(--core-color-text-secondary)", marginTop: 4 }}>
+                  <div style={{ fontSize: "var(--typography-body-md-size)", color: "var(--core-color-text-secondary)", marginTop: 4 }}>
                     Recent bi-weekly payroll deferrals and employer matching contributions.
                   </div>
                 </div>
@@ -513,7 +514,7 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
   const sectionList = (
     <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
       {sections.map((s) => (
-        <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
+        <div key={s.anchorId} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
             <div
               style={{
                 position: "absolute",
@@ -525,16 +526,7 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
               }}
             />
             <div style={{ paddingTop: 32 }}>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "var(--core-color-text-tertiary)",
-                  marginBottom: 12,
-                }}
-              >
-                {s.id}
-              </div>
+              <ComponentSectionNumber anchorId={s.anchorId} />
               <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
                 {s.title}
               </h2>
@@ -550,7 +542,6 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
   return (
     <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
       <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--core-color-brand-600)", marginBottom: 12 }}>Components</div>
         <h1 style={{ fontSize: 72, fontWeight: 800, letterSpacing: "-0.06em", margin: "0 0 16px 0", color: "var(--core-color-text-primary)", lineHeight: 1.1 }}>Disclosure</h1>
         <p style={{ maxWidth: 580, margin: "0 auto", color: "var(--core-color-text-tertiary)", fontSize: "var(--core-font-size-lg, 20px)", lineHeight: 1.6, fontWeight: 400 }}>
           Progressive disclosure, collapsible views, accordions, separators, and loading skeleton placeholders.

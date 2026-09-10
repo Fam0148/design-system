@@ -1,9 +1,35 @@
 import React, { useState } from "react";
 
-export function Slider({ value, min = 0, max = 100, step = 1, onChange, formatValue }: { value: number; min?: number; max?: number; step?: number; onChange: (v: number) => void; formatValue?: (v: number) => string }) {
+export function Slider({
+  value,
+  min = 0,
+  max = 100,
+  step = 1,
+  disabled,
+  onChange,
+  formatValue,
+}: {
+  value: number;
+  min?: number;
+  max?: number;
+  step?: number;
+  disabled?: boolean;
+  onChange: (v: number) => void;
+  formatValue?: (v: number) => string;
+}) {
   return (
-    <div className="cds-slider">
-      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} style={{ flex: 1 }} aria-valuetext={formatValue ? formatValue(value) : String(value)} />
+    <div className={`cds-slider ${disabled ? "cds-slider--disabled" : ""}`.trim()}>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        disabled={disabled}
+        onChange={(e) => !disabled && onChange(Number(e.target.value))}
+        style={{ flex: 1 }}
+        aria-valuetext={formatValue ? formatValue(value) : String(value)}
+      />
       <span className="cds-slider-value">{formatValue ? formatValue(value) : value}</span>
     </div>
   );

@@ -1,27 +1,51 @@
 import React, { useRef } from "react";
 
+export type ToggleSize = "sm" | "md" | "lg";
+
+export interface ToggleProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
+  pressed: boolean;
+  onPressedChange: (v: boolean) => void;
+  children: React.ReactNode;
+  size?: ToggleSize;
+}
+
 export function Toggle({
   pressed,
   onPressedChange,
   children,
   disabled,
-}: {
-  pressed: boolean;
-  onPressedChange: (v: boolean) => void;
-  children: React.ReactNode;
-  disabled?: boolean;
-}) {
+  size = "md",
+  className = "",
+  ...rest
+}: ToggleProps) {
   return (
     <button
       type="button"
-      className="cds-toggle"
+      className={`cds-toggle cds-toggle--${size} ${className}`.trim()}
       aria-pressed={pressed}
       disabled={disabled}
       onClick={() => !disabled && onPressedChange(!pressed)}
+      {...rest}
     >
       {children}
     </button>
   );
+}
+
+export interface ToggleGroupOption<T extends string> {
+  value: T;
+  label: string;
+  icon?: React.ReactNode;
+  disabled?: boolean;
+}
+
+export interface ToggleGroupProps<T extends string> {
+  value: T;
+  onChange: (v: T) => void;
+  options: Array<ToggleGroupOption<T>>;
+  disabled?: boolean;
+  size?: ToggleSize;
+  className?: string;
 }
 
 export function ToggleGroup<T extends string>({
@@ -29,26 +53,34 @@ export function ToggleGroup<T extends string>({
   onChange,
   options,
   disabled,
-}: {
-  value: T;
-  onChange: (v: T) => void;
-  options: Array<{ value: T; label: string; disabled?: boolean }>;
-  disabled?: boolean;
-}) {
+  size = "md",
+  className = "",
+}: ToggleGroupProps<T>) {
   return (
-    <div className={`cds-toggle-group ${disabled ? "cds-toggle-group--disabled" : ""}`} role="group">
-      {options.map((o) => (
-        <button
-          key={o.value}
-          type="button"
-          className="cds-toggle"
-          aria-pressed={value === o.value}
-          disabled={disabled || o.disabled}
-          onClick={() => !(disabled || o.disabled) && onChange(o.value)}
-        >
-          {o.label}
-        </button>
-      ))}
+    <div
+      className={`cds-toggle-group cds-toggle-group--${size} ${disabled ? "cds-toggle-group--disabled" : ""} ${className}`.trim()}
+      role="group"
+    >
+      {options.map((o) => {
+        const selected = value === o.value;
+        return (
+          <button
+            key={o.value}
+            type="button"
+            className={`cds-toggle-group__item cds-toggle-group__item--${size}`}
+            aria-pressed={selected}
+            disabled={disabled || o.disabled}
+            onClick={() => !(disabled || o.disabled) && onChange(o.value)}
+          >
+            {o.icon ? (
+              <span className={`cds-toggle-group__icon ${selected ? "cds-toggle-group__icon--selected" : ""}`} aria-hidden="true">
+                {o.icon}
+              </span>
+            ) : null}
+            <span className="cds-toggle-group__label">{o.label}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }

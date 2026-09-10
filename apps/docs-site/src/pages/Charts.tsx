@@ -1,5 +1,6 @@
 import React from "react";
 import { Preview } from "../Preview";
+import { ComponentSectionNumber } from "../ComponentSectionNumber";
 import { LineChartCard, BarChartCard } from "../../../../packages/core/src/components/Chart";
 
 const contributionGrowth = [
@@ -33,7 +34,10 @@ export default function Charts({ embedded = false }: { embedded?: boolean }) {
         </>
       )}
 
-      <h2 className="site-section-title docs-section" id="line-chart">Line chart</h2>
+      <div id="line-chart" className="docs-section">
+        <ComponentSectionNumber anchorId="line-chart" />
+        <h2 className="site-section-title">Line chart</h2>
+      </div>
       <p className="site-section-sub">For a value over time — account balance, contribution growth.</p>
       <div className="site-panel site-panel--flush">
         <Preview>
@@ -52,7 +56,10 @@ export default function Charts({ embedded = false }: { embedded?: boolean }) {
         </Preview>
       </div>
 
-      <h2 className="site-section-title" id="bar-chart">Bar chart</h2>
+      <div id="bar-chart" className="docs-section">
+        <ComponentSectionNumber anchorId="bar-chart" />
+        <h2 className="site-section-title">Bar chart</h2>
+      </div>
       <p className="site-section-sub">For comparing discrete categories — balance by contribution source.</p>
       <div className="site-panel site-panel--flush">
         <Preview>

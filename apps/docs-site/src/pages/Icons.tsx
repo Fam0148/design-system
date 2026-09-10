@@ -55,9 +55,9 @@ export default function Icons() {
       <p className="site-section-sub">Three fixed sizes, matching CORE's icon-size tokens — never an arbitrary <code>font-size</code>.</p>
       <div className="site-panel site-panel--flush">
         <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)" }}>
-          <div style={{ textAlign: "center" }}><Icon name="fa-solid fa-piggy-bank" size="sm" /><div style={{ fontSize: "var(--core-font-size-xs, 12px)", marginTop: 6, color: "var(--core-color-text-tertiary)" }}>sm · 16px</div></div>
-          <div style={{ textAlign: "center" }}><Icon name="fa-solid fa-piggy-bank" size="md" /><div style={{ fontSize: "var(--core-font-size-xs, 12px)", marginTop: 6, color: "var(--core-color-text-tertiary)" }}>md · 20px</div></div>
-          <div style={{ textAlign: "center" }}><Icon name="fa-solid fa-piggy-bank" size="lg" /><div style={{ fontSize: "var(--core-font-size-xs, 12px)", marginTop: 6, color: "var(--core-color-text-tertiary)" }}>lg · 24px</div></div>
+          <div style={{ textAlign: "center" }}><Icon name="fa-solid fa-piggy-bank" size="sm" /><div style={{ fontSize: "var(--typography-font-size-xs)", marginTop: 6, color: "var(--core-color-text-tertiary)" }}>sm · 16px</div></div>
+          <div style={{ textAlign: "center" }}><Icon name="fa-solid fa-piggy-bank" size="md" /><div style={{ fontSize: "var(--typography-font-size-xs)", marginTop: 6, color: "var(--core-color-text-tertiary)" }}>md · 20px</div></div>
+          <div style={{ textAlign: "center" }}><Icon name="fa-solid fa-piggy-bank" size="lg" /><div style={{ fontSize: "var(--typography-font-size-xs)", marginTop: 6, color: "var(--core-color-text-tertiary)" }}>lg · 24px</div></div>
         </div>
       </div>
 
