@@ -3,7 +3,7 @@ import { Preview } from "../Preview";
 import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Button, IconButton, Link } from "../../../../packages/core/src/components/Button";
 import { ButtonMatrix } from "../ButtonMatrix";
-import { DocsSection, DocsSectionList } from "../DocsSection";
+import { DocsSection, DocsSectionList, StateLabel } from "../DocsSection";
 
 export default function Actions({ embedded = false }: { embedded?: boolean }) {
   const sections = [
@@ -21,7 +21,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
             <div style={{ display: "flex", gap: 32, alignItems: "flex-end", flexWrap: "wrap" }}>
               {/* DEFAULT */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-                <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DEFAULT</span>
+                <StateLabel variant="site">DEFAULT</StateLabel>
                 <button
                   style={{
                     width: 40,
@@ -43,7 +43,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
               {/* HOVER */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-                <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>HOVER</span>
+                <StateLabel variant="site">HOVER</StateLabel>
                 <button
                   style={{
                     width: 40,
@@ -65,7 +65,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
               {/* ACTIVE */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-                <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>ACTIVE</span>
+                <StateLabel variant="site">ACTIVE</StateLabel>
                 <button
                   style={{
                     width: 40,
@@ -88,7 +88,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
               {/* DISABLED */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-                <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DISABLED</span>
+                <StateLabel variant="site">DISABLED</StateLabel>
                 <button
                   style={{
                     width: 40,
@@ -124,7 +124,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 24 }}>
                   {/* DEFAULT */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DEFAULT</span>
+                    <StateLabel variant="site">DEFAULT</StateLabel>
                     <span style={{ fontSize: 14, color: "var(--core-color-text-primary)", lineHeight: 1.6 }}>
                       Read our{" "}
                       <Link
@@ -145,7 +145,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
                   {/* HOVER */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>HOVER</span>
+                    <StateLabel variant="site">HOVER</StateLabel>
                     <span style={{ fontSize: 14, color: "var(--core-color-text-primary)", lineHeight: 1.6 }}>
                       Read our{" "}
                       <a
@@ -167,7 +167,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
                   {/* ACTIVE */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>ACTIVE</span>
+                    <StateLabel variant="site">ACTIVE</StateLabel>
                     <span style={{ fontSize: 14, color: "var(--core-color-text-primary)", lineHeight: 1.6 }}>
                       Read our{" "}
                       <a
@@ -189,7 +189,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
                   {/* FOCUSED */}
                   <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>FOCUSED</span>
+                    <StateLabel variant="site">FOCUSED</StateLabel>
                     <span style={{ fontSize: 14, color: "var(--core-color-text-primary)", lineHeight: 1.6 }}>
                       Read our{" "}
                       <Link
@@ -210,7 +210,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
 
                   {/* DISABLED */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--site-text-dim)" }}>DISABLED</span>
+                    <StateLabel variant="site">DISABLED</StateLabel>
                     <span style={{ fontSize: 14, color: "var(--core-color-text-primary)", lineHeight: 1.6 }}>
                       Read our{" "}
                       <Link

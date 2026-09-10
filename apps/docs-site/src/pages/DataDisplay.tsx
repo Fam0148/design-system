@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Preview, CodeBlock } from "../Preview";
-import { DocsSection, DocsSectionList } from "../DocsSection";
+import { DocsSection, DocsSectionList, StateLabel } from "../DocsSection";
 import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Card, Badge, BadgeTone, BadgeSize } from "../../../../packages/core/src/components/Misc";
 import { Table, DataTable, Avatar, AvatarGroup, Progress } from "../../../../packages/core/src/components/DataDisplay";
@@ -34,14 +34,6 @@ function CardQuickLink({ icon, label }: { icon: string; label: string }) {
     </div>
   );
 }
-
-const stateEyebrowStyle: React.CSSProperties = {
-  fontSize: "var(--typography-eyebrow-size)",
-  lineHeight: "var(--typography-eyebrow-line-height)",
-  fontWeight: "var(--typography-eyebrow-weight)",
-  letterSpacing: "var(--typography-eyebrow-letter-spacing)",
-  color: "var(--theme-neutral-text-subtle)",
-};
 
 const sectionLabelStyle: React.CSSProperties = {
   fontSize: "var(--typography-label-size)",
@@ -249,31 +241,31 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
                 <div style={sectionLabelStyle}>Interactive states</div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(160px, 1fr))", gap: "var(--core-space-4, 16px)" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
-                    <span style={stateEyebrowStyle}>DEFAULT</span>
+                    <StateLabel>DEFAULT</StateLabel>
                     <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
                       <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
                     </Card>
                   </div>
                   <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
-                    <span style={stateEyebrowStyle}>HOVER</span>
+                    <StateLabel>HOVER</StateLabel>
                     <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
                       <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
                     </Card>
                   </div>
                   <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
-                    <span style={stateEyebrowStyle}>FOCUS</span>
+                    <StateLabel>FOCUS</StateLabel>
                     <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
                       <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
                     </Card>
                   </div>
                   <div className="force-active" style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
-                    <span style={stateEyebrowStyle}>CLICKED</span>
+                    <StateLabel>CLICKED</StateLabel>
                     <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
                       <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
                     </Card>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
-                    <span style={stateEyebrowStyle}>DISABLED</span>
+                    <StateLabel>DISABLED</StateLabel>
                     <Card variant="interactive" disabled style={{ minWidth: 0 }} onClick={() => {}}>
                       <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
                     </Card>

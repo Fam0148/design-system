@@ -1,17 +1,8 @@
 import React, { useState } from "react";
 import { Preview } from "../Preview";
-import { DocsSection, DocsSectionList } from "../DocsSection";
+import { DocsSection, DocsSectionList, StateLabel } from "../DocsSection";
 import { Tabs, Breadcrumb, Pagination, NavigationMenu, AppSidebar, Stepper, type SidebarItem, type StepState } from "../../../../packages/core/src/components/Navigation";
 import { Icon } from "../../../../packages/core/src/components/Primitives";
-
-const stateEyebrowStyle: React.CSSProperties = {
-  fontFamily: "var(--typography-font-family-sans)",
-  fontSize: "var(--typography-eyebrow-size)",
-  lineHeight: "var(--typography-eyebrow-line-height)",
-  fontWeight: "var(--typography-eyebrow-weight)",
-  letterSpacing: "var(--typography-eyebrow-letter-spacing)",
-  color: "var(--theme-neutral-text-subtle)",
-};
 
 type SidebarRailState = "DEFAULT" | "HOVER" | "SELECTED" | "FOCUS" | "DISABLED";
 
@@ -54,7 +45,7 @@ function StepperStatePreview({
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)", minWidth: 0 }}>
-      <span style={stateEyebrowStyle}>{eyebrow}</span>
+      <StateLabel>{eyebrow}</StateLabel>
       <ol className="cds-stepper cds-stepper--vertical" aria-label={`Stepper ${eyebrow}`} style={{ width: "auto", minWidth: 0 }}>
         <li className={`cds-step cds-step--${state} cds-step--vertical`} style={{ paddingBottom: 0 }}>
           <span className="cds-step-marker" aria-hidden="true">{marker}</span>
@@ -186,7 +177,7 @@ function SidebarRailStatesDemo() {
               className={className}
               style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)", minWidth: 96 }}
             >
-              <span style={stateEyebrowStyle}>{label}</span>
+              <StateLabel>{label}</StateLabel>
               <AppSidebar
                 variant="rail"
                 aria-label={`Sidebar ${label}`}

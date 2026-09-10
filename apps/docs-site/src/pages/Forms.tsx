@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DocsSection, DocsSectionList } from "../DocsSection";
+import { DocsSection, DocsSectionList, StateLabel } from "../DocsSection";
 import { Preview } from "../Preview";
 import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Field, Input, InputWithIcon } from "../../../../packages/core/src/components/Field";
@@ -151,23 +151,23 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                 <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Checkbox</div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(120px, 1fr))", gap: 32, padding: "8px 0" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
+                    <StateLabel>DEFAULT</StateLabel>
                     <Checkbox label="Option" readOnly />
                   </div>
                   <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>HOVER</span>
+                    <StateLabel>HOVER</StateLabel>
                     <Checkbox label="Option" readOnly />
                   </div>
                   <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                    <StateLabel>FOCUS</StateLabel>
                     <Checkbox label="Option" readOnly />
                   </div>
                   <div className="force-active" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>CLICKED</span>
+                    <StateLabel>CLICKED</StateLabel>
                     <Checkbox label="Option" defaultChecked readOnly />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
+                    <StateLabel>DISABLED</StateLabel>
                     <Checkbox label="Option" disabled />
                   </div>
                 </div>
@@ -177,23 +177,23 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                 <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Radio</div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(120px, 1fr))", gap: 32, padding: "8px 0" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
+                    <StateLabel>DEFAULT</StateLabel>
                     <Radio name="radio-default" label="Option" value="opt" checked={false} readOnly onChange={() => {}} />
                   </div>
                   <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>HOVER</span>
+                    <StateLabel>HOVER</StateLabel>
                     <Radio name="radio-hover" label="Option" value="opt" checked={false} readOnly onChange={() => {}} />
                   </div>
                   <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                    <StateLabel>FOCUS</StateLabel>
                     <Radio name="radio-focus" label="Option" value="opt" checked={false} readOnly onChange={() => {}} />
                   </div>
                   <div className="force-active" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>CLICKED</span>
+                    <StateLabel>CLICKED</StateLabel>
                     <Radio name="radio-active" label="Option" value="opt" checked readOnly onChange={() => {}} />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                    <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
+                    <StateLabel>DISABLED</StateLabel>
                     <Radio name="radio-disabled" label="Option" value="opt" checked={false} disabled readOnly onChange={() => {}} />
                   </div>
                 </div>
@@ -212,23 +212,23 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
           <Preview>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(140px, 1fr))", gap: 32, width: "100%", padding: "16px 8px" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
+                <StateLabel>DEFAULT</StateLabel>
                 <Switch label="Option" checked={false} onChange={() => { }} />
               </div>
               <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>HOVER</span>
+                <StateLabel>HOVER</StateLabel>
                 <Switch label="Option" checked={false} onChange={() => { }} />
               </div>
               <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                <StateLabel>FOCUS</StateLabel>
                 <Switch label="Option" checked={false} onChange={() => { }} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>ACTIVE (ON)</span>
+                <StateLabel>ACTIVE (ON)</StateLabel>
                 <Switch label="Option" checked={true} onChange={() => { }} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
+                <StateLabel>DISABLED</StateLabel>
                 <Switch label="Option" disabled checked={false} onChange={() => { }} />
               </div>
             </div>
@@ -249,19 +249,19 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                   <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Single Toggle</div>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(140px, 1fr))", gap: 32, padding: "8px 0" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
+                      <StateLabel>DEFAULT</StateLabel>
                       <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
                     </div>
                     <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>HOVER</span>
+                      <StateLabel>HOVER</StateLabel>
                       <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
                     </div>
                     <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                      <StateLabel>FOCUS</StateLabel>
                       <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
+                      <StateLabel>DISABLED</StateLabel>
                       <Toggle disabled pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
                     </div>
                   </div>
@@ -271,15 +271,15 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                   <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Toggle Group</div>
                   <div className="toggle-group-states">
                     <div className="toggle-group-state-cell">
-                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
+                      <StateLabel>DEFAULT</StateLabel>
                       <ToggleGroup value={segment} onChange={setSegment} options={toggleGroupOptions} />
                     </div>
                     <div className="toggle-group-state-cell toggle-group-state-focus">
-                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                      <StateLabel>FOCUS</StateLabel>
                       <ToggleGroup value="sources" onChange={() => { }} options={toggleGroupOptions} />
                     </div>
                     <div className="toggle-group-state-cell">
-                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
+                      <StateLabel>DISABLED</StateLabel>
                       <ToggleGroup disabled value="investments" onChange={() => { }} options={toggleGroupOptions} />
                     </div>
                   </div>
@@ -405,19 +405,19 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
           <Preview>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(220px, 1fr))", gap: 32, width: "100%", padding: "8px 0" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
-                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
+                <StateLabel>DEFAULT</StateLabel>
                 <Field label="Contribution rate">{() => (
                   <Slider value={contribPct} min={0} max={25} onChange={setContribPct} formatValue={(v) => `${v}%`} />
                 )}</Field>
               </div>
               <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
-                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                <StateLabel>FOCUS</StateLabel>
                 <Field label="Contribution rate">{() => (
                   <Slider value={6} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
                 )}</Field>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
-                <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
+                <StateLabel>DISABLED</StateLabel>
                 <Field label="Contribution rate">{() => (
                   <Slider disabled value={6} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
                 )}</Field>

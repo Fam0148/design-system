@@ -6,7 +6,7 @@ const sections = [
   {
     id: "01",
     anchorId: "whats-in-this-site",
-    title: "what's in this site",
+    title: "What's in this site",
     content: (
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
         {[
@@ -76,7 +76,7 @@ const sections = [
   {
     id: "02",
     anchorId: "foundation",
-    title: "foundation",
+    title: "Foundation",
     content: (
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
         {[
@@ -112,7 +112,6 @@ const sections = [
                 fontWeight: 500,
                 letterSpacing: "-0.02em",
                 color: "var(--core-color-text-primary)",
-                textTransform: "lowercase",
               }}
             >
               {item.title}
@@ -128,7 +127,7 @@ const sections = [
   {
     id: "03",
     anchorId: "components",
-    title: "components",
+    title: "Components",
     content: (
       <div
         style={{
@@ -169,7 +168,7 @@ const sections = [
   {
     id: "04",
     anchorId: "suggested-path",
-    title: "suggested path",
+    title: "Suggested path",
     content: (
       <div
         style={{
@@ -276,7 +275,6 @@ export default function Home() {
                   fontWeight: 500,
                   letterSpacing: "-0.04em",
                   margin: 0,
-                  textTransform: "lowercase",
                   color: "var(--core-color-text-primary)",
                 }}
               >

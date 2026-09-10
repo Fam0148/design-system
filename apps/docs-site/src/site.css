@@ -391,6 +391,24 @@ a { color: inherit; }
   gap: 20px;
 }
 
+.docs-state-label {
+  font-family: var(--typography-font-family-sans);
+  font-size: var(--typography-eyebrow-size);
+  line-height: var(--typography-eyebrow-line-height);
+  font-weight: var(--typography-eyebrow-weight);
+  letter-spacing: var(--typography-eyebrow-letter-spacing);
+  color: var(--theme-neutral-text-subtle);
+  text-transform: capitalize;
+}
+
+.docs-state-label--site {
+  font-size: var(--typography-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--site-text-dim);
+  text-transform: capitalize;
+}
+
 .site-panel {
   background: var(--site-bg-elevated);
   border: 1px solid var(--site-border);

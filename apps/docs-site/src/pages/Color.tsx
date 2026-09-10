@@ -1940,26 +1940,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
   },
 ];
 
-/* Figma Library Icon matching the reference screenshot */
-function FigmaLibraryIcon({ size = 15, color = "currentColor" }: { size?: number; color?: string }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      style={{ flexShrink: 0 }}
-    >
-      <path d="M12 2L2 12l10 10 10-10L12 2z" />
-      <path d="M12 6l-6 6 6 6 6-6-6-6z" />
-    </svg>
-  );
-}
-
 /* Vertical Pillar Segment displaying Token Name on line 1 and Color Palette Name on line 2 (NO COLOR CODES) */
 function BaseColorPillarSegment({
   token,
@@ -2122,7 +2102,6 @@ interface EditorialColorGroup {
   eyebrow: string;
   title: string;
   category: "primary" | "secondary" | "tertiary" | "neutral" | "critical" | "warning" | "success" | "info";
-  actionLabel: string;
   pillars: Array<{
     subgroup: string;
     tokens: FigmaTokenItem[];
@@ -2193,7 +2172,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Primary Colors",
       category: "primary",
-      actionLabel: "Library - Primary",
       pillars: primaryPillars,
     },
     {
@@ -2201,7 +2179,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Secondary Colors",
       category: "secondary",
-      actionLabel: "Library - Secondary",
       pillars: secondaryPillars,
     },
     {
@@ -2209,7 +2186,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Tertiary Colors",
       category: "tertiary",
-      actionLabel: "Library - Tertiary",
       pillars: tertiaryPillars,
     },
     {
@@ -2217,7 +2193,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Neutral Colors",
       category: "neutral",
-      actionLabel: "Library - Neutral",
       pillars: neutralPillars,
     },
     {
@@ -2225,7 +2200,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Critical Colors",
       category: "critical",
-      actionLabel: "Library - Critical",
       pillars: criticalPillars,
     },
     {
@@ -2233,7 +2207,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Warning Colors",
       category: "warning",
-      actionLabel: "Library - Warning",
       pillars: warningPillars,
     },
     {
@@ -2241,7 +2214,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Success Colors",
       category: "success",
-      actionLabel: "Library - Success",
       pillars: successPillars,
     },
     {
@@ -2249,7 +2221,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Info Colors",
       category: "info",
-      actionLabel: "Library - Info",
       pillars: infoPillars,
     },
   ];
@@ -2404,51 +2375,6 @@ function BaseColorsRedesignedSection() {
                   {group.title}
                 </h3>
 
-                <p
-                  style={{
-                    fontSize: "var(--typography-font-size-xs)",
-                    lineHeight: 1.55,
-                    color: "var(--site-text-faint, #888)",
-                    margin: "0 0 22px 0",
-                  }}
-                >
-                  For more tints and information about the design system color variables, visit
-                </p>
-
-                {/* Action Button Pill */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    const sampleVar = group.pillars[0]?.tokens[0]?.cssVar;
-                    if (sampleVar) copyText(`var(${sampleVar})`, `btn-${group.id}`);
-                  }}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    padding: "9px 16px",
-                    borderRadius: 12,
-                    background: "var(--site-bg)",
-                    border: "1px solid var(--site-border)",
-                    fontSize: "var(--typography-body-md-size)",
-                    fontWeight: 600,
-                    color: "var(--site-text)",
-                    cursor: "pointer",
-                    boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
-                    transition: "all 0.15s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "var(--site-accent, #0270A9)";
-                    e.currentTarget.style.color = "var(--site-accent, #0270A9)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "var(--site-border)";
-                    e.currentTarget.style.color = "var(--site-text)";
-                  }}
-                >
-                  <FigmaLibraryIcon size={14} />
-                  <span>{group.actionLabel}</span>
-                </button>
               </div>
 
               {/* Mode indicator footer */}
@@ -2756,7 +2682,7 @@ ${darkSemanticLines}
             <div style={{ position: "absolute", top: 0, left: "-12.5%", width: "125%", height: 1, backgroundColor: "var(--site-border)" }} />
             <div style={{ paddingTop: 32 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: "var(--core-color-text-tertiary)", marginBottom: 12 }}>{s.id}</div>
-              <h2 style={{ fontSize: 48, fontWeight: 500, letterSpacing: "-0.04em", margin: 0, textTransform: "lowercase" }}>{s.title}</h2>
+              <h2 style={{ fontSize: 48, fontWeight: 500, letterSpacing: "-0.04em", margin: 0 }}>{s.title}</h2>
             </div>
             <div>
               {s.content}
