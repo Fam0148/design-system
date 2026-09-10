@@ -467,10 +467,8 @@
 }
 
 /* ---------- Stepper ----------
-   Three genuinely distinct states, not just color-on/off: complete is its own
-   success color (a solid check, done), current is the loudest — solid primary
-   fill + bold label — and upcoming is a soft filled circle (no heavy border)
-   so it reads as "not yet", not as an outlined twin of the current step. */
+   Four step states: default, in-progress, completed, and error — each with
+   distinct marker, label, connector, and optional status-line treatment. */
 .cds-stepper {
   display: flex;
   list-style: none;
@@ -511,30 +509,47 @@
 }
 
 .cds-step-marker {
-  width: var(--core-stepper-marker-size);
-  height: var(--core-stepper-marker-size);
-  border-radius: var(--core-stepper-marker-radius);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--typography-font-size-xs);
-  font-weight: 700;
+  font-family: var(--typography-font-family-sans);
+  font-size: var(--typography-body-xs-size);
+  line-height: var(--typography-body-xs-line-height);
+  font-weight: var(--typography-font-weight-bold);
   flex-shrink: 0;
   border: none;
-  color: var(--core-stepper-marker-upcomingText);
-  background: var(--core-stepper-marker-upcomingBg);
+  color: var(--theme-neutral-text-subtle-least);
+  background: var(--theme-colors-neutral-100);
   z-index: 1;
   transition: background 150ms ease, color 150ms ease;
 }
 
-.cds-step--complete .cds-step-marker {
-  background: var(--core-stepper-marker-completeBg);
-  color: var(--core-stepper-marker-completeText);
+.cds-step--default .cds-step-marker {
+  background: var(--theme-colors-neutral-100);
+  color: var(--theme-neutral-text-subtle-least);
 }
 
-.cds-step--current .cds-step-marker {
-  background: var(--core-stepper-marker-currentBg);
-  color: var(--core-stepper-marker-currentText);
+.cds-step--in-progress .cds-step-marker {
+  background: var(--theme-brand-background-strong);
+  color: var(--theme-brand-text-primary-oncolor);
+}
+
+.cds-step--completed .cds-step-marker {
+  background: var(--theme-colors-success-600);
+  color: var(--theme-colors-neutral-0);
+}
+
+.cds-step--warning .cds-step-marker {
+  background: var(--theme-semantics-warning-strong-background);
+  color: var(--theme-colors-neutral-0);
+}
+
+.cds-step--error .cds-step-marker {
+  background: var(--theme-semantics-critical-strong-background);
+  color: var(--theme-colors-neutral-0);
 }
 
 .cds-step-label {
@@ -544,38 +559,67 @@
 }
 
 .cds-step-title {
+  font-family: var(--typography-font-family-sans);
   font-size: var(--typography-body-md-size);
-  font-weight: 600;
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+  font-weight: var(--typography-font-weight-semibold);
   color: var(--theme-neutral-text-primary-default);
 }
 
-.cds-step--current .cds-step-title {
-  color: var(--core-stepper-title-currentColor);
-  font-weight: 700;
+.cds-step--in-progress .cds-step-title {
+  color: var(--theme-brand-text-primary-default);
+  font-weight: var(--typography-font-weight-bold);
 }
 
-.cds-step--complete .cds-step-title {
-  color: var(--core-stepper-title-completeColor);
+.cds-step--completed .cds-step-title {
+  color: var(--theme-neutral-text-primary-default);
 }
 
-.cds-step--upcoming .cds-step-title {
-  color: var(--theme-neutral-text-subtleleast);
-  font-weight: 500;
+.cds-step--default .cds-step-title {
+  color: var(--theme-neutral-text-subtle-least);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.cds-step--warning .cds-step-title {
+  color: var(--theme-semantics-warning-text);
+  font-weight: var(--typography-font-weight-bold);
+}
+
+.cds-step--error .cds-step-title {
+  color: var(--theme-semantics-critical-text);
+  font-weight: var(--typography-font-weight-bold);
 }
 
 .cds-step-desc {
-  font-size: var(--typography-font-size-xs);
-  color: var(--theme-neutral-text-subtleleast);
+  font-family: var(--typography-font-family-sans);
+  font-size: var(--typography-body-xs-size);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+  color: var(--theme-neutral-text-subtle);
 }
 
 .cds-step-status {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: var(--typography-font-size-xs);
-  font-weight: 600;
-  color: var(--core-stepper-status-text);
+  font-family: var(--typography-font-family-sans);
+  font-size: var(--typography-body-xs-size);
+  line-height: var(--typography-body-xs-line-height);
+  font-weight: var(--typography-font-weight-semibold);
   margin-top: 2px;
+}
+
+.cds-step--in-progress .cds-step-status {
+  color: var(--theme-brand-text-primary-default);
+}
+
+.cds-step--warning .cds-step-status {
+  color: var(--theme-semantics-warning-text);
+}
+
+.cds-step--error .cds-step-status {
+  color: var(--theme-semantics-critical-text);
 }
 
 .cds-step-status-dot {
@@ -589,12 +633,20 @@
 .cds-step-connector {
   flex: 1;
   height: 2px;
-  background: var(--core-stepper-connector-color);
+  background: var(--theme-neutral-border-primary-default);
   margin: 0 10px;
 }
 
-.cds-step--complete .cds-step-connector {
-  background: var(--core-stepper-connector-completeColor);
+.cds-step--completed .cds-step-connector {
+  background: var(--theme-colors-success-600);
+}
+
+.cds-step--warning .cds-step-connector {
+  background: var(--theme-semantics-warning-border);
+}
+
+.cds-step--error .cds-step-connector {
+  background: var(--theme-semantics-critical-border);
 }
 
 /* Stepper: vertical orientation — e.g. a multi-step request flow's left-side nav.
@@ -1633,6 +1685,12 @@
 
 .cds-toast-title {
   flex: 1;
+  font-family: var(--typography-font-family-sans);
+  font-size: var(--typography-label-size);
+  line-height: var(--typography-label-line-height);
+  letter-spacing: var(--typography-label-letter-spacing);
+  font-weight: var(--typography-label-weight);
+  color: var(--theme-neutral-text-primary-default);
 }
 
 .cds-toast-timestamp {
@@ -1642,20 +1700,34 @@
 }
 
 .cds-toast-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   background: none;
   border: none;
-  color: var(--theme-neutral-text-subtleleast);
+  color: var(--theme-neutral-text-subtle-least);
   cursor: pointer;
-  padding: 2px;
+  padding: 4px;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--core-radius-sm);
+  flex-shrink: 0;
 }
 
 .cds-toast-close:hover {
   color: var(--theme-neutral-text-primary-default);
+  background: var(--theme-neutral-background-subtle);
 }
 
 .cds-toast-body {
   margin-top: 4px;
+  font-family: var(--typography-font-family-sans);
+  font-size: var(--typography-body-md-size);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+  font-weight: var(--typography-body-md-weight);
+  color: var(--theme-neutral-text-subtle);
 }
 
 /* ---------- Table ---------- */
@@ -2279,29 +2351,32 @@
      stack — a bare `display: flex` here was putting them side by side
      instead, cramming the description into the same line as the timestamp
      and close button. */
+  position: relative;
   display: flex;
   flex-direction: column;
   background: var(--theme-colors-neutral-0);
   border: 1px solid var(--theme-neutral-border-primary-default);
-  border-left: 3px solid var(--core-color-action-primary-bg);
+  border-left: 3px solid var(--theme-semantics-highlight-strong-background);
   border-radius: var(--core-radius-sm);
-  padding: 12px 14px;
+  padding: 12px 36px 12px 14px;
   box-shadow: var(--core-card-shadow);
-  font-size: var(--typography-body-md-size);
   min-width: 280px;
-  color: var(--theme-neutral-text-primary-default);
 }
 
 .cds-toast--success {
-  border-left-color: var(--core-color-status-success-text);
+  border-left-color: var(--theme-semantics-success-strong-background);
 }
 
 .cds-toast--danger {
-  border-left-color: var(--core-color-status-danger-text);
+  border-left-color: var(--theme-semantics-critical-strong-background);
 }
 
 .cds-toast--warning {
-  border-left-color: var(--core-color-status-warning-text);
+  border-left-color: var(--theme-semantics-warning-strong-background);
+}
+
+.cds-toast--info {
+  border-left-color: var(--theme-semantics-highlight-strong-background);
 }
 
 /* ---------- Spinner ---------- */
@@ -3876,8 +3951,8 @@
    fixed-dark chrome. */
 .cds-app-sidebar--rail {
   width: var(--core-space-24);
-  background: var(--core-sidebar-rail-bg);
-  border-right: 1px solid var(--core-color-border-subtle);
+  background: var(--theme-colors-neutral-50);
+  border-right: 1px solid var(--theme-neutral-border-primary-default);
   padding: var(--core-space-4) 0;
   gap: var(--core-space-2);
   align-items: stretch;
@@ -3891,22 +3966,46 @@
   gap: var(--core-space-1);
   padding: var(--core-space-3) var(--core-space-2);
   border-radius: 0;
-  color: var(--core-sidebar-item-text);
-  font-size: var(--typography-font-size-xs);
-  font-weight: 600;
+  font-family: var(--typography-font-family-sans);
+  font-size: var(--typography-body-xs-size);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--theme-neutral-text-subtle);
   box-shadow: inset 3px 0 0 0 transparent;
+  transition: color 120ms ease, box-shadow 120ms ease, background 120ms ease;
 }
 
-.cds-app-sidebar--rail .cds-app-sidebar-link:hover {
+.cds-app-sidebar--rail .cds-app-sidebar-link:hover:not(:disabled):not([aria-disabled="true"]) {
   color: var(--theme-neutral-text-primary-default);
-  background: var(--core-sidebar-item-hoverBg);
+  background: transparent;
+  box-shadow: inset 3px 0 0 0 var(--theme-neutral-border-strong);
 }
 
 .cds-app-sidebar--rail .cds-app-sidebar-link[aria-current="page"] {
-  background: var(--core-sidebar-item-activeBg);
-  color: var(--core-sidebar-item-activeText);
-  box-shadow: inset 3px 0 0 0 var(--core-sidebar-rail-accentBar);
-  font-weight: 700;
+  background: var(--theme-colors-neutral-0);
+  color: var(--theme-brand-text-primary-default);
+  box-shadow: inset 3px 0 0 0 var(--theme-brand-background-strong);
+  font-weight: var(--typography-font-weight-bold);
+}
+
+.cds-app-sidebar--rail .cds-app-sidebar-link:disabled,
+.cds-app-sidebar--rail .cds-app-sidebar-link[aria-disabled="true"] {
+  color: var(--theme-neutral-text-subtle-least);
+  cursor: not-allowed;
+  background: var(--theme-brand-background-disabled-light);
+  box-shadow: inset 3px 0 0 0 transparent;
+  pointer-events: none;
+}
+
+.cds-app-sidebar--rail .cds-app-sidebar-link:disabled .cds-sidenav-icon-plain,
+.cds-app-sidebar--rail .cds-app-sidebar-link[aria-disabled="true"] .cds-sidenav-icon-plain {
+  color: var(--theme-brand-text-primary-disabled);
+}
+
+.cds-app-sidebar--rail .cds-app-sidebar-link:focus-visible {
+  outline: var(--core-focusRing-width, 2px) solid var(--theme-primitive-color-primary-400);
+  outline-offset: -2px;
 }
 
 /* Sidebar nav item — an icon badge + label, with a tinted (not solid) pill for

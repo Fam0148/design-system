@@ -11,8 +11,17 @@ function ToastManagerDemo() {
   const { push } = useToast();
   return (
     <Preview>
-      <Button onClick={() => push({ tone: "success", title: "Changes saved", description: "Auto-dismisses in 4s." })}>
+      <Button variant="success" onClick={() => push({ tone: "success", title: "Changes saved", description: "Auto-dismisses in 4s." })}>
         Trigger success toast
+      </Button>
+      <Button
+        variant="warning"
+        onClick={() => push({ tone: "warning", title: "Beneficiary missing", description: "Add a beneficiary to finish setup." })}
+      >
+        Trigger warning toast
+      </Button>
+      <Button variant="info" onClick={() => push({ tone: "info", title: "Scheduled maintenance", description: "Portal unavailable Sunday 2–4am ET." })}>
+        Trigger info toast
       </Button>
       <Button
         variant="destructive"
@@ -26,8 +35,11 @@ function ToastManagerDemo() {
 
 export default function Feedback({ embedded = false }: { embedded?: boolean }) {
   const [dismissed, setDismissed] = React.useState<Set<string>>(new Set());
+  const [dismissedToasts, setDismissedToasts] = React.useState<Set<string>>(new Set());
   const dismiss = (key: string) => setDismissed((prev) => new Set([...prev, key]));
+  const dismissToast = (key: string) => setDismissedToasts((prev) => new Set([...prev, key]));
   const resetAlerts = () => setDismissed(new Set());
+  const resetToasts = () => setDismissedToasts(new Set());
   const sections = [
     {
       id: "01",
@@ -95,14 +107,43 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
               className="preview-surface"
               data-theme="core"
               data-mode="light"
-              style={{ background: "var(--core-color-bg-page)" }}
+              style={{
+                background: "var(--core-color-bg-page)",
+                flexWrap: "wrap",
+                gap: "var(--core-space-4, 16px)",
+              }}
             >
-              <Toast tone="success" title="Changes saved">
-                Your contribution rate was updated.
-              </Toast>
-              <Toast tone="danger" title="Couldn't connect">
-                Check your internet connection and retry.
-              </Toast>
+              {!dismissedToasts.has("success") && (
+                <Toast tone="success" title="Changes saved" onClose={() => dismissToast("success")}>
+                  Your contribution rate was updated.
+                </Toast>
+              )}
+              {!dismissedToasts.has("warning") && (
+                <Toast tone="warning" title="Beneficiary missing" onClose={() => dismissToast("warning")}>
+                  Add a beneficiary to finish setting up your account.
+                </Toast>
+              )}
+              {!dismissedToasts.has("info") && (
+                <Toast tone="info" title="Scheduled maintenance" onClose={() => dismissToast("info")}>
+                  The portal will be unavailable Sunday 2–4am ET.
+                </Toast>
+              )}
+              {!dismissedToasts.has("danger") && (
+                <Toast tone="danger" title="Couldn't connect" onClose={() => dismissToast("danger")}>
+                  Check your internet connection and retry.
+                </Toast>
+              )}
+              {dismissedToasts.size === 4 && (
+                <div style={{ width: "100%", textAlign: "center", padding: "12px 0" }}>
+                  <button
+                    type="button"
+                    className="cds-btn cds-btn--secondary cds-btn--sm"
+                    onClick={resetToasts}
+                  >
+                    ↺ Reset toasts
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
