@@ -1,0 +1,651 @@
+/* Docs site editorial shell — intentionally independent of CORE tokens.
+   This is the "marketing/docs chrome" layer, not a CORE theme. */
+
+/* Site chrome supports its own light/dark mode via [data-site-mode] on <html>,
+   independent of the CORE component preview theme (which uses [data-theme]/[data-mode]
+   on preview-surface wrappers). Defaults to dark. */
+html[data-site-mode="dark"],
+[data-mode="dark"] {
+  --site-bg: #0B0C10;
+  --site-bg-elevated: #111219;
+  --site-bg-hover: #181923;
+  --site-border: #23242f;
+  --site-text: #F4F4F6;
+  --site-text-dim: #9A9AAC;
+  --site-text-faint: #63647A;
+  --site-accent: #4998C1;
+  --site-accent-soft: #4998C122;
+  --site-code-bg: #14151D;
+  --site-code-text: #C9CBE0;
+  --site-success: #4ADE9C;
+  --site-danger: #F58E93;
+  --site-topbar-bg: rgba(11, 12, 16, 0.85);
+  --site-radius: 10px;
+  --site-font: 'Inter', -apple-system, sans-serif;
+  --site-mono: 'JetBrains Mono', monospace;
+
+  /* Figma Aligned Brand Base Variables (Dark) */
+  --theme-brand-text-primary-default: #86ADDF;
+  --theme-brand-text-primary-disabled: #5C5C6B;
+  --theme-brand-text-primary-active: #BACEE9;
+  --theme-brand-text-primary-hover: #3275CD;
+  --theme-brand-text-primaryhover: #3275CD;
+  --theme-brand-text-primary-oncolor: #FFFFFF;
+
+  --theme-brand-background-primary-default: #3275CD;
+  --theme-brand-background-strong: #3275CD;
+  --theme-brand-background-primary-light: #102137;
+  --theme-brand-background-primary-subtle: #132A49;
+  --theme-brand-background-disabled-light: #2E2D38;
+  --theme-brand-background-disabled-strong: #17365E;
+  --theme-brand-background-active: #1F4F8D;
+  --theme-brand-background-hover: #1B4479;
+
+  --theme-brand-border-primary-default: #3275CD;
+  --theme-brand-borders-primary-default: #3275CD;
+  --theme-brand-border-primary-disabled: #17365E;
+  --theme-brand-borders-primary-disabled: #17365E;
+  --theme-brand-border-hover: #86ADDF;
+  --theme-brand-borders-hover: #86ADDF;
+  --theme-brand-border-active: #BACEE9;
+  --theme-brand-borders-active: #BACEE9;
+
+  /* Figma Aligned Secondary Base Variables (Dark) */
+  --theme-secondary-text-primary-default: #71CAF4;
+  --theme-secondary-text-primary-disabled: #5C5C6B;
+  --theme-secondary-text-primary-active: #AFDEF4;
+  --theme-secondary-text-primary-hover: #56C3F5;
+  --theme-secondary-text-primary-oncolor: #FFFFFF;
+  --theme-secondary-background-primary-default: #39BCF9;
+  --theme-secondary-background-strong: #39BCF9;
+  --theme-secondary-background-primary-light: #0A3F57;
+  --theme-secondary-background-primary-subtle: #0B5E84;
+  --theme-secondary-background-disabled-light: #2E2D38;
+  --theme-secondary-background-disabled-strong: #0B5E84;
+  --theme-secondary-background-active: #71CAF4;
+  --theme-secondary-background-hover: #56C3F5;
+  --theme-secondary-border-primary-default: #56C3F5;
+  --theme-secondary-borders-primary-default: #56C3F5;
+  --theme-secondary-border-primary-disabled: #0B81B7;
+  --theme-secondary-borders-primary-disabled: #0B81B7;
+  --theme-secondary-border-hover: #71CAF4;
+  --theme-secondary-borders-hover: #71CAF4;
+
+  /* Figma Aligned Tertiary Base Variables (Dark) */
+  --theme-tertiary-text-primary-default: #FBCB6B;
+  --theme-tertiary-text-primary-disabled: #5C5C6B;
+  --theme-tertiary-text-primary-active: #FCDB94;
+  --theme-tertiary-text-primary-hover: #F2B244;
+  --theme-tertiary-text-primary-oncolor: #FFFFFF;
+  --theme-tertiary-background-primary-default: #E89A1C;
+  --theme-tertiary-background-strong: #E89A1C;
+  --theme-tertiary-background-primary-light: #5C3505;
+  --theme-tertiary-background-primary-subtle: #784708;
+  --theme-tertiary-background-disabled-light: #2E2D38;
+  --theme-tertiary-background-disabled-strong: #784708;
+  --theme-tertiary-background-active: #FBCB6B;
+  --theme-tertiary-background-hover: #F2B244;
+  --theme-tertiary-border-primary-default: #F2B244;
+  --theme-tertiary-borders-primary-default: #F2B244;
+  --theme-tertiary-border-primary-disabled: #95590A;
+  --theme-tertiary-borders-primary-disabled: #95590A;
+  --theme-tertiary-border-hover: #FBCB6B;
+  --theme-tertiary-borders-hover: #FBCB6B;
+
+  /* Figma Aligned Neutral Base Variables (Dark) */
+  --theme-neutral-text-primary-default: #F7F7F9;
+  --theme-neutral-text: #F7F7F9;
+  --theme-neutral-text-default: #F7F7F9;
+  --theme-neutral-text-text: #F7F7F9;
+  --theme-neutral-text-subtle: #C4C4CF;
+  --theme-neutral-text-subtleleast: #9E9EAD;
+  --theme-neutral-text-subtle-least: #9E9EAD;
+  --theme-neutral-text-on-color: #FFFFFF;
+  --theme-neutral-text-oncolor: #FFFFFF;
+
+  --theme-neutral-border-primary-default: #454452;
+  --theme-neutral-border-default: #454452;
+  --theme-neutral-border-light: #454452;
+  --theme-neutral-border-border-light: #454452;
+  --theme-neutral-border-subtle: #2E2D38;
+  --theme-neutral-border-border-subtle: #2E2D38;
+  --theme-neutral-border-strong: #787887;
+  --theme-neutral-border-border-strong: #787887;
+  --theme-neutral-border-inverse: #1D1C24;
+
+  --theme-neutral-background-primary-default: #171821;
+  --theme-neutral-background-subtle: #23242F;
+  --theme-neutral-background-strong: #2E2D38;
+
+  /* Figma Aligned Semantics Base Variables (Dark) */
+  --theme-semantics-critical-border: #8F212A;
+  --theme-semantics-critical-text: #EF8E8E;
+  --theme-semantics-critical-light-background: #3B0B11;
+  --theme-semantics-critical-strong-background: #D8434A;
+  --theme-semantics-critical-background-light: #3B0B11;
+  --theme-semantics-critical-background-strong: #D8434A;
+
+  --theme-semantics-warning-border: #95590A;
+  --theme-semantics-warning-text: #FBCB6B;
+  --theme-semantics-warning-light-background: #382002;
+  --theme-semantics-warning-strong-background: #E89A1C;
+  --theme-semantics-warning-background-light: #382002;
+  --theme-semantics-warning-background-strong: #E89A1C;
+
+  --theme-semantics-success-border: #116840;
+  --theme-semantics-success-text: #7EDCAC;
+  --theme-semantics-success-light-background: #052014;
+  --theme-semantics-success-strong-background: #22A369;
+  --theme-semantics-success-background-light: #052014;
+  --theme-semantics-success-background-strong: #22A369;
+
+  --theme-semantics-highlight-border: #155187;
+  --theme-semantics-highlight-text: #84C7F1;
+  --theme-semantics-highlight-light-background: #061C30;
+  --theme-semantics-highlight-strong-background: #2E8CD6;
+  --theme-semantics-highlight-background-light: #061C30;
+  --theme-semantics-highlight-strong-background: #2E8CD6;
+}
+
+:root,
+html[data-site-mode="light"],
+[data-mode="light"] {
+  --site-bg: #FAFAFC;
+  --site-bg-elevated: #FFFFFF;
+  --site-bg-hover: #F1F1F6;
+  --site-border: #E3E3EC;
+  --site-text: #16161D;
+  --site-text-dim: #55566B;
+  --site-text-faint: #85869C;
+  --site-accent: #0270A9;
+  --site-accent-soft: #0270A920;
+  --site-code-bg: #F1F1F6;
+  --site-code-text: #33344A;
+  --site-success: #178451;
+  --site-danger: #B72E38;
+  --site-topbar-bg: rgba(250, 250, 252, 0.85);
+  --site-radius: 10px;
+  --site-font: 'Inter', -apple-system, sans-serif;
+  --site-mono: 'JetBrains Mono', monospace;
+
+  /* Figma Aligned Brand Base Variables (Light) */
+  --theme-brand-text-primary-default: #1F4F8D;
+  --theme-brand-text-primary-disabled: #86ADDF;
+  --theme-brand-text-primary-active: #17365E;
+  --theme-brand-text-primary-hover: #1B4479;
+  --theme-brand-text-primaryhover: #1B4479;
+  --theme-brand-text-primary-oncolor: #FFFFFF;
+
+  --theme-brand-background-primary-default: #1F4F8D;
+  --theme-brand-background-strong: #1F4F8D;
+  --theme-brand-background-primary-light: #F5F7FA;
+  --theme-brand-background-primary-subtle: #E2E9F3;
+  --theme-brand-background-disabled-light: #EEEEF2;
+  --theme-brand-background-disabled-strong: #BACEE9;
+  --theme-brand-background-active: #17365E;
+  --theme-brand-background-hover: #1B4479;
+
+  --theme-brand-border-primary-default: #3275CD;
+  --theme-brand-borders-primary-default: #3275CD;
+  --theme-brand-border-primary-disabled: #BACEE9;
+  --theme-brand-borders-primary-disabled: #BACEE9;
+  --theme-brand-border-hover: #1B4479;
+  --theme-brand-borders-hover: #1B4479;
+  --theme-brand-border-active: #17365E;
+  --theme-brand-borders-active: #17365E;
+
+  /* Figma Aligned Secondary Base Variables (Light) */
+  --theme-secondary-text-primary-default: #39BCF9;
+  --theme-secondary-text-primary-disabled: #71CAF4;
+  --theme-secondary-text-primary-active: #0B81B7;
+  --theme-secondary-text-primary-hover: #07A8F2;
+  --theme-secondary-text-primary-oncolor: #FFFFFF;
+  --theme-secondary-background-primary-default: #39BCF9;
+  --theme-secondary-background-strong: #39BCF9;
+  --theme-secondary-background-primary-light: #F4F9FB;
+  --theme-secondary-background-primary-subtle: #DEEFF7;
+  --theme-secondary-background-disabled-light: #EEEEF2;
+  --theme-secondary-background-disabled-strong: #AFDEF4;
+  --theme-secondary-background-active: #0B81B7;
+  --theme-secondary-background-hover: #07A8F2;
+  --theme-secondary-border-primary-default: #56C3F5;
+  --theme-secondary-borders-primary-default: #56C3F5;
+  --theme-secondary-border-primary-disabled: #AFDEF4;
+  --theme-secondary-borders-primary-disabled: #AFDEF4;
+  --theme-secondary-border-hover: #07A8F2;
+  --theme-secondary-borders-hover: #07A8F2;
+
+  /* Figma Aligned Tertiary Base Variables (Light) */
+  --theme-tertiary-text-primary-default: #E89A1C;
+  --theme-tertiary-text-primary-disabled: #FBCB6B;
+  --theme-tertiary-text-primary-active: #95590A;
+  --theme-tertiary-text-primary-hover: #C27A10;
+  --theme-tertiary-text-primary-oncolor: #FFFFFF;
+  --theme-tertiary-background-primary-default: #E89A1C;
+  --theme-tertiary-background-strong: #E89A1C;
+  --theme-tertiary-background-primary-light: #FFF8EA;
+  --theme-tertiary-background-primary-subtle: #FEEBBE;
+  --theme-tertiary-background-disabled-light: #EEEEF2;
+  --theme-tertiary-background-disabled-strong: #FCDB94;
+  --theme-tertiary-background-active: #95590A;
+  --theme-tertiary-background-hover: #C27A10;
+  --theme-tertiary-border-primary-default: #F2B244;
+  --theme-tertiary-borders-primary-default: #F2B244;
+  --theme-tertiary-border-primary-disabled: #FCDB94;
+  --theme-tertiary-borders-primary-disabled: #FCDB94;
+  --theme-tertiary-border-hover: #C27A10;
+  --theme-tertiary-borders-hover: #C27A10;
+
+  /* Figma Aligned Neutral Base Variables (Light) */
+  --theme-neutral-text-primary-default: #1D1C24;
+  --theme-neutral-text: #1D1C24;
+  --theme-neutral-text-default: #1D1C24;
+  --theme-neutral-text-text: #1D1C24;
+  --theme-neutral-text-subtle: #5C5C6B;
+  --theme-neutral-text-subtleleast: #787887;
+  --theme-neutral-text-subtle-least: #787887;
+  --theme-neutral-text-on-color: #FFFFFF;
+  --theme-neutral-text-oncolor: #FFFFFF;
+
+  --theme-neutral-border-primary-default: #DFDFE6;
+  --theme-neutral-border-default: #DFDFE6;
+  --theme-neutral-border-light: #DFDFE6;
+  --theme-neutral-border-border-light: #DFDFE6;
+  --theme-neutral-border-subtle: #EEEEF2;
+  --theme-neutral-border-border-subtle: #EEEEF2;
+  --theme-neutral-border-strong: #9E9EAD;
+  --theme-neutral-border-border-strong: #9E9EAD;
+  --theme-neutral-border-inverse: #FFFFFF;
+
+  --theme-neutral-background-primary-default: #FFFFFF;
+  --theme-neutral-background-subtle: #F7F7F9;
+  --theme-neutral-background-strong: #EEEEF2;
+
+  /* Figma Aligned Semantics Base Variables (Light) */
+  --theme-semantics-critical-border: #F4B1B1;
+  --theme-semantics-critical-text: #8F212A;
+  --theme-semantics-critical-light-background: #FDEFEF;
+  --theme-semantics-critical-strong-background: #D8434A;
+  --theme-semantics-critical-background-light: #FDEFEF;
+  --theme-semantics-critical-background-strong: #D8434A;
+
+  --theme-semantics-warning-border: #FCDB94;
+  --theme-semantics-warning-text: #95590A;
+  --theme-semantics-warning-light-background: #FFF8EA;
+  --theme-semantics-warning-strong-background: #E89A1C;
+  --theme-semantics-warning-background-light: #FFF8EA;
+  --theme-semantics-warning-background-strong: #E89A1C;
+
+  --theme-semantics-success-border: #A8E7C6;
+  --theme-semantics-success-text: #116840;
+  --theme-semantics-success-light-background: #EDFAF2;
+  --theme-semantics-success-strong-background: #22A369;
+  --theme-semantics-success-background-light: #EDFAF2;
+  --theme-semantics-success-background-strong: #22A369;
+
+  --theme-semantics-highlight-border: #A9D8F6;
+  --theme-semantics-highlight-text: #155187;
+  --theme-semantics-highlight-light-background: #EBF6FD;
+  --theme-semantics-highlight-strong-background: #2E8CD6;
+  --theme-semantics-highlight-background-light: #EBF6FD;
+  --theme-semantics-highlight-strong-background: #2E8CD6;
+}
+
+* { box-sizing: border-box; }
+html, body { overflow-x: clip; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--site-bg);
+  color: var(--site-text);
+  font-family: var(--site-font);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+::selection { background: var(--site-accent-soft); }
+
+.site-shell { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+@media (max-width: 900px) { .site-shell { grid-template-columns: 1fr; } .site-sidebar { display: none; } }
+
+.site-sidebar {
+  border-right: 1px solid var(--site-border);
+  padding: 20px 16px;
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+}
+.site-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; padding: 4px 8px 20px; }
+.site-logo .dot { width: 10px; height: 10px; border-radius: 3px; background: var(--site-accent); }
+
+.site-nav-group { margin-bottom: 22px; }
+.site-nav-title { font-size: var(--core-font-size-xs, 12px); text-transform: uppercase; letter-spacing: 0.08em; color: var(--site-text-faint); padding: 0 8px 8px; font-weight: 600; }
+.site-nav-link {
+  display: block; padding: 7px 8px; border-radius: 7px; font-size: 14px; color: var(--site-text-dim);
+  text-decoration: none; margin-bottom: 1px;
+}
+.site-nav-link:hover { background: var(--site-bg-hover); color: var(--site-text); }
+.site-nav-link.active { background: var(--site-accent-soft); color: var(--site-accent); font-weight: 600; }
+
+.site-main { padding: 0; min-width: 0; display: flex; flex-direction: column; }
+.site-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 32px; border-bottom: 1px solid var(--site-border);
+  position: sticky; top: 0; background: var(--site-topbar-bg); backdrop-filter: blur(8px); z-index: 5;
+}
+.site-content { padding: 40px 32px 96px; max-width: 1180px; width: 100%; margin: 0 auto; flex: 1; }
+
+.site-h1 { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 8px; }
+.site-lede { font-size: 16px; color: var(--site-text-dim); max-width: 680px; line-height: 1.6; margin: 0 0 36px; }
+.site-section-title { font-size: 20px; font-weight: 700; margin: 48px 0 16px; letter-spacing: -0.01em; }
+.site-section-sub { font-size: var(--core-font-size-sm, 14px); color: var(--site-text-dim); margin: -10px 0 20px; }
+
+.site-panel {
+  background: var(--site-bg-elevated);
+  border: 1px solid var(--site-border);
+  border-radius: 14px;
+  padding: 28px;
+  /* Every page on this site was relying on an intervening heading/paragraph
+     to space consecutive panels apart — any page (or new section) that put
+     two .site-panel blocks back to back with nothing between them got them
+     touching/overlapping at the border, with zero gap. Real, reproduced bug
+     across multiple pages. A default bottom margin here makes every panel
+     self-spacing regardless of what does or doesn't come after it. */
+  margin-bottom: 20px;
+}
+.site-panel:last-child { margin-bottom: 0; }
+/* Themed panels ([data-theme]) always render on a light CORE bg, so
+   re-pin site text vars to their light-mode values inside them —
+   prevents white-on-white text when the site chrome is in dark mode. */
+.site-panel[data-theme] {
+  --site-text: #16161D;
+  --site-text-dim: #55566B;
+  --site-text-faint: #85869C;
+  --site-accent: #0270A9;
+  --site-border: #E3E3EC;
+  color: var(--core-color-text-primary);
+}
+/* Light preview surfaces inherit body color (light gray in dark site mode).
+   Pin text to the CORE token so icons/labels stay visible on light demos. */
+.preview-surface[data-theme],
+.preview-surface[data-mode] {
+  color: var(--core-color-text-primary);
+}
+/* No overflow:hidden here on purpose — it was clipping every dropdown/combobox/popover
+   that lives inside a flush panel. Corner-rounding for flush content (tables, code blocks)
+   is each child's own responsibility (e.g. .cds-table-wrap has its own border-radius). */
+.site-panel--flush { padding: 0; }
+
+.preview-surface {
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.site-grid { display: grid; gap: 16px; }
+.site-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.site-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.site-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 700px) { .site-grid.cols-2, .site-grid.cols-3, .site-grid.cols-4 { grid-template-columns: 1fr; } }
+
+.token-swatch { border-radius: 10px; overflow: hidden; border: 1px solid var(--site-border); }
+.token-swatch .chip { height: 64px; border-bottom: 1px solid var(--site-border); position: relative; }
+.token-swatch .meta { padding: 10px 12px; background: var(--site-bg-elevated); border-top: 2px solid var(--site-border); }
+.token-swatch .meta .name { font-size: 12px; font-weight: 600; }
+.token-swatch .meta .value { font-size: var(--core-font-size-xs, 12px); color: var(--site-text-faint); font-family: var(--site-mono); }
+.quickref-table { width: 100%; border-collapse: collapse; font-size: var(--core-font-size-sm, 14px); }
+.quickref-table th { text-align: left; color: var(--site-text-faint); font-weight: 600; padding: 8px 12px; border-bottom: 1px solid var(--site-border); font-size: var(--core-font-size-xs, 12px); text-transform: uppercase; letter-spacing: 0.04em; }
+.quickref-table td { padding: 10px 12px; border-bottom: 1px solid var(--site-border); vertical-align: middle; }
+.quickref-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--site-border); vertical-align: middle; margin-right: 8px; }
+
+.type-row { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--site-border); }
+.type-row:last-child { border-bottom: none; }
+.type-row .label { width: 140px; flex-shrink: 0; font-size: 12px; color: var(--site-text-faint); font-family: var(--site-mono); }
+
+.switcher {
+  display: flex; align-items: center; gap: 6px; background: var(--site-bg-elevated);
+  border: 1px solid var(--site-border); border-radius: 999px; padding: 3px;
+}
+.switcher button {
+  border: none; background: transparent; color: var(--site-text-dim); font-size: var(--core-font-size-sm, 14px);
+  padding: 6px 12px; border-radius: 999px; cursor: pointer; font-family: var(--site-font); font-weight: 500;
+}
+.switcher button.active { background: var(--site-accent); color: white; }
+.icon-toggle {
+  border: 1px solid var(--site-border); background: var(--site-bg-elevated); color: var(--site-text-dim);
+  width: 34px; height: 34px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.icon-toggle:hover { color: var(--site-text); }
+
+pre.code-block {
+  background: var(--site-code-bg); border: 1px solid var(--site-border); border-radius: 10px;
+  padding: 16px 18px; font-family: var(--site-mono); font-size: var(--core-font-size-xs, 12px); color: var(--site-code-text);
+  overflow-x: auto; margin: 0;
+}
+
+.dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 700px) { .dodont { grid-template-columns: 1fr; } }
+.dodont .box { border-radius: 12px; padding: 20px; border: 1px solid var(--site-border); }
+.dodont .box.do { border-color: color-mix(in srgb, var(--site-success) 40%, transparent); background: color-mix(in srgb, var(--site-success) 8%, transparent); }
+.dodont .box.dont { border-color: color-mix(in srgb, var(--site-danger) 40%, transparent); background: color-mix(in srgb, var(--site-danger) 8%, transparent); }
+.dodont .tag { font-size: var(--core-font-size-xs, 12px); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: block; }
+.dodont .box.do .tag { color: var(--site-success); }
+.dodont .box.dont .tag { color: var(--site-danger); }
+
+/* ---- Hero ---- */
+.hero {
+  --hero-ink: #16161d;
+  --hero-muted: #5a5b70;
+  --hero-cta: #3b47d6;
+  --hero-cta-hover: #2f3ac0;
+  --sidebar-w: 260px;
+  position: relative;
+  isolation: isolate;
+  border-radius: 0;
+  overflow: hidden;
+  background: #f4f2ff;
+  color: var(--hero-ink);
+  /* Break out of .site-content max-width — fill the full .site-main area */
+  width: calc(100vw - var(--sidebar-w));
+  margin: -40px 0 32px calc(-32px);
+}
+
+/* Image always fills full width — drives the hero height on desktop */
+.hero-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Text overlays the image on desktop */
+.hero-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 48%;
+  padding: 40px 24px 40px 48px;
+}
+.hero-eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--hero-cta);
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+.hero h1 {
+  font-size: clamp(28px, 3.6vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  margin: 0 0 14px;
+  color: var(--hero-ink);
+  overflow-wrap: anywhere;
+}
+.hero-copy > p {
+  font-size: var(--core-font-size-md, 16px);
+  color: var(--hero-muted);
+  max-width: 400px;
+  line-height: 1.65;
+  margin: 0 0 26px;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.btn-hero {
+  padding: 11px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+/* btn-hero is reused outside .hero (Typography, Icons, Motion) — fall back
+   to site chrome tokens so ghost/primary stay readable in dark mode. */
+.btn-hero.primary { background: var(--hero-cta, var(--site-accent)); color: #fff; }
+.btn-hero.primary:hover { background: var(--hero-cta-hover, var(--site-accent)); }
+.btn-hero.ghost {
+  background: var(--site-bg-elevated);
+  border: 1px solid var(--site-border);
+  color: var(--site-text);
+}
+.btn-hero.ghost:hover {
+  background: var(--site-bg-hover);
+  border-color: var(--site-border);
+}
+.hero .btn-hero.ghost {
+  background: #fff;
+  border-color: #d8d9e6;
+  color: var(--hero-ink);
+}
+.hero .btn-hero.ghost:hover {
+  background: #f6f6fb;
+  border-color: #c5c6d6;
+}
+.btn-hero:focus-visible { outline: 3px solid var(--hero-cta, var(--site-accent)); outline-offset: 2px; }
+
+/* ---- Hero responsive — stack on narrow screens ---- */
+@media (max-width: 900px) {
+  .hero {
+    --sidebar-w: 0px;
+    width: 100vw;
+    margin-left: -32px;
+  }
+  .hero-copy {
+    position: relative;
+    inset: auto;
+    max-width: none;
+    padding: 28px 24px 32px;
+  }
+  .hero h1 { font-size: clamp(26px, 5.5vw, 36px); }
+  .hero-copy > p { max-width: none; }
+}
+@media (max-width: 520px) {
+  .hero-copy { padding: 24px 20px 28px; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .btn-hero { justify-content: center; }
+}
+
+.stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 0 0 8px; }
+@media (max-width: 900px) { .stat-cards { grid-template-columns: repeat(2, 1fr); } }
+.stat-card { background: var(--site-bg-elevated); border: 1px solid var(--site-border); border-radius: 12px; padding: 18px; }
+.stat-card .num { font-size: 26px; font-weight: 800; }
+.stat-card .lbl { font-size: 12px; color: var(--site-text-faint); margin-top: 2px; }
+
+table.spec-table { width: 100%; border-collapse: collapse; font-size: var(--core-font-size-sm, 14px); }
+table.spec-table th { text-align: left; color: var(--site-text-faint); font-weight: 600; padding: 8px 12px; border-bottom: 1px solid var(--site-border); font-size: var(--core-font-size-xs, 12px); text-transform: uppercase; letter-spacing: 0.04em; }
+table.spec-table td { padding: 10px 12px; border-bottom: 1px solid var(--site-border); }
+table.spec-table code { font-family: var(--site-mono); font-size: 12px; color: var(--site-accent); }
+
+/* ---- Page prev / next navigation ---- */
+.page-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--site-border);
+}
+.page-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 20px;
+  border: 1px solid var(--site-border);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--site-text);
+  transition: border-color 0.15s, background 0.15s;
+  min-width: 0;
+  max-width: 48%;
+}
+.page-nav-link:hover {
+  border-color: var(--site-accent);
+  background: var(--site-bg-elevated);
+}
+.page-nav-next {
+  margin-left: auto;
+  text-align: right;
+}
+.page-nav-dir {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--site-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.page-nav-label {
+  font-size: var(--core-font-size-md, 16px);
+  font-weight: 600;
+}
+@media (max-width: 520px) {
+  .page-nav { flex-direction: column; gap: 10px; }
+  .page-nav-link { max-width: none; }
+  .page-nav-next { text-align: left; }
+}
+
+/* ── Site footer ────────────────────────────────────── */
+.site-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--site-border);
+  padding: 20px 32px;
+}
+.site-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 1180px;
+}
+.site-footer-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--core-font-size-xs, 12px);
+  color: var(--site-text-faint);
+}
+.site-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--site-text-faint);
+}
+.site-footer-sep {
+  opacity: 0.4;
+}
+@media (max-width: 520px) {
+  .site-footer { padding: 16px 20px; }
+  .site-footer-inner { flex-direction: column; align-items: flex-start; }
+}
