@@ -51,7 +51,6 @@ export const componentSections: NavSection[] = [
     title: "Charts",
     links: [
       componentLink("line-chart", "Line Chart"),
-      componentLink("bar-chart", "Bar Chart"),
     ],
   },
   {

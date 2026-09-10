@@ -582,27 +582,6 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
               data-mode="light"
               style={{ background: "var(--core-color-bg-page)" }}
             >
-              <div style={{ width: "100%" }}>
-                <div className="site-nav-title" style={{ padding: "0 0 8px" }}>
-                  Stacked, 2 columns
-                </div>
-                <DescriptionList
-                  columns={2}
-                  items={[
-                    { term: "Name", value: "Jordan Lee" },
-                    { term: "Marital status", value: "Married" },
-                    { term: "Date of birth", value: "Apr 8, 1994" },
-                    { term: "SSN", value: "XXX-XX-4182" },
-                  ]}
-                />
-              </div>
-            </div>
-            <div
-              className="preview-surface"
-              data-theme="core"
-              data-mode="light"
-              style={{ background: "var(--core-color-bg-page)", borderTop: "1px solid var(--core-color-border-subtle)" }}
-            >
               <div style={{ width: "100%", maxWidth: 320 }}>
                 <div className="site-nav-title" style={{ padding: "0 0 8px" }}>
                   Inline (row-separated)
@@ -625,42 +604,7 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
       anchorId: "avatar",
       title: "Avatar & Groups",
       content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <table className="spec-table">
-            <thead>
-              <tr>
-                <th>Property</th>
-                <th>Small (sm)</th>
-                <th>Medium (md)</th>
-                <th>Large (lg)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Size</td>
-                <td>24×24px</td>
-                <td>36×36px</td>
-                <td>48×48px</td>
-              </tr>
-              <tr>
-                <td>Font size</td>
-                <td>12px</td>
-                <td>14px</td>
-                <td>16px</td>
-              </tr>
-              <tr>
-                <td>Border radius</td>
-                <td>Full (50%)</td>
-                <td>Full (50%)</td>
-                <td>Full (50%)</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <AvatarSizeDemo />
-
-
-        </div>
+        <AvatarSizeDemo />
       ),
     },
     {

@@ -6,7 +6,7 @@ import { Field, Input, InputWithIcon } from "../../../../packages/core/src/compo
 import { Icon } from "../../../../packages/core/src/components/Primitives";
 import { Switch } from "../../../../packages/core/src/components/Misc";
 import { Textarea, Select, Checkbox, Radio, RadioGroup } from "../../../../packages/core/src/components/FormControls";
-import { Toggle, ToggleGroup, InputGroup, InputOTP } from "../../../../packages/core/src/components/ToggleInputs";
+import { Toggle, ToggleGroup, InputGroup, InputOTP, IncrementalSelector } from "../../../../packages/core/src/components/ToggleInputs";
 import { Slider } from "../../../../packages/core/src/components/Primitives";
 import { Combobox } from "../../../../packages/core/src/components/Combobox";
 import { Calendar, DatePicker } from "../../../../packages/core/src/components/Calendar";
@@ -44,7 +44,7 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
     },
     {
       value: "investments" as const,
-      label: "Investments",
+      label: "Invest",
       icon: <Icon name="fa-solid fa-chart-pie" size="sm" />,
     },
   ];
@@ -269,12 +269,16 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
 
                 <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 24 }}>
                   <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Toggle Group</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(280px, 1fr))", gap: 32, padding: "8px 0" }}>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                  <div className="toggle-group-states">
+                    <div className="toggle-group-state-cell">
                       <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DEFAULT</span>
                       <ToggleGroup value={segment} onChange={setSegment} options={toggleGroupOptions} />
                     </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                    <div className="toggle-group-state-cell toggle-group-state-focus">
+                      <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>FOCUS</span>
+                      <ToggleGroup value="sources" onChange={() => { }} options={toggleGroupOptions} />
+                    </div>
+                    <div className="toggle-group-state-cell">
                       <span style={{ fontSize: "var(--typography-eyebrow-size)", lineHeight: "var(--typography-eyebrow-line-height)", fontWeight: "var(--typography-eyebrow-weight)", letterSpacing: "var(--typography-eyebrow-letter-spacing)", color: "var(--theme-neutral-text-subtle)" }}>DISABLED</span>
                       <ToggleGroup disabled value="investments" onChange={() => { }} options={toggleGroupOptions} />
                     </div>
@@ -589,6 +593,33 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     <div className="force-disabled">
                       <Field label="Disabled">
                         {(p) => <InputWithIcon {...p} disabled trailingIcon={<Icon name="fa-solid fa-dollar-sign" size="sm" />} placeholder="0.00" />}
+                      </Field>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Incremental selector */}
+                <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 20 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Incremental Selector</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+                    <div className="force-default">
+                      <Field label="Default">
+                        {() => <IncrementalSelector defaultValue={1} min={0} max={10} aria-label="Allocation percent" />}
+                      </Field>
+                    </div>
+                    <div className="force-hover">
+                      <Field label="Hover">
+                        {() => <IncrementalSelector defaultValue={1} min={0} max={10} aria-label="Allocation percent" />}
+                      </Field>
+                    </div>
+                    <div className="force-focus">
+                      <Field label="Focus">
+                        {() => <IncrementalSelector defaultValue={1} min={0} max={10} aria-label="Allocation percent" />}
+                      </Field>
+                    </div>
+                    <div className="force-disabled">
+                      <Field label="Disabled">
+                        {() => <IncrementalSelector disabled defaultValue={3} min={0} max={10} aria-label="Allocation percent" />}
                       </Field>
                     </div>
                   </div>
@@ -949,16 +980,52 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-hover .cds-combobox .cds-input,
         .force-hover .cds-input-affix-wrap .cds-input,
         .force-hover .cds-input-group .cds-input,
-        .force-hover .cds-input-group-addon { 
+        .force-hover .cds-input-group-addon,
+        .force-hover .cds-incremental-selector__btn,
+        .force-hover .cds-incremental-selector__value { 
           border-color: var(--theme-neutral-border-strong) !important; 
+        }
+        .force-hover .cds-incremental-selector__btn {
+          background: var(--theme-colors-neutral-200, #E8E8ED) !important;
+          color: var(--theme-neutral-text-primary-default) !important;
+        }
+        .force-hover .cds-incremental-selector__value {
+          background: var(--theme-colors-neutral-0) !important;
         }
         .force-hover .cds-toggle:not(:disabled):not([aria-pressed="true"]) { 
           background: var(--brand-background-hover) !important;
           color: var(--theme-primitive-color-primary-100) !important;
           border-color: var(--brand-borders-hover) !important;
         }
-        .force-hover .cds-toggle-group__item:not(:disabled):not([aria-pressed="true"]) {
-          color: var(--theme-brand-text-primary-default) !important;
+        .toggle-group-states {
+          display: grid;
+          grid-template-columns: repeat(3, max-content);
+          gap: 40px;
+          padding: 8px 0;
+          align-items: start;
+        }
+        .toggle-group-state-cell {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          align-items: flex-start;
+          padding: 8px 4px;
+          isolation: isolate;
+        }
+        .toggle-group-state-cell .cds-toggle-group {
+          width: max-content;
+          max-width: 100%;
+        }
+        @media (max-width: 900px) {
+          .toggle-group-states {
+            grid-template-columns: repeat(2, max-content);
+          }
+        }
+        .toggle-group-state-focus .cds-toggle-group__item:nth-child(2):not(:disabled) {
+          outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400) !important;
+          outline-offset: 2px !important;
+          position: relative;
+          z-index: 1;
         }
         .force-hover .cds-switch input:not(:checked):not(:disabled) + .cds-switch-track {
           background: var(--theme-colors-neutral-400) !important;
@@ -982,6 +1049,7 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-focus .cds-select,
         .force-focus .cds-combobox .cds-input,
         .force-focus .cds-date-picker .cds-input,
+        .force-focus .cds-date-picker .cds-input-affix-wrap .cds-input,
         .force-focus .cds-input-affix-wrap .cds-input { 
           border-color: var(--theme-primitive-color-primary-400) !important; 
           box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important; 
@@ -999,6 +1067,23 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         }
         .force-focus .cds-input-group .cds-input {
           box-shadow: none !important;
+        }
+        .force-focus .cds-incremental-selector {
+          border-radius: var(--core-input-radius) !important;
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important;
+        }
+        .force-focus .cds-incremental-selector__btn,
+        .force-focus .cds-incremental-selector__value {
+          border-color: var(--theme-primitive-color-primary-400) !important;
+          box-shadow: none !important;
+        }
+        .force-focus .cds-incremental-selector__btn {
+          background: var(--theme-colors-neutral-100) !important;
+          color: var(--theme-neutral-text-primary-default) !important;
+        }
+        .force-focus .cds-incremental-selector__value {
+          background: var(--theme-colors-neutral-0) !important;
+          color: var(--theme-neutral-text-primary-default) !important;
         }
         .force-focus .cds-checkbox input:not(:checked):not(:disabled) + .cds-checkbox-box,
         .force-focus .cds-radio input:not(:checked):not(:disabled) + .cds-radio-box {
@@ -1074,6 +1159,15 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         }
         .force-disabled .cds-input-icon, .cds-input-affix-wrap:has(.cds-input:disabled) .cds-input-icon {
           color: var(--theme-neutral-text-subtleleast) !important;
+        }
+        .force-disabled .cds-incremental-selector__btn,
+        .force-disabled .cds-incremental-selector__value,
+        .cds-incremental-selector--disabled .cds-incremental-selector__btn,
+        .cds-incremental-selector--disabled .cds-incremental-selector__value {
+          background: var(--theme-brand-background-disabled-light) !important;
+          color: var(--theme-neutral-text-subtleleast) !important;
+          border-color: var(--theme-neutral-border-primary-default) !important;
+          cursor: not-allowed !important;
         }
         .force-disabled .cds-toggle, .cds-toggle:disabled {
           background: var(--theme-brand-background-disabled-light) !important; 

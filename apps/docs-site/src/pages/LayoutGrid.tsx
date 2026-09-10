@@ -4,7 +4,7 @@ import { AppHeader, AppFooter, Grid, GridCol } from "../../../../packages/core/s
 import type { GridGap } from "../../../../packages/core/src/components/Layout";
 import { IconButton } from "../../../../packages/core/src/components/Button";
 import { Avatar } from "../../../../packages/core/src/components/DataDisplay";
-import { Icon } from "../../../../packages/core/src/components/Primitives";
+import { ChevronIcon, Icon } from "../../../../packages/core/src/components/Primitives";
 import primitives from "../../../../packages/tokens/src/primitives.json";
 
 const container = (primitives as any).container;
@@ -533,7 +533,7 @@ export default function LayoutGrid() {
               <div style={{ fontSize: "var(--core-font-size-sm)", fontWeight: 600, color: "var(--core-color-text-primary)", marginBottom: "var(--core-space-1)" }}>Loan repayment frequency *</div>
               <div style={{ fontSize: "var(--core-font-size-xs)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--core-color-text-tertiary)", marginBottom: "var(--core-space-2)" }}>span 6</div>
               <div style={{ height: 36, borderRadius: "var(--core-radius-sm)", border: "1px solid var(--core-color-border-default)", background: "var(--core-color-surface-default)", padding: "0 var(--core-space-3)", display: "flex", alignItems: "center", justifyContent: "space-between", color: "var(--core-color-text-primary)", fontSize: "var(--core-font-size-sm)" }}>
-                Monthly <span style={{ color: "var(--core-color-text-tertiary)" }}>▾</span>
+                Monthly <ChevronIcon size={12} style={{ color: "var(--core-color-text-tertiary)" }} />
               </div>
             </GridCol>
           </Grid>

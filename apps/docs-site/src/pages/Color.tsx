@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import primitives from "../../../../packages/tokens/src/primitives.json";
 import { ContrastBadge } from "../ContrastBadge";
 import { rgbStringToHex } from "../lib/contrast";
-import { Collapsible } from "../../../../packages/core/src/components/Primitives";
+import { ChevronIcon, Collapsible } from "../../../../packages/core/src/components/Primitives";
 const color = (primitives as any).color;
 const gradient = (primitives as any).gradient;
 
@@ -182,7 +182,7 @@ function BaselineAccordionGroup({ group, mode }: { group: typeof BASELINE_GROUPS
           <span style={{ fontSize: 16, opacity: 0.5 }}>📁</span>
           {group.title} colors
         </span>
-        <span style={{ fontSize: 18, opacity: 0.5, transition: "transform 0.15s", transform: open ? "rotate(180deg)" : "none" }}>▾</span>
+        <ChevronIcon size={14} style={{ opacity: 0.5, transition: "transform 0.15s", transform: open ? "rotate(180deg)" : undefined }} />
       </button>
       {open && (
         <div data-theme="core" data-mode={mode} style={{ padding: "0 20px 20px", display: "flex", gap: 8, flexWrap: "wrap" }}>

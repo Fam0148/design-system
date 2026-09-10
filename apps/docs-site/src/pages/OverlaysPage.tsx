@@ -6,7 +6,7 @@ import { Modal, ConfirmDialog, Drawer, Tooltip, DropdownMenu } from "../../../..
 import { HoverCard } from "../../../../packages/core/src/components/HoverCard";
 import { Field, Input } from "../../../../packages/core/src/components/Field";
 import { Select } from "../../../../packages/core/src/components/FormControls";
-import { DescriptionList, Icon } from "../../../../packages/core/src/components/Primitives";
+import { ChevronIcon, DescriptionList, Icon } from "../../../../packages/core/src/components/Primitives";
 
 export default function OverlaysPage({ embedded = false }: { embedded?: boolean }) {
   const [modal, setModal] = useState(false);
@@ -96,7 +96,7 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
         <div className="site-panel site-panel--flush">
           <Preview>
             <DropdownMenu
-              trigger={<Button variant="secondary">Row actions ▾</Button>}
+              trigger={<Button variant="secondary"><span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>Row actions <ChevronIcon size={12} /></span></Button>}
               items={[
                 { label: "View details" },
                 { label: "Download statement", separatorAfter: true },

@@ -1,7 +1,7 @@
 import React from "react";
 import { Preview } from "../Preview";
 import { DocsSection, DocsSectionList } from "../DocsSection";
-import { LineChartCard, BarChartCard } from "../../../../packages/core/src/components/Chart";
+import { LineChartCard } from "../../../../packages/core/src/components/Chart";
 
 const contributionGrowth = [
   { month: "Mar", balance: 78400, contributions: 82000 },
@@ -10,13 +10,6 @@ const contributionGrowth = [
   { month: "Jun", balance: 87100, contributions: 89500 },
   { month: "Jul", balance: 89800, contributions: 92000 },
   { month: "Aug", balance: 92400, contributions: 94500 },
-];
-
-const allocationBySource = [
-  { source: "Pre-tax", amount: 48200 },
-  { source: "Roth", amount: 22100 },
-  { source: "Employer match", amount: 16400 },
-  { source: "Rollover", amount: 5700 },
 ];
 
 export default function Charts({ embedded = false }: { embedded?: boolean }) {
@@ -35,22 +28,6 @@ export default function Charts({ embedded = false }: { embedded?: boolean }) {
                   { key: "balance", label: "Account balance" },
                   { key: "contributions", label: "Total contributions" },
                 ]}
-              />
-            </div>
-          </Preview>
-        </div>
-      </DocsSection>
-
-      <DocsSection anchorId="bar-chart" title="Bar chart">
-        <div className="site-panel site-panel--flush">
-          <Preview>
-            <div style={{ width: "100%", padding: 20 }}>
-              <BarChartCard
-                title="Balance by source"
-                description="Pre-tax deferrals make up the largest share of the account balance."
-                data={allocationBySource}
-                xKey="source"
-                series={[{ key: "amount", label: "Amount" }]}
               />
             </div>
           </Preview>

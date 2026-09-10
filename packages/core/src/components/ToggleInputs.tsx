@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import type { InputSize } from "./Field";
 
 export type ToggleSize = "sm" | "md" | "lg";
 
@@ -81,6 +82,95 @@ export function ToggleGroup<T extends string>({
           </button>
         );
       })}
+    </div>
+  );
+}
+
+export interface IncrementalSelectorProps {
+  value?: number;
+  defaultValue?: number;
+  onChange?: (value: number) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  disabled?: boolean;
+  id?: string;
+  className?: string;
+  size?: InputSize;
+  "aria-label"?: string;
+}
+
+function clampValue(value: number, min?: number, max?: number) {
+  let next = value;
+  if (min !== undefined) next = Math.max(min, next);
+  if (max !== undefined) next = Math.min(max, next);
+  return next;
+}
+
+/** Stepper-style numeric control with minus / value / plus segments. */
+export function IncrementalSelector({
+  value: controlledValue,
+  defaultValue = 0,
+  onChange,
+  min,
+  max,
+  step = 1,
+  disabled = false,
+  id,
+  className = "",
+  size = "md",
+  "aria-label": ariaLabel = "Quantity",
+}: IncrementalSelectorProps) {
+  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
+  const isControlled = controlledValue !== undefined;
+  const value = isControlled ? controlledValue : uncontrolledValue;
+
+  const setValue = (next: number) => {
+    const clamped = clampValue(next, min, max);
+    if (!isControlled) setUncontrolledValue(clamped);
+    onChange?.(clamped);
+  };
+
+  const decreaseDisabled = disabled || (min !== undefined && value <= min);
+  const increaseDisabled = disabled || (max !== undefined && value >= max);
+
+  return (
+    <div
+      className={`cds-incremental-selector cds-incremental-selector--${size} ${disabled ? "cds-incremental-selector--disabled" : ""} ${className}`.trim()}
+      role="group"
+      aria-label={ariaLabel}
+      aria-disabled={disabled || undefined}
+    >
+      <button
+        type="button"
+        className="cds-incremental-selector__btn cds-incremental-selector__btn--decrease"
+        aria-label={`Decrease ${ariaLabel.toLowerCase()}`}
+        disabled={decreaseDisabled}
+        onClick={() => setValue(value - step)}
+      >
+        <span aria-hidden="true">−</span>
+      </button>
+      <div
+        id={id}
+        className="cds-incremental-selector__value"
+        aria-live="polite"
+        aria-atomic="true"
+        aria-valuenow={value}
+        aria-valuemin={min}
+        aria-valuemax={max}
+        role="spinbutton"
+      >
+        {value}
+      </div>
+      <button
+        type="button"
+        className="cds-incremental-selector__btn cds-incremental-selector__btn--increase"
+        aria-label={`Increase ${ariaLabel.toLowerCase()}`}
+        disabled={increaseDisabled}
+        onClick={() => setValue(value + step)}
+      >
+        <span aria-hidden="true">+</span>
+      </button>
     </div>
   );
 }

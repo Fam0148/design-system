@@ -263,46 +263,7 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
       anchorId: "collapsible",
       title: "Collapsible",
       content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <table className="spec-table">
-            <thead>
-              <tr>
-                <th>Property</th>
-                <th>Card Variant</th>
-                <th>Button Variant</th>
-                <th>Ghost Variant</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Container</td>
-                <td>Bordered card surface</td>
-                <td>Collapsible action button</td>
-                <td>Inline text trigger</td>
-              </tr>
-              <tr>
-                <td>Border radius</td>
-                <td>8px (<code>core.radius.md</code>)</td>
-                <td>8px (<code>core.radius.md</code>)</td>
-                <td>None</td>
-              </tr>
-              <tr>
-                <td>Chevron icon</td>
-                <td>14×14px, 180° rotation</td>
-                <td>14×14px, 180° rotation</td>
-                <td>14×14px, 180° rotation</td>
-              </tr>
-              <tr>
-                <td>Typography</td>
-                <td>14px semibold title</td>
-                <td>14px medium button</td>
-                <td>14px brand interactive</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <CollapsibleVariantsDemo />
-        </div>
+        <CollapsibleVariantsDemo />
       ),
     },
     {
@@ -310,52 +271,7 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
       anchorId: "accordion",
       title: "Accordion",
       content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <table className="spec-table">
-            <thead>
-              <tr>
-                <th>Property</th>
-                <th>Bordered (Default)</th>
-                <th>Separated (Card)</th>
-                <th>Flush</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Container border</td>
-                <td>1px solid border-default</td>
-                <td>None (individual card borders)</td>
-                <td>None (borderless)</td>
-              </tr>
-              <tr>
-                <td>Border radius</td>
-                <td>8px (outer container)</td>
-                <td>8px (per card item)</td>
-                <td>None (0px)</td>
-              </tr>
-              <tr>
-                <td>Item spacing</td>
-                <td>Hairline divider (1px)</td>
-                <td>12px gap between cards</td>
-                <td>Hairline divider (1px)</td>
-              </tr>
-              <tr>
-                <td>Trigger padding</td>
-                <td>16px 20px</td>
-                <td>16px 20px</td>
-                <td>12px 0</td>
-              </tr>
-              <tr>
-                <td>Panel padding</td>
-                <td>0 20px 24px</td>
-                <td>0 20px 24px</td>
-                <td>0 0 24px</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <AccordionVariantsDemo />
-        </div>
+        <AccordionVariantsDemo />
       ),
     },
     {
@@ -364,33 +280,6 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
       title: "Separator",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <table className="spec-table">
-            <thead>
-              <tr>
-                <th>Property</th>
-                <th>Horizontal</th>
-                <th>Vertical</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Thickness</td>
-                <td>1px hairline</td>
-                <td>1px hairline</td>
-              </tr>
-              <tr>
-                <td>Token</td>
-                <td><code>var(--core-color-border-default)</code></td>
-                <td><code>var(--core-color-border-default)</code></td>
-              </tr>
-              <tr>
-                <td>Accessibility</td>
-                <td><code>role="separator"</code> (horizontal)</td>
-                <td><code>role="separator"</code> (vertical)</td>
-              </tr>
-            </tbody>
-          </table>
-
           <div className="site-panel site-panel--flush">
             <div
               className="preview-surface"
@@ -444,29 +333,6 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
       title: "Skeleton",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <table className="spec-table">
-            <thead>
-              <tr>
-                <th>Property</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Animation</td>
-                <td>Shimmer pulse / sweep (1.5s infinite linear)</td>
-              </tr>
-              <tr>
-                <td>Surface color</td>
-                <td><code>var(--core-color-surface-sunken)</code></td>
-              </tr>
-              <tr>
-                <td>Border radius</td>
-                <td><code>var(--core-radius-md, 8px)</code> / <code>50%</code> for circular avatars</td>
-              </tr>
-            </tbody>
-          </table>
-
           <div className="site-panel site-panel--flush">
             <Preview>
               <div

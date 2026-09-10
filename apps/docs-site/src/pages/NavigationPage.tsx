@@ -18,10 +18,10 @@ type SidebarRailState = "DEFAULT" | "HOVER" | "SELECTED" | "FOCUS" | "DISABLED";
 function railSidebarItems(state: SidebarRailState): SidebarItem[] {
   const items: SidebarItem[] = [
     { label: "Dashboard", icon: <Icon name="fa-solid fa-grip" size="lg" /> },
-    { label: "Investment Portfolio", icon: <Icon name="fa-solid fa-wallet" size="lg" /> },
+    { label: "Portfolio", icon: <Icon name="fa-solid fa-wallet" size="lg" /> },
     { label: "Transactions", icon: <Icon name="fa-solid fa-right-left" size="lg" /> },
-    { label: "My Profile", icon: <Icon name="fa-solid fa-user" size="lg" /> },
-    { label: "Document Center", icon: <Icon name="fa-solid fa-file-lines" size="lg" /> },
+    { label: "Profile", icon: <Icon name="fa-solid fa-user" size="lg" /> },
+    { label: "Documents", icon: <Icon name="fa-solid fa-file-lines" size="lg" /> },
   ];
 
   if (state === "SELECTED") {
@@ -53,7 +53,7 @@ function StepperStatePreview({
   const marker = state === "completed" ? "✓" : state === "warning" || state === "error" ? "!" : stepNumber;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)", minWidth: 180 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)", minWidth: 0 }}>
       <span style={stateEyebrowStyle}>{eyebrow}</span>
       <ol className="cds-stepper cds-stepper--vertical" aria-label={`Stepper ${eyebrow}`} style={{ width: "auto", minWidth: 0 }}>
         <li className={`cds-step cds-step--${state} cds-step--vertical`} style={{ paddingBottom: 0 }}>
@@ -94,44 +94,43 @@ function StepperStatesDemo() {
             display: "grid",
             gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
             gap: "var(--core-space-4, 16px)",
-            overflowX: "auto",
           }}
         >
           <StepperStatePreview
             eyebrow="DEFAULT"
             state="default"
-            title="Fee Details"
-            description="Review applicable fees and tax withholding."
+            title="Fees"
+            description="Review fees."
             stepNumber={3}
           />
           <StepperStatePreview
             eyebrow="IN PROGRESS"
             state="in-progress"
-            title="Withdrawal Allocation"
-            description="Choose which sources to withdraw from."
+            title="Allocation"
+            description="Pick sources."
             status="In progress"
             stepNumber={2}
           />
           <StepperStatePreview
             eyebrow="COMPLETED"
             state="completed"
-            title="Withdrawal Details"
-            description="Specify the withdrawal type and amount."
+            title="Withdrawal"
+            description="Set amount."
           />
           <StepperStatePreview
             eyebrow="WARNING"
             state="warning"
-            title="Fee Details"
-            description="Review applicable fees and tax withholding."
-            status="Review required"
+            title="Fees"
+            description="Review fees."
+            status="Review needed"
             stepNumber={3}
           />
           <StepperStatePreview
             eyebrow="ERROR"
             state="error"
-            title="Upload Documents"
-            description="Attach any required supporting forms."
-            status="Action required"
+            title="Documents"
+            description="Attach forms."
+            status="Required"
             stepNumber={4}
           />
         </div>
@@ -179,7 +178,6 @@ function SidebarRailStatesDemo() {
             display: "grid",
             gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
             gap: "var(--core-space-4, 16px)",
-            overflowX: "auto",
           }}
         >
           {states.map(({ label, className }) => (
@@ -273,10 +271,10 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
             <Stepper
               currentIndex={1}
               steps={[
-                { label: "Personal info" },
-                { label: "Investment elections" },
+                { label: "Personal" },
+                { label: "Investments" },
                 { label: "Beneficiaries" },
-                { label: "Review & submit" },
+                { label: "Review" },
               ]}
             />
           </div>
@@ -292,11 +290,11 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
               orientation="vertical"
               currentIndex={1}
               steps={[
-                { label: "Withdrawal Details", description: "Specify the withdrawal type and amount." },
-                { label: "Withdrawal Allocation", description: "Choose which sources to withdraw from.", status: "In progress" },
-                { label: "Fee Details", description: "Review applicable fees and tax withholding." },
-                { label: "Upload Documents", description: "Attach any required supporting forms." },
-                { label: "Withdrawal Request Summary", description: "Review the request before submitting." },
+                { label: "Withdrawal", description: "Set type and amount." },
+                { label: "Allocation", description: "Pick sources.", status: "In progress" },
+                { label: "Fees", description: "Review fees." },
+                { label: "Documents", description: "Attach forms." },
+                { label: "Summary", description: "Review and submit." },
               ]}
             />
           </div>
@@ -313,9 +311,9 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
 
       <style>{`
         .sidebar-state-hover .cds-app-sidebar--rail .cds-app-sidebar-link:nth-child(3):not([aria-current="page"]) {
-          color: var(--theme-neutral-text-primary-default) !important;
-          background: transparent !important;
-          box-shadow: inset 3px 0 0 0 var(--theme-neutral-border-strong) !important;
+          color: var(--theme-primitive-color-primary-500) !important;
+          background: var(--theme-brand-background-primary-subtle) !important;
+          box-shadow: inset 3px 0 0 0 var(--theme-primitive-color-primary-500) !important;
         }
         .sidebar-state-focus .cds-app-sidebar--rail .cds-app-sidebar-link:nth-child(3):not([aria-current="page"]) {
           outline: var(--core-focusRing-width, 2px) solid var(--theme-primitive-color-primary-400) !important;

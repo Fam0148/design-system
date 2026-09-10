@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Input } from "./Field";
+import { InputWithIcon } from "./Field";
+import { CalendarIcon } from "./Primitives";
 import { Popover } from "./Overlays";
 
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
@@ -69,12 +70,13 @@ export interface DatePickerProps {
 
 export function DatePicker({ value, onChange, placeholder = "Select date", disabled, id }: DatePickerProps) {
   const trigger = (
-    <Input
+    <InputWithIcon
       id={id}
       readOnly
       disabled={disabled}
       value={value ? value.toLocaleDateString("en-GB") : ""}
       placeholder={placeholder}
+      trailingIcon={<CalendarIcon size={16} />}
       style={{ cursor: disabled ? "not-allowed" : "pointer" }}
     />
   );

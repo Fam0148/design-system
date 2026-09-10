@@ -71,11 +71,11 @@ const VARIANTS: VariantConfig[] = [
       },
       disabled: {
         bgVar: "--theme-brand-background-disabled-strong",
-        bgFallback: "#86ADDF",
-        textVar: "--theme-brand-text-primary-oncolor",
-        textFallback: "#FFFFFF",
+        bgFallback: "#BACEE9",
+        textVar: "--theme-primitive-color-primary-300",
+        textFallback: "#86ADDF",
         borderVar: "--theme-brand-borders-primary-disabled",
-        borderFallback: "#86ADDF",
+        borderFallback: "#BACEE9",
         extraStyles: {},
       },
     },
@@ -249,10 +249,28 @@ export function ButtonMatrix() {
     const bgVal = tok.bgVar.startsWith("--") ? `var(${tok.bgVar}, ${tok.bgFallback})` : tok.bgFallback;
     const useDarkPrimary50Text =
       canvasBg === "dark" &&
+      stateKey !== "disabled" &&
       (tok.textVar === "--theme-brand-text-primary-oncolor" ||
         (variant.id === "secondary" && (stateKey === "default" || stateKey === "focused")));
-    const textVar = useDarkPrimary50Text ? "--theme-primitive-color-primary-50" : tok.textVar;
-    const textFallback = useDarkPrimary50Text ? "#F5F7FA" : tok.textFallback;
+
+    const tertiaryDarkText =
+      canvasBg === "dark" && variant.id === "tertiary" && stateKey !== "disabled"
+        ? { textVar: "--theme-primitive-color-primary-50", textFallback: "#F5F7FA" }
+        : undefined;
+
+    const primaryDisabledLightText =
+      canvasBg === "light" && variant.id === "primary" && stateKey === "disabled"
+        ? { textVar: "--theme-primitive-color-primary-50", textFallback: "#F5F7FA" }
+        : undefined;
+
+    const textVar =
+      primaryDisabledLightText?.textVar ??
+      tertiaryDarkText?.textVar ??
+      (useDarkPrimary50Text ? "--theme-primitive-color-primary-50" : tok.textVar);
+    const textFallback =
+      primaryDisabledLightText?.textFallback ??
+      tertiaryDarkText?.textFallback ??
+      (useDarkPrimary50Text ? "#F5F7FA" : tok.textFallback);
     const textVal = textVar.startsWith("--") ? `var(${textVar}, ${textFallback})` : textFallback;
     const borderVal = tok.borderVar && tok.borderVar !== "transparent" ? `var(${tok.borderVar}, ${tok.borderFallback || "transparent"})` : "transparent";
 
@@ -468,19 +486,12 @@ export function ButtonMatrix() {
                     <div style={{ marginBottom: 6 }}>
                       <button
                         type="button"
-                        className={
-                          variant.id === "tertiary" && (st.key === "hover" || st.key === "active")
-                            ? "cds-btn cds-btn--tertiary"
-                            : undefined
-                        }
                         style={getButtonStyles(variant, st.key)}
                         disabled={st.key === "disabled"}
                         onClick={() => handleCopy(variant.id, st.key)}
                         title={`Click to copy JSX for ${variant.name} (${st.label})`}
                       >
-                        {variant.id === "tertiary" && (st.key === "hover" || st.key === "active")
-                          ? <span className="cds-btn__text">{buttonText}</span>
-                          : buttonText}
+                        {buttonText}
                       </button>
                     </div>
                   </div>

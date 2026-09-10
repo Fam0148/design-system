@@ -12,10 +12,10 @@ import { Drawer } from "../../../../packages/core/src/components/Overlays";
 
 const NAV_ITEMS = [
   { label: "Dashboard", icon: <Icon name="fa-solid fa-grip" size="lg" />, current: true },
-  { label: "Investment Portfolio", icon: <Icon name="fa-solid fa-wallet" size="lg" /> },
+  { label: "Portfolio", icon: <Icon name="fa-solid fa-wallet" size="lg" /> },
   { label: "Transactions", icon: <Icon name="fa-solid fa-right-left" size="lg" /> },
-  { label: "My Profile", icon: <Icon name="fa-solid fa-user" size="lg" /> },
-  { label: "Document Center", icon: <Icon name="fa-solid fa-file-lines" size="lg" /> },
+  { label: "Profile", icon: <Icon name="fa-solid fa-user" size="lg" /> },
+  { label: "Documents", icon: <Icon name="fa-solid fa-file-lines" size="lg" /> },
 ];
 
 function ScreenHeader({ userName }: { userName: string }) {

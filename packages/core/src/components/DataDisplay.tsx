@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Select } from "./FormControls";
+import { ChevronIcon } from "./Primitives";
 
 export interface Column<T> { key: string; header: string; render?: (row: T) => React.ReactNode; }
 export interface TableProps<T extends { id: string | number }> {
@@ -185,7 +186,12 @@ export function DataTable<T extends { id: string | number }>({
                   {c.sortable && !disabled && !viewMode ? (
                     <button className="cds-th-sortable" onClick={() => toggleSort(c.key)}>
                       {c.header}
-                      <span className="cds-sort-icon" data-active={sort?.key === c.key}>{sort?.key === c.key && sort.dir === -1 ? "▼" : "▲"}</span>
+                      <ChevronIcon
+                        className="cds-sort-icon"
+                        data-active={sort?.key === c.key}
+                        direction={sort?.key === c.key && sort.dir === -1 ? "down" : "up"}
+                        size={12}
+                      />
                     </button>
                   ) : (
                     <span className={c.sortable ? "cds-th-sortable cds-th-sortable--disabled" : ""}>
