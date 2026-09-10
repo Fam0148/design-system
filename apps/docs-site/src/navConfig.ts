@@ -93,7 +93,6 @@ export const componentSections: NavSection[] = [
       componentLink("slideover", "Slideover"),
       componentLink("dropdown-menu", "Dropdown Menu"),
       componentLink("tooltip", "Tooltip"),
-      componentLink("popover", "Popover"),
       componentLink("hover-card", "Hover Card"),
     ],
   },

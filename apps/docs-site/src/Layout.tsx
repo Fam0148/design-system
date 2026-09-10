@@ -22,26 +22,6 @@ const nav = [
       ...componentLinks,
     ],
   },
-  {
-    group: "Anatomy",
-    links: [
-      { to: "/anatomy#button", label: "Button" },
-      { to: "/anatomy#icon-button", label: "Icon Button" },
-      { to: "/anatomy#button-group", label: "Button Group" },
-      { to: "/anatomy#input", label: "Input" },
-      { to: "/anatomy#checkbox", label: "Checkbox & Radio" },
-      { to: "/anatomy#switch", label: "Switch" },
-      { to: "/anatomy#slider", label: "Slider" },
-      { to: "/anatomy#card", label: "Card" },
-      { to: "/anatomy#badge", label: "Badge" },
-      { to: "/anatomy#avatar", label: "Avatar" },
-      { to: "/anatomy#progress", label: "Progress" },
-      { to: "/anatomy#modal", label: "Modal" },
-      { to: "/anatomy#drawer", label: "Drawer" },
-      { to: "/anatomy#tooltip", label: "Tooltip" },
-      { to: "/anatomy#popover", label: "Popover" },
-    ],
-  },
 ];
 
 function getGroupLinks(group: { links: NavLink[] }) {

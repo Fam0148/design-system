@@ -22,7 +22,6 @@ export interface SemanticTokenRow {
   cssVar: string;
   light: SemanticTokenCell;
   dark: SemanticTokenCell;
-  description?: string;
 }
 
 export interface TokenReferenceSection {
@@ -89,35 +88,30 @@ export const BRAND_TOKEN_SECTIONS: TokenReferenceSection[] = [
         cssVar: "--brand-text-primary-default",
         light: { primitiveId: "blue500" },
         dark: { primitiveId: "blue500" },
-        description: "Default brand text on light surfaces.",
       },
       {
         name: "primary-disabled",
         cssVar: "--brand-text-primary-disabled",
         light: { primitiveId: "blue300" },
         dark: { primitiveId: "blue300" },
-        description: "Muted brand text for disabled links and labels.",
       },
       {
         name: "primary-active",
         cssVar: "--brand-text-primary-active",
         light: { primitiveId: "blue700" },
         dark: { primitiveId: "blue200" },
-        description: "Pressed/active brand text state.",
       },
       {
         name: "primary-hover",
         cssVar: "--brand-text-primary-hover",
         light: { primitiveId: "blue600" },
         dark: { primitiveId: "blue400" },
-        description: "Hover brand text state.",
       },
       {
         name: "primary-oncolor",
         cssVar: "--brand-text-primary-oncolor",
         light: { primitiveId: "white" },
         dark: { primitiveId: "blue50" },
-        description: "Text on solid brand backgrounds.",
       },
     ],
   },
@@ -130,49 +124,42 @@ export const BRAND_TOKEN_SECTIONS: TokenReferenceSection[] = [
         cssVar: "--brand-background-strong",
         light: { primitiveId: "blue500" },
         dark: { primitiveId: "blue500" },
-        description: "Solid primary button and strong brand fills.",
       },
       {
         name: "primary-light",
         cssVar: "--brand-background-primary-light",
         light: { primitiveId: "blue50" },
         dark: { primitiveId: "blue900" },
-        description: "Soft tinted brand container background.",
       },
       {
         name: "primary-subtle",
         cssVar: "--brand-background-primary-subtle",
         light: { primitiveId: "blue100" },
         dark: { primitiveId: "blue800" },
-        description: "Subtle brand surface on page canvas.",
       },
       {
         name: "disabled-light",
         cssVar: "--brand-background-disabled-light",
         light: { primitiveId: "grey100" },
         dark: { primitiveId: "grey100" },
-        description: "Light disabled control background.",
       },
       {
         name: "disabled-strong",
         cssVar: "--brand-background-disabled-strong",
         light: { primitiveId: "blue200" },
         dark: { primitiveId: "blue200" },
-        description: "Solid disabled primary button background.",
       },
       {
         name: "active",
         cssVar: "--brand-background-active",
         light: { primitiveId: "blue700" },
         dark: { primitiveId: "blue500" },
-        description: "Pressed primary button background.",
       },
       {
         name: "hover",
         cssVar: "--brand-background-hover",
         light: { primitiveId: "blue600" },
         dark: { primitiveId: "blue600" },
-        description: "Hover primary button background.",
       },
     ],
   },
@@ -185,21 +172,18 @@ export const BRAND_TOKEN_SECTIONS: TokenReferenceSection[] = [
         cssVar: "--brand-borders-primary-default",
         light: { primitiveId: "blue500" },
         dark: { primitiveId: "blue500" },
-        description: "Default outlined brand control border.",
       },
       {
         name: "primary-disabled",
         cssVar: "--brand-borders-primary-disabled",
         light: { primitiveId: "blue200" },
         dark: { primitiveId: "blue200" },
-        description: "Disabled outlined brand control border.",
       },
       {
         name: "hover",
         cssVar: "--brand-borders-hover",
         light: { primitiveId: "blue600" },
         dark: { primitiveId: "blue300" },
-        description: "Hover border for outlined brand controls.",
       },
     ],
   },

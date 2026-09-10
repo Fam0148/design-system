@@ -1,38 +1,10 @@
 import React from "react";
 import { Preview } from "../Preview";
-import { ComponentSectionNumber } from "../ComponentSectionNumber";
+import { DocsSection, DocsSectionList } from "../DocsSection";
 import { Alert } from "../../../../packages/core/src/components/Misc";
 import { Toast, Spinner } from "../../../../packages/core/src/components/Overlays";
 import { Empty } from "../../../../packages/core/src/components/Primitives";
 import { Button } from "../../../../packages/core/src/components/Button";
-import { ToastProvider, useToast } from "../../../../packages/core/src/components/ToastManager";
-
-function ToastManagerDemo() {
-  const { push } = useToast();
-  return (
-    <Preview>
-      <Button variant="success" onClick={() => push({ tone: "success", title: "Changes saved", description: "Auto-dismisses in 4s." })}>
-        Trigger success toast
-      </Button>
-      <Button
-        variant="warning"
-        onClick={() => push({ tone: "warning", title: "Beneficiary missing", description: "Add a beneficiary to finish setup." })}
-      >
-        Trigger warning toast
-      </Button>
-      <Button variant="info" onClick={() => push({ tone: "info", title: "Scheduled maintenance", description: "Portal unavailable Sunday 2–4am ET." })}>
-        Trigger info toast
-      </Button>
-      <Button
-        variant="destructive"
-        onClick={() => push({ tone: "danger", title: "Couldn't connect", description: "Retry in a moment." })}
-      >
-        Trigger error toast
-      </Button>
-    </Preview>
-  );
-}
-
 export default function Feedback({ embedded = false }: { embedded?: boolean }) {
   const [dismissed, setDismissed] = React.useState<Set<string>>(new Set());
   const [dismissedToasts, setDismissedToasts] = React.useState<Set<string>>(new Set());
@@ -45,8 +17,6 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
       id: "01",
       anchorId: "alert",
       title: "Alert",
-      description:
-        "Persistent, page-level status banners bound directly to semantics tokens (Success, Warning, Danger, Info).",
       content: (
         <div className="site-panel site-panel--flush">
           <div
@@ -99,58 +69,49 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
       id: "02",
       anchorId: "toast",
       title: "Toast & Notifications",
-      description: "Transient notifications that confirm action results and stack bottom-right with auto-dismissal.",
       content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div className="site-panel site-panel--flush">
-            <div
-              className="preview-surface"
-              data-theme="core"
-              data-mode="light"
-              style={{
-                background: "var(--core-color-bg-page)",
-                flexWrap: "wrap",
-                gap: "var(--core-space-4, 16px)",
-              }}
-            >
-              {!dismissedToasts.has("success") && (
-                <Toast tone="success" title="Changes saved" onClose={() => dismissToast("success")}>
-                  Your contribution rate was updated.
-                </Toast>
-              )}
-              {!dismissedToasts.has("warning") && (
-                <Toast tone="warning" title="Beneficiary missing" onClose={() => dismissToast("warning")}>
-                  Add a beneficiary to finish setting up your account.
-                </Toast>
-              )}
-              {!dismissedToasts.has("info") && (
-                <Toast tone="info" title="Scheduled maintenance" onClose={() => dismissToast("info")}>
-                  The portal will be unavailable Sunday 2–4am ET.
-                </Toast>
-              )}
-              {!dismissedToasts.has("danger") && (
-                <Toast tone="danger" title="Couldn't connect" onClose={() => dismissToast("danger")}>
-                  Check your internet connection and retry.
-                </Toast>
-              )}
-              {dismissedToasts.size === 4 && (
-                <div style={{ width: "100%", textAlign: "center", padding: "12px 0" }}>
-                  <button
-                    type="button"
-                    className="cds-btn cds-btn--secondary cds-btn--sm"
-                    onClick={resetToasts}
-                  >
-                    ↺ Reset toasts
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="site-panel site-panel--flush">
-            <ToastProvider>
-              <ToastManagerDemo />
-            </ToastProvider>
+        <div className="site-panel site-panel--flush">
+          <div
+            className="preview-surface"
+            data-theme="core"
+            data-mode="light"
+            style={{
+              background: "var(--core-color-bg-page)",
+              flexWrap: "wrap",
+              gap: "var(--core-space-4, 16px)",
+            }}
+          >
+            {!dismissedToasts.has("success") && (
+              <Toast tone="success" title="Changes saved" onClose={() => dismissToast("success")}>
+                Your contribution rate was updated.
+              </Toast>
+            )}
+            {!dismissedToasts.has("warning") && (
+              <Toast tone="warning" title="Beneficiary missing" onClose={() => dismissToast("warning")}>
+                Add a beneficiary to finish setting up your account.
+              </Toast>
+            )}
+            {!dismissedToasts.has("info") && (
+              <Toast tone="info" title="Scheduled maintenance" onClose={() => dismissToast("info")}>
+                The portal will be unavailable Sunday 2–4am ET.
+              </Toast>
+            )}
+            {!dismissedToasts.has("danger") && (
+              <Toast tone="danger" title="Couldn't connect" onClose={() => dismissToast("danger")}>
+                Check your internet connection and retry.
+              </Toast>
+            )}
+            {dismissedToasts.size === 4 && (
+              <div style={{ width: "100%", textAlign: "center", padding: "12px 0" }}>
+                <button
+                  type="button"
+                  className="cds-btn cds-btn--secondary cds-btn--sm"
+                  onClick={resetToasts}
+                >
+                  ↺ Reset toasts
+                </button>
+              </div>
+            )}
           </div>
         </div>
       ),
@@ -159,7 +120,6 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
       id: "03",
       anchorId: "empty",
       title: "Empty State",
-      description: "Fallback illustrations, guidance descriptions, and primary recovery actions for zero-data views.",
       content: (
         <div className="site-panel site-panel--flush">
           <div
@@ -185,7 +145,6 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
       id: "04",
       anchorId: "spinner",
       title: "Loading Spinner",
-      description: "Indeterminate progress spinner with accessible ARIA status announcements and reduced-motion support.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
@@ -198,29 +157,13 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
   ];
 
   const sectionList = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
+    <DocsSectionList>
       {sections.map((s) => (
-        <div key={s.anchorId} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: "-12.5%",
-                width: "125%",
-                height: 1,
-                backgroundColor: "var(--site-border)",
-              }}
-            />
-            <div style={{ paddingTop: 32 }}>
-              <ComponentSectionNumber anchorId={s.anchorId} />
-              <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
-                {s.title}
-              </h2>
-            </div>
-            <div>{s.content}</div>
-          </div>
+        <DocsSection key={s.anchorId} anchorId={s.anchorId} title={s.title}>
+          {s.content}
+        </DocsSection>
       ))}
-    </div>
+    </DocsSectionList>
   );
 
   if (embedded) return sectionList;

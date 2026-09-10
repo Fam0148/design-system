@@ -270,7 +270,6 @@ export default function Typography() {
       id: "01",
       anchorId: "typeface",
       title: "Typeface",
-      description: "CORE's default typeface, optimized for legibility and clear letterform distinction in data-dense environments.",
       content: (
         <div style={{ background: "var(--core-color-surface-default)", borderRadius: 14, padding: "48px 40px", border: "1px solid rgba(128,128,128,0.15)", color: "var(--core-color-text-primary)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 40, flexWrap: "wrap", gap: 32 }}>
@@ -319,7 +318,6 @@ export default function Typography() {
       id: "02",
       anchorId: "type-scale",
       title: "Type scale",
-      description: "Unified table combining visual scale previews with exact specifications for desktop and mobile.",
       content: (
         <div data-theme="core" data-mode="light" style={{ background: "var(--core-color-surface-default)", borderRadius: 14, padding: "8px 40px", border: "1px solid rgba(128,128,128,0.15)" }}>
           {order.map((key, index) => (
@@ -338,7 +336,6 @@ export default function Typography() {
       id: "03",
       anchorId: "spacing-padding",
       title: "Spacing & Padding",
-      description: "Standardized 4px-based spacing scale for margins, padding, and layout gaps.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", background: "var(--core-color-surface-default)", borderRadius: 14, padding: "24px 32px", border: "1px solid rgba(128,128,128,0.15)" }}>
           {Object.entries(primitives.space).sort((a, b) => parseInt(a[1], 10) - parseInt(b[1], 10)).map(([key, val], i, arr) => {
@@ -360,7 +357,6 @@ export default function Typography() {
       id: "04",
       anchorId: "border-radius",
       title: "Border Radius",
-      description: "Scale for rounding corners of surfaces, components, badges, and interactive elements.",
       content: (
         <div style={{ display: "flex", flexWrap: "wrap", gap: 24, background: "var(--core-color-surface-default)", borderRadius: 14, padding: "32px", border: "1px solid rgba(128,128,128,0.15)" }}>
           {Object.entries(primitives.radius).map(([key, val]) => (
@@ -390,7 +386,6 @@ export default function Typography() {
       id: "05",
       anchorId: "elevation-shadows",
       title: "Elevation & Shadows",
-      description: "Two elevation levels — each uses a paired contact + ambient shadow for depth in light and dark modes.",
       content: (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24 }}>
           {elevationKeys.map((key) => (
@@ -403,7 +398,6 @@ export default function Typography() {
       id: "06",
       anchorId: "icon-sizing",
       title: "Icon Sizing",
-      description: "Standardized sizing presets for icons across navigation, buttons, and content items.",
       content: (
         <div style={{ display: "flex", gap: 32, flexWrap: "wrap", background: "var(--core-color-surface-default)", borderRadius: 14, padding: "32px", border: "1px solid rgba(128,128,128,0.15)" }}>
           {iconSizes.map((item) => (
@@ -447,7 +441,6 @@ export default function Typography() {
     {
       id: "08",
       title: "Motion & Timing",
-      description: "Standardized durations and easing curves for fluid UI transitions and micro-interactions.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 24, background: "var(--core-color-surface-default)", borderRadius: 14, padding: "28px 32px", border: "1px solid rgba(128,128,128,0.15)" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>

@@ -22,12 +22,6 @@ const sections = [
             to: "/components",
             cta: "Browse Components",
           },
-          {
-            label: "Anatomy",
-            desc: "Structural specs — spacing, sizing, and part names for designers and engineers building to spec.",
-            to: "/anatomy",
-            cta: "View Anatomy",
-          },
         ].map((item) => (
           <div
             key={item.label}
@@ -207,13 +201,6 @@ const sections = [
               Forms
             </Link>{" "}
             for the most common UI patterns.
-          </li>
-          <li style={{ fontSize: "var(--typography-body-md-size)", lineHeight: 1.6, color: "var(--core-color-text-secondary)" }}>
-            Check{" "}
-            <Link to="/anatomy" style={{ color: "var(--theme-brand-text-primary-default)", fontWeight: 600, textDecoration: "none" }}>
-              Component Anatomy
-            </Link>{" "}
-            when you need exact spacing and structure for handoff.
           </li>
         </ol>
       </div>

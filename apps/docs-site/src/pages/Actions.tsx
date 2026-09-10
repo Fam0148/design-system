@@ -3,22 +3,18 @@ import { Preview } from "../Preview";
 import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Button, IconButton, Link } from "../../../../packages/core/src/components/Button";
 import { ButtonMatrix } from "../ButtonMatrix";
-import { ComponentSectionNumber } from "../ComponentSectionNumber";
+import { DocsSection, DocsSectionList } from "../DocsSection";
 
 export default function Actions({ embedded = false }: { embedded?: boolean }) {
   const sections = [
     {
       anchorId: "button",
       title: "Buttons",
-      description:
-        "Complete component matrix showcasing each variant across all interactive states (Default, Hover, Active, Focused, Disabled) directly wired to the Color Palette SCSS.",
       content: <ButtonMatrix />,
     },
     {
       anchorId: "icon-button",
       title: "Icon Button",
-      description:
-        "Square and circular icon actions with required accessible names. Edit action shown across interactive states.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
@@ -121,8 +117,6 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
     {
       anchorId: "link",
       title: "Link",
-      description:
-        "Inline text links distinct from standalone buttons — shown across default, hover, active, focused, and disabled states.",
       content: (
         <div className="site-panel site-panel--flush">
             <Preview>
@@ -252,29 +246,13 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
   ];
 
   const sectionList = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
+    <DocsSectionList>
       {sections.map((s) => (
-        <div key={s.anchorId} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: "-12.5%",
-              width: "125%",
-              height: 1,
-              backgroundColor: "var(--site-border)",
-            }}
-          />
-          <div style={{ paddingTop: 32 }}>
-            <ComponentSectionNumber anchorId={s.anchorId} />
-            <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
-              {s.title}
-            </h2>
-          </div>
-          <div>{s.content}</div>
-        </div>
+        <DocsSection key={s.anchorId} anchorId={s.anchorId} title={s.title}>
+          {s.content}
+        </DocsSection>
       ))}
-    </div>
+    </DocsSectionList>
   );
 
   if (embedded) return sectionList;

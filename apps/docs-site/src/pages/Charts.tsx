@@ -1,6 +1,6 @@
 import React from "react";
 import { Preview } from "../Preview";
-import { ComponentSectionNumber } from "../ComponentSectionNumber";
+import { DocsSection, DocsSectionList } from "../DocsSection";
 import { LineChartCard, BarChartCard } from "../../../../packages/core/src/components/Chart";
 
 const contributionGrowth = [
@@ -20,60 +20,57 @@ const allocationBySource = [
 ];
 
 export default function Charts({ embedded = false }: { embedded?: boolean }) {
+  const sections = (
+    <DocsSectionList>
+      <DocsSection anchorId="line-chart" title="Line chart">
+        <div className="site-panel site-panel--flush">
+          <Preview>
+            <div style={{ width: "100%", padding: 20 }}>
+              <LineChartCard
+                title="Balance vs. contributions, last 6 months"
+                description="Account balance has tracked closely with total contributions, with a small gain from investment growth."
+                data={contributionGrowth}
+                xKey="month"
+                series={[
+                  { key: "balance", label: "Account balance" },
+                  { key: "contributions", label: "Total contributions" },
+                ]}
+              />
+            </div>
+          </Preview>
+        </div>
+      </DocsSection>
+
+      <DocsSection anchorId="bar-chart" title="Bar chart">
+        <div className="site-panel site-panel--flush">
+          <Preview>
+            <div style={{ width: "100%", padding: 20 }}>
+              <BarChartCard
+                title="Balance by source"
+                description="Pre-tax deferrals make up the largest share of the account balance."
+                data={allocationBySource}
+                xKey="source"
+                series={[{ key: "amount", label: "Amount" }]}
+              />
+            </div>
+          </Preview>
+        </div>
+      </DocsSection>
+    </DocsSectionList>
+  );
+
+  if (embedded) return sections;
+
   return (
     <div>
-      {!embedded && (
-        <>
-          <h1 className="site-h1">Charts &amp; Graphs</h1>
-          <p className="site-lede">
-            Built on <a href="https://recharts.org/" target="_blank" rel="noreferrer" style={{ color: "var(--site-accent)" }}>Recharts</a>{" "}
-            (recharts.org) — an SVG-based, composable React charting library, MIT-licensed. CORE doesn't build charting
-            from scratch; it wraps Recharts' primitives and owns two things: the visual layer (every color, font, and
-            stroke below is a CORE token, never a Recharts default) and accessibility (see the note below).
-          </p>
-        </>
-      )}
-
-      <div id="line-chart" className="docs-section">
-        <ComponentSectionNumber anchorId="line-chart" />
-        <h2 className="site-section-title">Line chart</h2>
-      </div>
-      <p className="site-section-sub">For a value over time — account balance, contribution growth.</p>
-      <div className="site-panel site-panel--flush">
-        <Preview>
-          <div style={{ width: "100%", padding: 20 }}>
-            <LineChartCard
-              title="Balance vs. contributions, last 6 months"
-              description="Account balance has tracked closely with total contributions, with a small gain from investment growth."
-              data={contributionGrowth}
-              xKey="month"
-              series={[
-                { key: "balance", label: "Account balance" },
-                { key: "contributions", label: "Total contributions" },
-              ]}
-            />
-          </div>
-        </Preview>
-      </div>
-
-      <div id="bar-chart" className="docs-section">
-        <ComponentSectionNumber anchorId="bar-chart" />
-        <h2 className="site-section-title">Bar chart</h2>
-      </div>
-      <p className="site-section-sub">For comparing discrete categories — balance by contribution source.</p>
-      <div className="site-panel site-panel--flush">
-        <Preview>
-          <div style={{ width: "100%", padding: 20 }}>
-            <BarChartCard
-              title="Balance by source"
-              description="Pre-tax deferrals make up the largest share of the account balance."
-              data={allocationBySource}
-              xKey="source"
-              series={[{ key: "amount", label: "Amount" }]}
-            />
-          </div>
-        </Preview>
-      </div>
+      <h1 className="site-h1">Charts &amp; Graphs</h1>
+      <p className="site-lede">
+        Built on <a href="https://recharts.org/" target="_blank" rel="noreferrer" style={{ color: "var(--site-accent)" }}>Recharts</a>{" "}
+        (recharts.org) — an SVG-based, composable React charting library, MIT-licensed. CORE doesn't build charting
+        from scratch; it wraps Recharts' primitives and owns two things: the visual layer (every color, font, and
+        stroke below is a CORE token, never a Recharts default) and accessibility (see the note below).
+      </p>
+      {sections}
     </div>
   );
 }

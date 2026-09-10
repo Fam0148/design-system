@@ -401,7 +401,6 @@ export interface FigmaTokenItem {
   darkHex: string;
   paletteNameLight: string; // e.g. "Brand 500"
   paletteNameDark: string;  // e.g. "Brand 300"
-  description: string;
 }
 
 const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
@@ -423,7 +422,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#F5F7FA",
     paletteNameLight: "Neutral 0",
     paletteNameDark: "Brand 50",
-    description: "High-contrast text placed on top of solid primary brand backgrounds.",
   },
   {
     id: "primary-text-disabled",
@@ -441,7 +439,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#86ADDF",
     paletteNameLight: "Brand 300",
     paletteNameDark: "Brand 300",
-    description: "Disabled state for primary brand typography and interactive labels.",
   },
   {
     id: "primary-text-default",
@@ -459,7 +456,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#1F4F8D",
     paletteNameLight: "Brand 500",
     paletteNameDark: "Brand 500",
-    description: "Default primary brand text color for headings, brand links, and prominent labels.",
   },
   {
     id: "primary-text-hover",
@@ -477,7 +473,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#3275CD",
     paletteNameLight: "Brand 600",
     paletteNameDark: "Brand 400",
-    description: "Hover text color for primary brand text links and clickable text elements.",
   },
   {
     id: "primary-text-active",
@@ -495,7 +490,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#BACEE9",
     paletteNameLight: "Brand 700",
     paletteNameDark: "Brand 200",
-    description: "Active/pressed text color for brand links and primary interactive elements.",
   },
 
   // Primary / Background
@@ -515,7 +509,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#102137",
     paletteNameLight: "Brand 50",
     paletteNameDark: "Brand 900",
-    description: "Soft tinted container background for badges, chips, and subtle alert cards.",
   },
   {
     id: "primary-bg-subtle",
@@ -533,7 +526,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#132A49",
     paletteNameLight: "Brand 100",
     paletteNameDark: "Brand 800",
-    description: "Gentle brand tint for selected row highlights and tertiary card backgrounds.",
   },
   {
     id: "primary-bg-disabled-light",
@@ -551,7 +543,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#EEEEF2",
     paletteNameLight: "Neutral 100",
     paletteNameDark: "Neutral 100",
-    description: "Light disabled container fill for inactive buttons and controls.",
   },
   {
     id: "primary-bg-disabled-strong",
@@ -569,7 +560,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#86ADDF",
     paletteNameLight: "Brand 300",
     paletteNameDark: "Brand 300",
-    description: "Muted solid background for disabled primary actions.",
   },
   {
     id: "primary-bg-strong",
@@ -587,7 +577,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#1F4F8D",
     paletteNameLight: "Brand 500",
     paletteNameDark: "Brand 500",
-    description: "Solid primary brand fill for primary buttons, active badges, and key banners.",
   },
   {
     id: "primary-bg-hover",
@@ -605,7 +594,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#1B4479",
     paletteNameLight: "Brand 600",
     paletteNameDark: "Brand 400",
-    description: "Hover state background for solid brand buttons and active controls.",
   },
   {
     id: "primary-bg-active",
@@ -623,7 +611,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#1F4F8D",
     paletteNameLight: "Brand 700",
     paletteNameDark: "Brand 300",
-    description: "Pressed/active state background for brand interactive controls.",
   },
 
   // Primary / Borders
@@ -643,7 +630,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#86ADDF",
     paletteNameLight: "Brand 300",
     paletteNameDark: "Brand 300",
-    description: "Border color for disabled outlined brand controls.",
   },
   {
     id: "primary-borders-default",
@@ -661,7 +647,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#1F4F8D",
     paletteNameLight: "Brand 500",
     paletteNameDark: "Brand 500",
-    description: "Default brand border for outline buttons, active tab indicators, and focus rings.",
   },
   {
     id: "primary-borders-hover",
@@ -679,7 +664,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#86ADDF",
     paletteNameLight: "Brand 600",
     paletteNameDark: "Brand 300",
-    description: "Hover state outline border for brand elements and cards.",
   },
 
   // ── 2. SECONDARY COLORS (SAME STRUCTURE AS PRIMARY) ──
@@ -699,7 +683,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FFFFFF",
     paletteNameLight: "Neutral 0",
     paletteNameDark: "Neutral 0",
-    description: "High-contrast text placed on top of solid secondary backgrounds.",
   },
   {
     id: "secondary-text-disabled",
@@ -716,7 +699,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#71CAF4",
     paletteNameLight: "Secondary 300",
     paletteNameDark: "Secondary 300",
-    description: "Disabled state for secondary typography and interactive labels.",
   },
   {
     id: "secondary-text-default",
@@ -733,7 +715,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#39BCF9",
     paletteNameLight: "Secondary 500",
     paletteNameDark: "Secondary 500",
-    description: "Default secondary text color for subheadings, category links, and emphasis tags.",
   },
   {
     id: "secondary-text-hover",
@@ -750,7 +731,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#56C3F5",
     paletteNameLight: "Secondary 600",
     paletteNameDark: "Secondary 400",
-    description: "Hover text color for secondary links and clickable labels.",
   },
   {
     id: "secondary-text-active",
@@ -767,7 +747,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#AFDEF4",
     paletteNameLight: "Secondary 700",
     paletteNameDark: "Secondary 200",
-    description: "Active/pressed text color for secondary elements.",
   },
 
   // Secondary / Background
@@ -786,7 +765,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#0A3F57",
     paletteNameLight: "Secondary 50",
     paletteNameDark: "Secondary 900",
-    description: "Soft tinted container background for secondary cards and chips.",
   },
   {
     id: "secondary-bg-subtle",
@@ -803,7 +781,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#0B5E84",
     paletteNameLight: "Secondary 100",
     paletteNameDark: "Secondary 800",
-    description: "Gentle secondary tint for secondary row highlights.",
   },
   {
     id: "secondary-bg-disabled-light",
@@ -820,7 +797,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#EEEEF2",
     paletteNameLight: "Neutral 100",
     paletteNameDark: "Neutral 100",
-    description: "Light disabled container fill for inactive secondary controls.",
   },
   {
     id: "secondary-bg-disabled-strong",
@@ -837,7 +813,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#AFDEF4",
     paletteNameLight: "Secondary 200",
     paletteNameDark: "Secondary 200",
-    description: "Muted solid background for disabled secondary actions.",
   },
   {
     id: "secondary-bg-strong",
@@ -854,7 +829,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#39BCF9",
     paletteNameLight: "Secondary 500",
     paletteNameDark: "Secondary 500",
-    description: "Solid secondary fill for secondary buttons and active category badges.",
   },
   {
     id: "secondary-bg-hover",
@@ -871,7 +845,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#56C3F5",
     paletteNameLight: "Secondary 600",
     paletteNameDark: "Secondary 400",
-    description: "Hover state background for secondary controls.",
   },
   {
     id: "secondary-bg-active",
@@ -888,7 +861,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#71CAF4",
     paletteNameLight: "Secondary 700",
     paletteNameDark: "Secondary 300",
-    description: "Pressed state background for secondary controls.",
   },
 
   // Secondary / Borders
@@ -907,7 +879,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#AFDEF4",
     paletteNameLight: "Secondary 200",
     paletteNameDark: "Secondary 200",
-    description: "Border color for disabled outlined secondary controls.",
   },
   {
     id: "secondary-borders-default",
@@ -924,7 +895,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#39BCF9",
     paletteNameLight: "Secondary 500",
     paletteNameDark: "Secondary 500",
-    description: "Default outline border for secondary buttons and cards.",
   },
   {
     id: "secondary-borders-hover",
@@ -941,7 +911,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#71CAF4",
     paletteNameLight: "Secondary 600",
     paletteNameDark: "Secondary 300",
-    description: "Hover state outline border for secondary elements.",
   },
 
   // ── 3. TERTIARY COLORS (SAME STRUCTURE AS PRIMARY) ──
@@ -961,7 +930,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FFFFFF",
     paletteNameLight: "Neutral 0",
     paletteNameDark: "Neutral 0",
-    description: "High-contrast text placed on top of solid tertiary backgrounds.",
   },
   {
     id: "tertiary-text-disabled",
@@ -978,7 +946,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FBCB6B",
     paletteNameLight: "Tertiary 300",
     paletteNameDark: "Tertiary 300",
-    description: "Disabled state for tertiary typography.",
   },
   {
     id: "tertiary-text-default",
@@ -995,7 +962,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#E89A1C",
     paletteNameLight: "Tertiary 500",
     paletteNameDark: "Tertiary 500",
-    description: "Default tertiary accent text color for hints, tags, and annotations.",
   },
   {
     id: "tertiary-text-hover",
@@ -1012,7 +978,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#F2B244",
     paletteNameLight: "Tertiary 600",
     paletteNameDark: "Tertiary 400",
-    description: "Hover text color for tertiary links and items.",
   },
   {
     id: "tertiary-text-active",
@@ -1029,7 +994,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FCDB94",
     paletteNameLight: "Tertiary 700",
     paletteNameDark: "Tertiary 200",
-    description: "Active/pressed text color for tertiary items.",
   },
 
   // Tertiary / Background
@@ -1048,7 +1012,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#5C3505",
     paletteNameLight: "Tertiary 50",
     paletteNameDark: "Tertiary 900",
-    description: "Soft tinted container background for tertiary alert callouts.",
   },
   {
     id: "tertiary-bg-subtle",
@@ -1065,7 +1028,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#784708",
     paletteNameLight: "Tertiary 100",
     paletteNameDark: "Tertiary 800",
-    description: "Gentle tertiary tint for warm card callouts.",
   },
   {
     id: "tertiary-bg-disabled-light",
@@ -1082,7 +1044,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#EEEEF2",
     paletteNameLight: "Neutral 100",
     paletteNameDark: "Neutral 100",
-    description: "Light disabled container fill for inactive tertiary controls.",
   },
   {
     id: "tertiary-bg-disabled-strong",
@@ -1099,7 +1060,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FCDB94",
     paletteNameLight: "Tertiary 200",
     paletteNameDark: "Tertiary 200",
-    description: "Muted solid background for disabled tertiary actions.",
   },
   {
     id: "tertiary-bg-strong",
@@ -1116,7 +1076,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#E89A1C",
     paletteNameLight: "Tertiary 500",
     paletteNameDark: "Tertiary 500",
-    description: "Solid tertiary fill for warm amber badges and accents.",
   },
   {
     id: "tertiary-bg-hover",
@@ -1133,7 +1092,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#F2B244",
     paletteNameLight: "Tertiary 600",
     paletteNameDark: "Tertiary 400",
-    description: "Hover state background for tertiary controls.",
   },
   {
     id: "tertiary-bg-active",
@@ -1150,7 +1108,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FBCB6B",
     paletteNameLight: "Tertiary 700",
     paletteNameDark: "Tertiary 300",
-    description: "Pressed state background for tertiary controls.",
   },
 
   // Tertiary / Borders
@@ -1169,7 +1126,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FCDB94",
     paletteNameLight: "Tertiary 200",
     paletteNameDark: "Tertiary 200",
-    description: "Border color for disabled outlined tertiary controls.",
   },
   {
     id: "tertiary-borders-default",
@@ -1186,7 +1142,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#E89A1C",
     paletteNameLight: "Tertiary 500",
     paletteNameDark: "Tertiary 500",
-    description: "Default outline border for tertiary tags and accent cards.",
   },
   {
     id: "tertiary-borders-hover",
@@ -1203,7 +1158,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FBCB6B",
     paletteNameLight: "Tertiary 600",
     paletteNameDark: "Tertiary 300",
-    description: "Hover state outline border for tertiary elements.",
   },
 
   // ── 4. NEUTRAL COLORS ──
@@ -1224,7 +1178,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FFFFFF",
     paletteNameLight: "Neutral 0",
     paletteNameDark: "Neutral 0",
-    description: "High-contrast text on solid dark or colored backgrounds.",
   },
   {
     id: "neutral-text-subtleleast",
@@ -1242,7 +1195,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#9E9EAD",
     paletteNameLight: "Neutral 500",
     paletteNameDark: "Neutral 400",
-    description: "Tertiary placeholder hints and faint annotations.",
   },
   {
     id: "neutral-text-subtle",
@@ -1259,7 +1211,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#C4C4CF",
     paletteNameLight: "Neutral 600",
     paletteNameDark: "Neutral 300",
-    description: "Secondary helper text and subtitles.",
   },
   {
     id: "neutral-text-text",
@@ -1277,7 +1228,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#F7F7F9",
     paletteNameLight: "Neutral 900",
     paletteNameDark: "Neutral 50",
-    description: "Default body text and heading color.",
   },
 
   // Neutral / Border
@@ -1296,7 +1246,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#1D1C24",
     paletteNameLight: "Neutral 0",
     paletteNameDark: "Neutral 900",
-    description: "Inverted border on dark/colored surfaces.",
   },
   {
     id: "neutral-border-subtle",
@@ -1313,7 +1262,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#2E2D38",
     paletteNameLight: "Neutral 100",
     paletteNameDark: "Neutral 800",
-    description: "Subtle dividers and faint card borders.",
   },
   {
     id: "neutral-border-light",
@@ -1331,7 +1279,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#454452",
     paletteNameLight: "Neutral 200",
     paletteNameDark: "Neutral 700",
-    description: "Standard input, card, and panel borders.",
   },
   {
     id: "neutral-border-strong",
@@ -1348,7 +1295,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#787887",
     paletteNameLight: "Neutral 400",
     paletteNameDark: "Neutral 500",
-    description: "High-contrast border for selected elements.",
   },
 
   // Neutral / Disabled (control surfaces — inputs, tables, pagination)
@@ -1367,7 +1313,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#EEEEF2",
     paletteNameLight: "Neutral 100",
     paletteNameDark: "Neutral 100",
-    description: "Muted fill for disabled inputs, selects, and inactive control surfaces.",
   },
   {
     id: "neutral-disabled-border",
@@ -1384,7 +1329,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#DFDFE6",
     paletteNameLight: "Neutral 200",
     paletteNameDark: "Neutral 200",
-    description: "Subdued border for disabled fields and neutral controls.",
   },
   {
     id: "neutral-disabled-text",
@@ -1401,7 +1345,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#787887",
     paletteNameLight: "Neutral 500",
     paletteNameDark: "Neutral 500",
-    description: "Muted text for disabled inputs, labels, and pagination controls.",
   },
 
   // ── 5. CRITICAL COLORS ──
@@ -1421,7 +1364,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#3B0B11",
     paletteNameLight: "Danger 50",
     paletteNameDark: "Danger 900",
-    description: "Soft tinted container fill for error banners.",
   },
   {
     id: "critical-border",
@@ -1438,7 +1380,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#8F212A",
     paletteNameLight: "Danger 300",
     paletteNameDark: "Danger 700",
-    description: "Critical error border for invalid inputs and alert boxes.",
   },
   {
     id: "critical-strong-background",
@@ -1456,7 +1397,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#D8434A",
     paletteNameLight: "Danger 500",
     paletteNameDark: "Danger 500",
-    description: "Solid critical red fill for destructive actions and badges.",
   },
   {
     id: "critical-text",
@@ -1473,7 +1413,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#EF8E8E",
     paletteNameLight: "Danger 700",
     paletteNameDark: "Danger 300",
-    description: "Critical error text for validation messages.",
   },
   {
     id: "critical-disabled-background",
@@ -1490,7 +1429,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FDEFEF",
     paletteNameLight: "Danger 50",
     paletteNameDark: "Danger 50",
-    description: "Faded critical fill for disabled danger badges and alerts.",
   },
   {
     id: "critical-disabled-text",
@@ -1507,7 +1445,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#D8434A",
     paletteNameLight: "Danger 500",
     paletteNameDark: "Danger 500",
-    description: "Muted critical text that preserves danger identity.",
   },
   {
     id: "critical-disabled-border",
@@ -1524,7 +1461,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#F4B1B1",
     paletteNameLight: "Danger 200",
     paletteNameDark: "Danger 200",
-    description: "Subdued critical border for disabled destructive controls.",
   },
   {
     id: "critical-disabled-strong-background",
@@ -1541,7 +1477,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#F4B1B1",
     paletteNameLight: "Danger 200",
     paletteNameDark: "Danger 200",
-    description: "Muted solid fill for disabled destructive buttons.",
   },
   {
     id: "critical-disabled-strong-text",
@@ -1558,7 +1493,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#731922",
     paletteNameLight: "Danger 800",
     paletteNameDark: "Danger 800",
-    description: "Readable text on disabled destructive button fills.",
   },
 
   // ── 6. WARNING COLORS ──
@@ -1578,7 +1512,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#382002",
     paletteNameLight: "Warning 50",
     paletteNameDark: "Warning 900",
-    description: "Soft tinted amber container fill for warning banners.",
   },
   {
     id: "warning-border",
@@ -1595,7 +1528,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#95590A",
     paletteNameLight: "Warning 300",
     paletteNameDark: "Warning 700",
-    description: "Warning border for attention-required panels.",
   },
   {
     id: "warning-strong-background",
@@ -1613,7 +1545,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#E89A1C",
     paletteNameLight: "Warning 500",
     paletteNameDark: "Warning 500",
-    description: "Solid amber fill for warning badges and alerts.",
   },
   {
     id: "warning-text",
@@ -1630,7 +1561,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FBCB6B",
     paletteNameLight: "Warning 700",
     paletteNameDark: "Warning 300",
-    description: "Warning text for caution notices.",
   },
   {
     id: "warning-disabled-background",
@@ -1647,7 +1577,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FFF8EA",
     paletteNameLight: "Warning 50",
     paletteNameDark: "Warning 50",
-    description: "Faded warning fill for disabled caution badges.",
   },
   {
     id: "warning-disabled-text",
@@ -1664,7 +1593,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#E89A1C",
     paletteNameLight: "Warning 500",
     paletteNameDark: "Warning 500",
-    description: "Muted warning text that preserves amber identity.",
   },
   {
     id: "warning-disabled-border",
@@ -1681,7 +1609,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FCDB94",
     paletteNameLight: "Warning 200",
     paletteNameDark: "Warning 200",
-    description: "Subdued warning border for disabled caution controls.",
   },
   {
     id: "warning-disabled-strong-background",
@@ -1698,7 +1625,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#FCDB94",
     paletteNameLight: "Warning 200",
     paletteNameDark: "Warning 200",
-    description: "Muted solid fill for disabled warning buttons.",
   },
   {
     id: "warning-disabled-strong-text",
@@ -1715,7 +1641,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#784708",
     paletteNameLight: "Warning 800",
     paletteNameDark: "Warning 800",
-    description: "Readable text on disabled warning button fills.",
   },
 
   // ── 7. SUCCESS COLORS ──
@@ -1735,7 +1660,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#052014",
     paletteNameLight: "Success 50",
     paletteNameDark: "Success 900",
-    description: "Soft tinted green container background.",
   },
   {
     id: "success-border",
@@ -1752,7 +1676,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#116840",
     paletteNameLight: "Success 300",
     paletteNameDark: "Success 700",
-    description: "Success border for confirmed cards and inputs.",
   },
   {
     id: "success-strong-background",
@@ -1770,7 +1693,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#22A369",
     paletteNameLight: "Success 500",
     paletteNameDark: "Success 500",
-    description: "Solid success green fill for positive confirmation.",
   },
   {
     id: "success-text",
@@ -1787,7 +1709,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#7EDCAC",
     paletteNameLight: "Success 700",
     paletteNameDark: "Success 300",
-    description: "Success text for confirmed state labels.",
   },
   {
     id: "success-disabled-background",
@@ -1804,7 +1725,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#EDFAF2",
     paletteNameLight: "Success 50",
     paletteNameDark: "Success 50",
-    description: "Faded success fill for disabled positive badges.",
   },
   {
     id: "success-disabled-text",
@@ -1821,7 +1741,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#22A369",
     paletteNameLight: "Success 500",
     paletteNameDark: "Success 500",
-    description: "Muted success text that preserves green identity.",
   },
   {
     id: "success-disabled-border",
@@ -1838,7 +1757,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#A8E7C6",
     paletteNameLight: "Success 200",
     paletteNameDark: "Success 200",
-    description: "Subdued success border for disabled confirmation controls.",
   },
   {
     id: "success-disabled-strong-background",
@@ -1855,7 +1773,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#A8E7C6",
     paletteNameLight: "Success 200",
     paletteNameDark: "Success 200",
-    description: "Muted solid fill for disabled success buttons.",
   },
   {
     id: "success-disabled-strong-text",
@@ -1872,7 +1789,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#0E5233",
     paletteNameLight: "Success 800",
     paletteNameDark: "Success 800",
-    description: "Readable text on disabled success button fills.",
   },
 
   // ── 8. INFO COLORS ──
@@ -1892,7 +1808,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#061C30",
     paletteNameLight: "Info 50",
     paletteNameDark: "Info 900",
-    description: "Soft tinted blue background for guidance panels.",
   },
   {
     id: "info-border",
@@ -1909,7 +1824,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#155187",
     paletteNameLight: "Info 300",
     paletteNameDark: "Info 700",
-    description: "Highlight / info border for tips and guidance callouts.",
   },
   {
     id: "info-strong-background",
@@ -1927,7 +1841,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#2E8CD6",
     paletteNameLight: "Info 500",
     paletteNameDark: "Info 500",
-    description: "Solid blue highlight fill for neutral system actions.",
   },
   {
     id: "info-text",
@@ -1944,7 +1857,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#84C7F1",
     paletteNameLight: "Info 700",
     paletteNameDark: "Info 300",
-    description: "Informational guidance text.",
   },
   {
     id: "info-disabled-background",
@@ -1961,7 +1873,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#EBF6FD",
     paletteNameLight: "Info 50",
     paletteNameDark: "Info 50",
-    description: "Faded info fill for disabled guidance badges.",
   },
   {
     id: "info-disabled-text",
@@ -1978,7 +1889,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#2E8CD6",
     paletteNameLight: "Info 500",
     paletteNameDark: "Info 500",
-    description: "Muted info text that preserves blue identity (not Secondary cyan).",
   },
   {
     id: "info-disabled-border",
@@ -1995,7 +1905,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#A9D8F6",
     paletteNameLight: "Info 200",
     paletteNameDark: "Info 200",
-    description: "Subdued info border for disabled guidance controls.",
   },
   {
     id: "info-disabled-strong-background",
@@ -2012,7 +1921,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#A9D8F6",
     paletteNameLight: "Info 200",
     paletteNameDark: "Info 200",
-    description: "Muted solid fill for disabled info buttons.",
   },
   {
     id: "info-disabled-strong-text",
@@ -2029,7 +1937,6 @@ const FIGMA_BASE_TOKENS: FigmaTokenItem[] = [
     darkHex: "#103E69",
     paletteNameLight: "Info 800",
     paletteNameDark: "Info 800",
-    description: "Readable text on disabled info button fills.",
   },
 ];
 
@@ -2215,7 +2122,6 @@ interface EditorialColorGroup {
   eyebrow: string;
   title: string;
   category: "primary" | "secondary" | "tertiary" | "neutral" | "critical" | "warning" | "success" | "info";
-  description: string;
   actionLabel: string;
   pillars: Array<{
     subgroup: string;
@@ -2287,8 +2193,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Primary Colors",
       category: "primary",
-      description:
-        "The Primary palette establishes the fundamental identity of the interface, guiding typographic emphasis, interactive fills, and structured borders across themes.",
       actionLabel: "Library - Primary",
       pillars: primaryPillars,
     },
@@ -2297,8 +2201,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Secondary Colors",
       category: "secondary",
-      description:
-        "The Secondary palette complements the primary brand hue with refined purple tones for supportive UI elements, contextual badges, and secondary actions.",
       actionLabel: "Library - Secondary",
       pillars: secondaryPillars,
     },
@@ -2307,8 +2209,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Tertiary Colors",
       category: "tertiary",
-      description:
-        "The Tertiary palette introduces warm amber accents for third-tier emphasis, feature discoveries, notifications, and subtle highlights.",
       actionLabel: "Library - Tertiary",
       pillars: tertiaryPillars,
     },
@@ -2317,8 +2217,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Neutral Colors",
       category: "neutral",
-      description:
-        "The Neutral palette provides achromatic typography, subtle surface dividers, and high-contrast boundary definitions across both themes.",
       actionLabel: "Library - Neutral",
       pillars: neutralPillars,
     },
@@ -2327,8 +2225,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Critical Colors",
       category: "critical",
-      description:
-        "The Critical palette signals urgent warnings, error dialogues, destructive actions, and validation failures requiring immediate attention.",
       actionLabel: "Library - Critical",
       pillars: criticalPillars,
     },
@@ -2337,8 +2233,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Warning Colors",
       category: "warning",
-      description:
-        "The Warning palette communicates non-blocking alerts, system cautions, and threshold notifications before an action is executed.",
       actionLabel: "Library - Warning",
       pillars: warningPillars,
     },
@@ -2347,8 +2241,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Success Colors",
       category: "success",
-      description:
-        "The Success palette confirms positive outcomes, completed transactions, verified states, and healthy system status indicators.",
       actionLabel: "Library - Success",
       pillars: successPillars,
     },
@@ -2357,8 +2249,6 @@ function BaseColorsRedesignedSection() {
       eyebrow: "Colors",
       title: "Info Colors",
       category: "info",
-      description:
-        "The Info palette provides clear guidance, informative callouts, helpful hints, and instructional context across user flows.",
       actionLabel: "Library - Info",
       pillars: infoPillars,
     },
@@ -2642,7 +2532,6 @@ export default function Color() {
       id: "01",
       anchorId: "full-color-scales",
       title: "Full color scales",
-      description: "You shouldn't need to pick from these directly — they're what the roles below are built from.",
       content: (
         <div style={{ background: "var(--core-color-surface-default)", borderRadius: 14, padding: "32px", border: "1px solid rgba(128,128,128,0.15)" }}>
           <div style={{ display: "flex", paddingBottom: 16, borderBottom: "1px solid var(--site-border)", fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--core-color-text-secondary)" }}>
@@ -2664,7 +2553,6 @@ export default function Color() {
       id: "02",
       anchorId: "base-colors",
       title: "Base colors",
-      description: "Figma Variable ↔ Code 1:1 mapping with dual-mode light/dark resolution, unified naming convention, and live preview.",
       content: (
         <div style={{ display: "flex", flexDirection: "column" }}>
           <BaseColorsRedesignedSection />
@@ -2675,7 +2563,6 @@ export default function Color() {
       id: "03",
       anchorId: "quick-reference",
       title: "Quick reference",
-      description: "What to use where — a handy table mapping common UI elements to their corresponding tokens.",
       content: (
         <div style={{ background: "var(--core-color-bg-page)", borderRadius: 14, padding: "32px", border: "1px solid rgba(128,128,128,0.15)" }}>
           <table style={{ width: "100%", textAlign: "left", borderCollapse: "collapse" }}>

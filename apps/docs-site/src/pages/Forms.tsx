@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ComponentSectionNumber } from "../ComponentSectionNumber";
+import { DocsSection, DocsSectionList } from "../DocsSection";
 import { Preview } from "../Preview";
 import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Field, Input, InputWithIcon } from "../../../../packages/core/src/components/Field";
@@ -54,7 +54,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "01",
       anchorId: "input",
       title: "Input",
-      description: "Standard text fields showing interactive and validation states.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
           <div className="site-panel site-panel--flush">
@@ -88,7 +87,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "02",
       anchorId: "textarea",
       title: "Textarea",
-      description: "Multi-line text input that grows vertically with content. Minimum height 88px.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
@@ -117,7 +115,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "03",
       anchorId: "select",
       title: "Select",
-      description: "Native select dropdown for choosing from a list of options.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
@@ -146,7 +143,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "04",
       anchorId: "checkbox-radio",
       title: "Checkbox & Radio",
-      description: "Controls for boolean states and mutually exclusive choices.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
@@ -211,7 +207,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "05",
       anchorId: "switch",
       title: "Switch",
-      description: "Toggle control for immediate on/off actions.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
@@ -245,7 +240,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "06",
       anchorId: "toggle",
       title: "Toggle",
-      description: "Stateful buttons that hold a pressed state, individually or in groups.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div className="site-panel site-panel--flush">
@@ -296,7 +290,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "07",
       anchorId: "input-group",
       title: "Input group",
-      description: "Text inputs composed with fixed prefix or suffix labels.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div className="site-panel site-panel--flush">
@@ -375,7 +368,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "08",
       anchorId: "input-otp",
       title: "Input OTP",
-      description: "Segmented input for 2FA and verification codes.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
@@ -404,7 +396,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "09",
       anchorId: "slider",
       title: "Slider",
-      description: "Range control for numeric values.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
@@ -436,7 +427,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "10",
       anchorId: "combobox",
       title: "Combobox",
-      description: "Search input and combobox — type to filter options, then select from the list.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
@@ -475,7 +465,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "11",
       anchorId: "date-picker",
       title: "Date Selection",
-      description: "Inline calendar and popover date picker components.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
           <div className="site-panel site-panel--flush">
@@ -536,7 +525,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "12",
       anchorId: "input-icon",
       title: "Input with icon",
-      description: "First-class leading or trailing icon slot.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div className="site-panel site-panel--flush">
@@ -615,7 +603,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "13",
       anchorId: "payment-bank-fields",
       title: "Bank fields",
-      description: "Masked and formatted inputs for sensitive data (card, routing, etc.).",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div className="site-panel site-panel--flush">
@@ -755,7 +742,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "14",
       anchorId: "attachment",
       title: "Attachment",
-      description: "File upload dropzone and attachment list.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
@@ -886,7 +872,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       id: "15",
       anchorId: "working-example",
       title: "Working Example",
-      description: "A functional form combining multiple control variants, states, and maximum configuration.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
           <div className="site-panel site-panel--flush">
@@ -947,18 +932,13 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
   ];
 
   const sectionList = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 100 }}>
+    <DocsSectionList>
       {sections.map((s) => (
-        <div key={s.anchorId} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 40, position: "relative" }}>
-          <div style={{ position: "absolute", top: 0, left: "-12.5%", width: "125%", height: 1, backgroundColor: "var(--site-border)" }} />
-          <div style={{ paddingTop: 32 }}>
-            <ComponentSectionNumber anchorId={s.anchorId} />
-            <h2 style={{ fontSize: 48, fontWeight: 500, letterSpacing: "-0.04em", margin: 0, textTransform: "lowercase" }}>{s.title}</h2>
-          </div>
-          <div>{s.content}</div>
-        </div>
+        <DocsSection key={s.anchorId} anchorId={s.anchorId} title={s.title}>
+          {s.content}
+        </DocsSection>
       ))}
-    </div>
+    </DocsSectionList>
   );
 
   const formStyles = (

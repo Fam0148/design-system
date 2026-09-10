@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Preview, CodeBlock } from "../Preview";
-import { ComponentSectionNumber } from "../ComponentSectionNumber";
+import { DocsSection, DocsSectionList } from "../DocsSection";
 import { Anatomy, AnatomyLegend } from "../Anatomy";
 import { Card, Badge, BadgeTone, BadgeSize } from "../../../../packages/core/src/components/Misc";
 import { Table, DataTable, Avatar, AvatarGroup, Progress } from "../../../../packages/core/src/components/DataDisplay";
@@ -229,7 +229,6 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
       id: "01",
       anchorId: "quick-links",
       title: "Quick links",
-      description: "Icon + label navigation tiles built on elevated, outlined, and interactive card surfaces.",
       content: (
         <div className="site-panel site-panel--flush">
           <Preview>
@@ -290,15 +289,12 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
       id: "02",
       anchorId: "badge",
       title: "Badge",
-      description:
-        "Soft tinted badge component matrix showcasing interactive states (Default, Hover, Variant, Disable) and size switches.",
       content: <BadgeMatrixDemo />,
     },
     {
       id: "03",
       anchorId: "data-table",
       title: "Table & Data Table",
-      description: "Static and interactive data grids with sorting, filtering, and client-side pagination.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           {/* 1. Basic Data Table */}
@@ -549,7 +545,6 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
       id: "04",
       anchorId: "item",
       title: "Item & Description List",
-      description: "Standard row containers and semantic term/definition lists for account profiles and review flows.",
       content: (
         <div id="description-list" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div className="site-panel site-panel--flush">
@@ -629,7 +624,6 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
       id: "05",
       anchorId: "avatar",
       title: "Avatar & Groups",
-      description: "User profile initials and stacked avatar group counters across small, medium, and large sizes.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <table className="spec-table">
@@ -673,7 +667,6 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
       id: "06",
       anchorId: "progress",
       title: "Progress",
-      description: "Visual indicators for task completion percentages and indeterminate network loading.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div className="site-panel site-panel--flush">
@@ -691,29 +684,13 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
   ];
 
   const sectionList = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
+    <DocsSectionList>
       {sections.map((s) => (
-        <div key={s.anchorId} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: "-12.5%",
-                width: "125%",
-                height: 1,
-                backgroundColor: "var(--site-border)",
-              }}
-            />
-            <div style={{ paddingTop: 32 }}>
-              <ComponentSectionNumber anchorId={s.anchorId} />
-              <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
-                {s.title}
-              </h2>
-            </div>
-            <div>{s.content}</div>
-          </div>
+        <DocsSection key={s.anchorId} anchorId={s.anchorId} title={s.title}>
+          {s.content}
+        </DocsSection>
       ))}
-    </div>
+    </DocsSectionList>
   );
 
   const cardStateStyles = (

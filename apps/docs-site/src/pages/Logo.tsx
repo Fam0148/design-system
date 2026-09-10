@@ -214,7 +214,6 @@ export default function LogoPage() {
       id: "01",
       anchorId: "core-mark",
       title: "CORE mark",
-      description: "Two surface-matched variants — navy wordmark for light backgrounds, white for dark.",
       content: (
         <InteractiveLogoPanel 
           title="CORE mark" 
@@ -228,14 +227,12 @@ export default function LogoPage() {
       id: "02",
       anchorId: "anatomy-spacing",
       title: "Anatomy & Spacing",
-      // description: "Clearance and padding rules for the CORE mark. Ensures safe area from surrounding elements.",
       content: <LogoAnatomy />
     },
     {
       id: "03",
       anchorId: "client-logo",
       title: "Client logo",
-      description: "A sample white-label client's own lockup — swapped automatically by the client theme's meta fields.",
       content: (
         <InteractiveLogoPanel 
           title="Meridian client logo" 

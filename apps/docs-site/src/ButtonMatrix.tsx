@@ -8,7 +8,6 @@ interface VariantConfig {
   id: ButtonVariant;
   name: string;
   category: "brand" | "semantics" | "neutral";
-  description: string;
   stateTokens: Record<
     "default" | "hover" | "active" | "focused" | "disabled",
     {
@@ -29,7 +28,6 @@ const VARIANTS: VariantConfig[] = [
     id: "primary",
     name: "Primary CTA",
     category: "brand",
-    description: "Main solid brand action",
     stateTokens: {
       default: {
         bgVar: "--theme-brand-background-strong",
@@ -88,7 +86,6 @@ const VARIANTS: VariantConfig[] = [
     id: "secondary",
     name: "Secondary CTA",
     category: "brand",
-    description: "Tinted outline using Primary color",
     stateTokens: {
       default: {
         bgVar: "transparent",
@@ -144,7 +141,6 @@ const VARIANTS: VariantConfig[] = [
     id: "tertiary",
     name: "Tertiary CTA",
     category: "brand",
-    description: "Subtle ghost action using Primary color",
     stateTokens: {
       default: {
         bgVar: "transparent",
@@ -438,9 +434,6 @@ export function ButtonMatrix() {
                   }}
                 >
                   {variant.name}
-                </div>
-                <div style={{ fontSize: "var(--typography-font-size-xs)", color: "var(--site-text-dim, #787887)", marginTop: 4 }}>
-                  {variant.description}
                 </div>
               </div>
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Preview } from "../Preview";
-import { ComponentSectionNumber } from "../ComponentSectionNumber";
+import { DocsSection, DocsSectionList } from "../DocsSection";
 import {
   Accordion,
   Separator,
@@ -262,8 +262,6 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
       id: "01",
       anchorId: "collapsible",
       title: "Collapsible",
-      description:
-        "Single-panel disclosure component for expanding and collapsing auxiliary content with card, button, and ghost variants.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <table className="spec-table">
@@ -311,8 +309,6 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
       id: "02",
       anchorId: "accordion",
       title: "Accordion",
-      description:
-        "Stacked multi-item disclosure lists with single or multi-panel expansion, bordered, card, and flush presentations.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <table className="spec-table">
@@ -366,8 +362,6 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
       id: "03",
       anchorId: "separator",
       title: "Separator",
-      description:
-        "Semantic 1px hairline divider carrying structural meaning to assistive technologies in horizontal and vertical layouts.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <table className="spec-table">
@@ -448,8 +442,6 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
       id: "04",
       anchorId: "skeleton",
       title: "Skeleton",
-      description:
-        "Shimmering loading placeholders matching the geometry of pending cards, avatars, and typography.",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <table className="spec-table">
@@ -512,29 +504,13 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
   ];
 
   const sectionList = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
+    <DocsSectionList>
       {sections.map((s) => (
-        <div key={s.anchorId} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: "-12.5%",
-                width: "125%",
-                height: 1,
-                backgroundColor: "var(--site-border)",
-              }}
-            />
-            <div style={{ paddingTop: 32 }}>
-              <ComponentSectionNumber anchorId={s.anchorId} />
-              <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
-                {s.title}
-              </h2>
-            </div>
-            <div>{s.content}</div>
-          </div>
+        <DocsSection key={s.anchorId} anchorId={s.anchorId} title={s.title}>
+          {s.content}
+        </DocsSection>
       ))}
-    </div>
+    </DocsSectionList>
   );
 
   if (embedded) return sectionList;

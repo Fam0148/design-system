@@ -15,8 +15,6 @@ import Screens from "./pages/Screens";
 import Tokens from "./pages/Tokens";
 import Themes from "./pages/Themes";
 import Accessibility from "./pages/Accessibility";
-import AnatomyPage from "./pages/AnatomyPage";
-
 export default function App() {
   return (
     <Routes>
@@ -49,7 +47,7 @@ export default function App() {
         <Route path="/themes" element={<Themes />} />
         <Route path="/accessibility" element={<Accessibility />} />
         <Route path="/color-extraction" element={<ColorExtraction />} />
-        <Route path="/anatomy" element={<AnatomyPage />} />
+        <Route path="/anatomy" element={<Navigate to="/components" replace />} />
       </Route>
     </Routes>
   );
