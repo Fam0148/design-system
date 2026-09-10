@@ -1,7 +1,7 @@
 import React from "react";
 import typography from "../../../../packages/tokens/src/typography.json";
 import primitives from "../../../../packages/tokens/src/primitives.json";
-import { typographyExportJson } from "./typography-export";
+import { buildTypographyExportJson } from "./buildTypographyExport";
 
 const order = [
   "h1",
@@ -281,7 +281,8 @@ export default function Typography() {
   const sections = [
     {
       id: "01",
-      title: "Typeface — Inclusive Sans",
+      anchorId: "typeface",
+      title: "Typeface",
       description: "CORE's default typeface, optimized for legibility and clear letterform distinction in data-dense environments.",
       content: (
         <div style={{ background: "var(--core-color-surface-default)", borderRadius: 14, padding: "48px 40px", border: "1px solid rgba(128,128,128,0.15)", color: "var(--core-color-text-primary)" }}>
@@ -329,6 +330,7 @@ export default function Typography() {
     },
     {
       id: "02",
+      anchorId: "type-scale",
       title: "Type scale",
       description: "Unified table combining visual scale previews with exact specifications for desktop and mobile.",
       content: (
@@ -347,6 +349,7 @@ export default function Typography() {
     },
     {
       id: "03",
+      anchorId: "spacing-padding",
       title: "Spacing & Padding",
       description: "Standardized 4px-based spacing scale for margins, padding, and layout gaps.",
       content: (
@@ -368,6 +371,7 @@ export default function Typography() {
     },
     {
       id: "04",
+      anchorId: "border-radius",
       title: "Border Radius",
       description: "Scale for rounding corners of surfaces, components, badges, and interactive elements.",
       content: (
@@ -397,6 +401,7 @@ export default function Typography() {
     },
     {
       id: "05",
+      anchorId: "breakpoints",
       title: "Breakpoints",
       description: "Responsive viewport breakpoints aligned with modern web grid and mobile-first standards.",
       content: (
@@ -415,6 +420,7 @@ export default function Typography() {
     },
     {
       id: "06",
+      anchorId: "elevation-shadows",
       title: "Elevation & Shadows",
       description: "Layering hierarchy utilizing depth tokens to convey physical elevation in light and dark modes.",
       content: (
@@ -427,6 +433,7 @@ export default function Typography() {
     },
     {
       id: "07",
+      anchorId: "icon-sizing",
       title: "Icon Sizing",
       description: "Standardized sizing presets for icons across navigation, buttons, and content items.",
       content: (
@@ -512,11 +519,11 @@ export default function Typography() {
 
   const handleDownloadTypography = (e: React.MouseEvent) => {
     e.preventDefault();
-    const jsonText = JSON.stringify(typographyExportJson, null, 2);
+    const jsonText = JSON.stringify(buildTypographyExportJson(), null, 2);
     const dataUri = `data:application/json;charset=utf-8,${encodeURIComponent(jsonText)}`;
     const link = document.createElement("a");
     link.href = dataUri;
-    link.download = "Core-Typography-Variables.json";
+    link.download = "typography.json";
     document.body.appendChild(link);
     link.click();
     setTimeout(() => {
@@ -568,16 +575,11 @@ export default function Typography() {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
         {sections.map((s) => (
-          <div key={s.id} style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
+          <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
             <div style={{ position: "absolute", top: 0, left: "-12.5%", width: "125%", height: 1, backgroundColor: "var(--site-border)" }} />
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingTop: 32 }}>
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: "var(--core-color-text-tertiary)", marginBottom: 12 }}>{s.id}</div>
-                <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>{s.title}</h2>
-              </div>
-              <div style={{ maxWidth: 420, display: "flex", flexDirection: "column", gap: 16, alignItems: "flex-end" }}>
-                <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: "var(--core-color-text-secondary)", textAlign: "right", fontWeight: 400 }}>{s.description}</p>
-              </div>
+            <div style={{ paddingTop: 32 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "var(--core-color-text-tertiary)", marginBottom: 12 }}>{s.id}</div>
+              <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>{s.title}</h2>
             </div>
             <div>
               {s.content}

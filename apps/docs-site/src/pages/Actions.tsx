@@ -5,7 +5,7 @@ import { Button, IconButton, Link } from "../../../../packages/core/src/componen
 import { ButtonGroup } from "../../../../packages/core/src/components/Primitives";
 import { ButtonMatrix } from "../ButtonMatrix";
 
-export default function Actions() {
+export default function Actions({ embedded = false }: { embedded?: boolean }) {
   const sections = [
     {
       id: "01",
@@ -203,7 +203,7 @@ export default function Actions() {
             </Preview>
           </div>
 
-          <div className="site-panel site-panel--flush">
+          <div id="link" className="site-panel site-panel--flush docs-section">
             <Preview>
               <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
@@ -306,6 +306,43 @@ export default function Actions() {
 
   ];
 
+  const sectionList = (
+    <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
+      {sections.map((s) => (
+        <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: "-12.5%",
+              width: "125%",
+              height: 1,
+              backgroundColor: "var(--site-border)",
+            }}
+          />
+          <div style={{ paddingTop: 32 }}>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: "var(--core-color-text-tertiary)",
+                marginBottom: 12,
+              }}
+            >
+              {s.id}
+            </div>
+            <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
+              {s.title}
+            </h2>
+          </div>
+          <div>{s.content}</div>
+        </div>
+      ))}
+    </div>
+  );
+
+  if (embedded) return sectionList;
+
   return (
     <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
       {/* Centered Hero Header — matching Logo and Typography sections */}
@@ -348,70 +385,7 @@ export default function Actions() {
         </p>
       </div>
 
-      {/* Numbered Sections List — matching Logo and Typography sections */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
-        {sections.map((s) => (
-          <div key={s.id} id={s.anchorId} style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: "-12.5%",
-                width: "125%",
-                height: 1,
-                backgroundColor: "var(--site-border)",
-              }}
-            />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                paddingTop: 32,
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: "var(--core-color-text-tertiary)",
-                    marginBottom: 12,
-                  }}
-                >
-                  {s.id}
-                </div>
-                <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
-                  {s.title}
-                </h2>
-              </div>
-              <div
-                style={{
-                  maxWidth: 420,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 16,
-                  alignItems: "flex-end",
-                }}
-              >
-                <p
-                  style={{
-                    margin: 0,
-                    fontSize: 16,
-                    lineHeight: 1.6,
-                    color: "var(--core-color-text-secondary)",
-                    textAlign: "right",
-                    fontWeight: 400,
-                  }}
-                >
-                  {s.description}
-                </p>
-              </div>
-            </div>
-            <div>{s.content}</div>
-          </div>
-        ))}
-      </div>
+      {sectionList}
     </div>
   );
 }

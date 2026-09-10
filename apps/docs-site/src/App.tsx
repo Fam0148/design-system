@@ -7,16 +7,9 @@ import ColorExtraction from "./pages/ColorExtraction";
 import Common from "./pages/Common";
 import Typography from "./pages/Typography";
 import LayoutGrid from "./pages/LayoutGrid";
-import Charts from "./pages/Charts";
-import Questionnaire from "./pages/Questionnaire";
 import LogoPage from "./pages/Logo";
-import Actions from "./pages/Actions";
-import Forms from "./pages/Forms";
-import DataDisplay from "./pages/DataDisplay";
-import DisclosurePage from "./pages/Disclosure";
-import NavigationPage from "./pages/NavigationPage";
-import Feedback from "./pages/Feedback";
-import OverlaysPage from "./pages/OverlaysPage";
+import Components from "./pages/Components";
+import LegacyComponentRedirect from "./LegacyComponentRedirect";
 import Patterns from "./pages/Patterns";
 import Screens from "./pages/Screens";
 import Tokens from "./pages/Tokens";
@@ -40,15 +33,16 @@ export default function App() {
         <Route path="/foundations/icons" element={<Navigate to="/foundations/typography" replace />} />
         <Route path="/foundations/layout-grid" element={<LayoutGrid />} />
         <Route path="/foundations/logo" element={<LogoPage />} />
-        <Route path="/components/actions" element={<Actions />} />
-        <Route path="/components/forms" element={<Forms />} />
-        <Route path="/components/data-display" element={<DataDisplay />} />
-        <Route path="/components/disclosure" element={<DisclosurePage />} />
-        <Route path="/components/navigation" element={<NavigationPage />} />
-        <Route path="/components/feedback" element={<Feedback />} />
-        <Route path="/components/overlays" element={<OverlaysPage />} />
-        <Route path="/components/charts" element={<Charts />} />
-        <Route path="/components/questionnaire" element={<Questionnaire />} />
+        <Route path="/components" element={<Components />} />
+        <Route path="/components/actions" element={<LegacyComponentRedirect />} />
+        <Route path="/components/forms" element={<LegacyComponentRedirect />} />
+        <Route path="/components/data-display" element={<LegacyComponentRedirect />} />
+        <Route path="/components/disclosure" element={<LegacyComponentRedirect />} />
+        <Route path="/components/navigation" element={<LegacyComponentRedirect />} />
+        <Route path="/components/feedback" element={<LegacyComponentRedirect />} />
+        <Route path="/components/overlays" element={<LegacyComponentRedirect />} />
+        <Route path="/components/charts" element={<LegacyComponentRedirect />} />
+        <Route path="/components/questionnaire" element={<LegacyComponentRedirect />} />
         <Route path="/patterns" element={<Patterns />} />
         <Route path="/screens" element={<Screens />} />
         <Route path="/tokens" element={<Tokens />} />

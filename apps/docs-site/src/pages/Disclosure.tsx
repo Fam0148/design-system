@@ -255,7 +255,7 @@ function AccordionVariantsDemo() {
   );
 }
 
-export default function DisclosurePage() {
+export default function DisclosurePage({ embedded = false }: { embedded?: boolean }) {
   const sections = [
     {
       id: "01",
@@ -510,52 +510,10 @@ export default function DisclosurePage() {
     },
   ];
 
-  return (
-    <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
-      {/* Centered Hero Header — matching Logo, Typography, Feedback, and DataDisplay pages */}
-      <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
-        <div
-          style={{
-            fontSize: 14,
-            fontWeight: 700,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "var(--core-color-brand-600)",
-            marginBottom: 12,
-          }}
-        >
-          Components
-        </div>
-        <h1
-          style={{
-            fontSize: 72,
-            fontWeight: 800,
-            letterSpacing: "-0.06em",
-            margin: "0 0 16px 0",
-            color: "var(--core-color-text-primary)",
-            lineHeight: 1.1,
-          }}
-        >
-          Disclosure
-        </h1>
-        <p
-          style={{
-            maxWidth: 580,
-            margin: "0 auto",
-            color: "var(--core-color-text-tertiary)",
-            fontSize: "var(--core-font-size-lg, 20px)",
-            lineHeight: 1.6,
-            fontWeight: 400,
-          }}
-        >
-          Progressive disclosure, collapsible views, accordions, separators, and loading skeleton placeholders.
-        </p>
-      </div>
-
-      {/* Numbered Sections List — matching standard design system layout */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
-        {sections.map((s) => (
-          <div key={s.id} id={s.anchorId} style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
+  const sectionList = (
+    <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
+      {sections.map((s) => (
+        <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
             <div
               style={{
                 position: "absolute",
@@ -566,56 +524,39 @@ export default function DisclosurePage() {
                 backgroundColor: "var(--site-border)",
               }}
             />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                paddingTop: 32,
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: "var(--core-color-text-tertiary)",
-                    marginBottom: 12,
-                  }}
-                >
-                  {s.id}
-                </div>
-                <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
-                  {s.title}
-                </h2>
-              </div>
+            <div style={{ paddingTop: 32 }}>
               <div
                 style={{
-                  maxWidth: 420,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 16,
-                  alignItems: "flex-end",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "var(--core-color-text-tertiary)",
+                  marginBottom: 12,
                 }}
               >
-                <p
-                  style={{
-                    margin: 0,
-                    fontSize: 16,
-                    lineHeight: 1.6,
-                    color: "var(--core-color-text-secondary)",
-                    textAlign: "right",
-                    fontWeight: 400,
-                  }}
-                >
-                  {s.description}
-                </p>
+                {s.id}
               </div>
+              <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
+                {s.title}
+              </h2>
             </div>
             <div>{s.content}</div>
           </div>
-        ))}
+      ))}
+    </div>
+  );
+
+  if (embedded) return sectionList;
+
+  return (
+    <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
+      <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
+        <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--core-color-brand-600)", marginBottom: 12 }}>Components</div>
+        <h1 style={{ fontSize: 72, fontWeight: 800, letterSpacing: "-0.06em", margin: "0 0 16px 0", color: "var(--core-color-text-primary)", lineHeight: 1.1 }}>Disclosure</h1>
+        <p style={{ maxWidth: 580, margin: "0 auto", color: "var(--core-color-text-tertiary)", fontSize: "var(--core-font-size-lg, 20px)", lineHeight: 1.6, fontWeight: 400 }}>
+          Progressive disclosure, collapsible views, accordions, separators, and loading skeleton placeholders.
+        </p>
       </div>
+      {sectionList}
     </div>
   );
 }

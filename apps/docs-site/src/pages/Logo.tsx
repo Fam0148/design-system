@@ -212,6 +212,7 @@ export default function LogoPage() {
   const sections = [
     {
       id: "01",
+      anchorId: "core-mark",
       title: "CORE mark",
       description: "Two surface-matched variants — navy wordmark for light backgrounds, white for dark.",
       content: (
@@ -225,12 +226,14 @@ export default function LogoPage() {
     },
     {
       id: "02",
+      anchorId: "anatomy-spacing",
       title: "Anatomy & Spacing",
       // description: "Clearance and padding rules for the CORE mark. Ensures safe area from surrounding elements.",
       content: <LogoAnatomy />
     },
     {
       id: "03",
+      anchorId: "client-logo",
       title: "Client logo",
       description: "A sample white-label client's own lockup — swapped automatically by the client theme's meta fields.",
       content: (
@@ -258,18 +261,11 @@ export default function LogoPage() {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 100 }}>
         {sections.map((s) => (
-          <div key={s.id} style={{ display: "flex", flexDirection: "column", gap: 40, position: "relative" }}>
+          <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 40, position: "relative" }}>
             <div style={{ position: "absolute", top: 0, left: "-12.5%", width: "125%", height: 1, backgroundColor: "var(--site-border)" }} />
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingTop: 32 }}>
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: "var(--core-color-text-tertiary)", marginBottom: 12 }}>{s.id}</div>
-                <h2 style={{ fontSize: 48, fontWeight: 500, letterSpacing: "-0.04em", margin: 0, textTransform: "lowercase" }}>{s.title}</h2>
-              </div>
-              <div style={{ maxWidth: 420, display: "flex", flexDirection: "column", gap: 16, alignItems: "flex-end" }}>
-                {s.description && (
-                  <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: "var(--core-color-text-secondary)", textAlign: "right", fontWeight: 400 }}>{s.description}</p>
-                )}
-              </div>
+            <div style={{ paddingTop: 32 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "var(--core-color-text-tertiary)", marginBottom: 12 }}>{s.id}</div>
+              <h2 style={{ fontSize: 48, fontWeight: 500, letterSpacing: "-0.04em", margin: 0, textTransform: "lowercase" }}>{s.title}</h2>
             </div>
             <div>
               {s.content}

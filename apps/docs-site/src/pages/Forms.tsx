@@ -18,7 +18,7 @@ const employers = [
   { value: "umbrella", label: "Umbrella Health" },
 ];
 
-export default function Forms() {
+export default function Forms({ embedded = false }: { embedded?: boolean }) {
   const [on, setOn] = useState(true);
   const [plan, setPlan] = useState("roth");
   const [view, setView] = useState<"list" | "grid">("list");
@@ -825,9 +825,23 @@ export default function Forms() {
     }
   ];
 
-  return (
-    <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
-      <style>{`
+  const sectionList = (
+    <div style={{ display: "flex", flexDirection: "column", gap: 100 }}>
+      {sections.map((s) => (
+        <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 40, position: "relative" }}>
+          <div style={{ position: "absolute", top: 0, left: "-12.5%", width: "125%", height: 1, backgroundColor: "var(--site-border)" }} />
+          <div style={{ paddingTop: 32 }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--core-color-text-tertiary)", marginBottom: 12 }}>{s.id}</div>
+            <h2 style={{ fontSize: 48, fontWeight: 500, letterSpacing: "-0.04em", margin: 0, textTransform: "lowercase" }}>{s.title}</h2>
+          </div>
+          <div>{s.content}</div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const formStyles = (
+    <style>{`
         .force-hover .cds-input,
         .force-hover .cds-textarea, 
         .force-hover .cds-select,
@@ -914,6 +928,20 @@ export default function Forms() {
           cursor: not-allowed !important;
         }
       `}</style>
+  );
+
+  if (embedded) {
+    return (
+      <>
+        {formStyles}
+        {sectionList}
+      </>
+    );
+  }
+
+  return (
+    <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
+      {formStyles}
       <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
         <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--core-color-brand-600)", marginBottom: 12 }}>Components</div>
         <h1 style={{ fontSize: 72, fontWeight: 800, letterSpacing: "-0.06em", margin: "0 0 16px 0", color: "var(--core-color-text-primary)", lineHeight: 1.1 }}>
@@ -923,26 +951,7 @@ export default function Forms() {
           Essential components for data entry and configuration. Label, hint, and error states are wired together automatically via aria attributes.
         </p>
       </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: 100 }}>
-        {sections.map((s) => (
-          <div key={s.id} id={s.anchorId} style={{ display: "flex", flexDirection: "column", gap: 40, position: "relative" }}>
-            <div style={{ position: "absolute", top: 0, left: "-12.5%", width: "125%", height: 1, backgroundColor: "var(--site-border)" }} />
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingTop: 32 }}>
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: "var(--core-color-text-tertiary)", marginBottom: 12 }}>{s.id}</div>
-                <h2 style={{ fontSize: 48, fontWeight: 500, letterSpacing: "-0.04em", margin: 0, textTransform: "lowercase" }}>{s.title}</h2>
-              </div>
-              <div style={{ maxWidth: 420, display: "flex", flexDirection: "column", gap: 16, alignItems: "flex-end" }}>
-                <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: "var(--core-color-text-secondary)", textAlign: "right", fontWeight: 400 }}>{s.description}</p>
-              </div>
-            </div>
-            <div>
-              {s.content}
-            </div>
-          </div>
-        ))}
-      </div>
+      {sectionList}
     </div>
   );
 }

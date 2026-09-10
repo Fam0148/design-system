@@ -3,14 +3,18 @@ import { Preview } from "../Preview";
 import { Tabs, Breadcrumb, Pagination, NavigationMenu, AppSidebar, Stepper } from "../../../../packages/core/src/components/Navigation";
 import { Icon } from "../../../../packages/core/src/components/Primitives";
 
-export default function NavigationPage() {
+export default function NavigationPage({ embedded = false }: { embedded?: boolean }) {
   const [page, setPage] = useState(3);
   return (
     <div>
-      <h1 className="site-h1">Tabs, Breadcrumb &amp; Pagination</h1>
-      <p className="site-lede">Wayfinding components — where you are, how you got here, how to move through a list.</p>
+      {!embedded && (
+        <>
+          <h1 className="site-h1">Tabs, Breadcrumb &amp; Pagination</h1>
+          <p className="site-lede">Wayfinding components — where you are, how you got here, how to move through a list.</p>
+        </>
+      )}
 
-      <h2 className="site-section-title" id="navigation-menu">Navigation menu (top nav)</h2>
+      <h2 className="site-section-title docs-section" id="navigation-menu">Navigation menu (top nav)</h2>
       <p className="site-section-sub">The current item is underlined, not just recolored, so it survives color-blindness and grayscale print.</p>
       <div className="site-panel site-panel--flush">
         <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)" }}>

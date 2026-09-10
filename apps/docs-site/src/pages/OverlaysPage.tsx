@@ -8,7 +8,7 @@ import { Field, Input } from "../../../../packages/core/src/components/Field";
 import { Select } from "../../../../packages/core/src/components/FormControls";
 import { DescriptionList, Icon } from "../../../../packages/core/src/components/Primitives";
 
-export default function OverlaysPage() {
+export default function OverlaysPage({ embedded = false }: { embedded?: boolean }) {
   const [modal, setModal] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [drawer, setDrawer] = useState(false);
@@ -18,10 +18,14 @@ export default function OverlaysPage() {
 
   return (
     <div>
-      <h1 className="site-h1">Modal, Drawer, Tooltip, Popover &amp; Confirmation</h1>
-      <p className="site-lede">Overlays interrupt the current flow — used sparingly, always dismissible via Escape or an explicit action.</p>
+      {!embedded && (
+        <>
+          <h1 className="site-h1">Modal, Drawer, Tooltip, Popover &amp; Confirmation</h1>
+          <p className="site-lede">Overlays interrupt the current flow — used sparingly, always dismissible via Escape or an explicit action.</p>
+        </>
+      )}
 
-      <h2 className="site-section-title" id="modal">Modal</h2>
+      <h2 className="site-section-title docs-section" id="modal">Modal</h2>
       <p className="site-section-sub">Traps focus, dims the page behind an overlay, closes on Escape or the overlay click.</p>
       <div className="site-panel site-panel--flush">
         <Preview>

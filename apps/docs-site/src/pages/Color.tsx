@@ -2101,18 +2101,6 @@ function BaseColorsRedesignedSection() {
                   {group.title}
                 </h3>
 
-                {/* Description */}
-                <p
-                  style={{
-                    fontSize: "var(--core-font-size-sm, 14px)",
-                    lineHeight: 1.6,
-                    color: "var(--site-text-dim, #555)",
-                    margin: "0 0 16px 0",
-                  }}
-                >
-                  {group.description}
-                </p>
-
                 <p
                   style={{
                     fontSize: "var(--core-font-size-xs, 12px)",
@@ -2239,6 +2227,7 @@ export default function Color() {
   const sections = [
     {
       id: "01",
+      anchorId: "full-color-scales",
       title: "Full color scales",
       description: "You shouldn't need to pick from these directly — they're what the roles below are built from.",
       content: (
@@ -2260,6 +2249,7 @@ export default function Color() {
     },
     {
       id: "02",
+      anchorId: "base-colors",
       title: "Base colors",
       description: "Figma Variable ↔ Code 1:1 mapping with dual-mode light/dark resolution, unified naming convention, and live preview.",
       content: (
@@ -2270,6 +2260,7 @@ export default function Color() {
     },
     {
       id: "03",
+      anchorId: "quick-reference",
       title: "Quick reference",
       description: "What to use where — a handy table mapping common UI elements to their corresponding tokens.",
       content: (
@@ -2462,16 +2453,11 @@ ${darkSemanticLines}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 100 }}>
         {sections.map((s) => (
-          <div key={s.id} style={{ display: "flex", flexDirection: "column", gap: 40, position: "relative" }}>
+          <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 40, position: "relative" }}>
             <div style={{ position: "absolute", top: 0, left: "-12.5%", width: "125%", height: 1, backgroundColor: "var(--site-border)" }} />
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingTop: 32 }}>
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: "var(--core-color-text-tertiary)", marginBottom: 12 }}>{s.id}</div>
-                <h2 style={{ fontSize: 48, fontWeight: 500, letterSpacing: "-0.04em", margin: 0, textTransform: "lowercase" }}>{s.title}</h2>
-              </div>
-              <div style={{ maxWidth: 420, display: "flex", flexDirection: "column", gap: 16, alignItems: "flex-end" }}>
-                <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: "var(--core-color-text-secondary)", textAlign: "right", fontWeight: 400 }}>{s.description}</p>
-              </div>
+            <div style={{ paddingTop: 32 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "var(--core-color-text-tertiary)", marginBottom: 12 }}>{s.id}</div>
+              <h2 style={{ fontSize: 48, fontWeight: 500, letterSpacing: "-0.04em", margin: 0, textTransform: "lowercase" }}>{s.title}</h2>
             </div>
             <div>
               {s.content}

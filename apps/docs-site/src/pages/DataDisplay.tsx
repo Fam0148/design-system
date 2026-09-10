@@ -241,7 +241,7 @@ function AvatarSizeDemo() {
   );
 }
 
-export default function DataDisplay() {
+export default function DataDisplay({ embedded = false }: { embedded?: boolean }) {
   const sections = [
     {
       id: "01",
@@ -767,52 +767,10 @@ export default function DataDisplay() {
     },
   ];
 
-  return (
-    <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
-      {/* Centered Hero Header — matching Logo and Typography sections */}
-      <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
-        <div
-          style={{
-            fontSize: 14,
-            fontWeight: 700,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "var(--core-color-brand-600)",
-            marginBottom: 12,
-          }}
-        >
-          Components
-        </div>
-        <h1
-          style={{
-            fontSize: 72,
-            fontWeight: 800,
-            letterSpacing: "-0.06em",
-            margin: "0 0 16px 0",
-            color: "var(--core-color-text-primary)",
-            lineHeight: 1.1,
-          }}
-        >
-          Data Display
-        </h1>
-        <p
-          style={{
-            maxWidth: 580,
-            margin: "0 auto",
-            color: "var(--core-color-text-tertiary)",
-            fontSize: "var(--core-font-size-lg, 20px)",
-            lineHeight: 1.6,
-            fontWeight: 400,
-          }}
-        >
-          Cards, Badges, Tables, Avatars, Progress meters, and description lists designed for metrics and data summaries.
-        </p>
-      </div>
-
-      {/* Numbered Sections List — matching Logo and Typography sections */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
-        {sections.map((s) => (
-          <div key={s.id} id={s.anchorId} style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
+  const sectionList = (
+    <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
+      {sections.map((s) => (
+        <div key={s.id} id={s.anchorId} className="docs-section" style={{ display: "flex", flexDirection: "column", gap: 32, position: "relative" }}>
             <div
               style={{
                 position: "absolute",
@@ -823,56 +781,39 @@ export default function DataDisplay() {
                 backgroundColor: "var(--site-border)",
               }}
             />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                paddingTop: 32,
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: "var(--core-color-text-tertiary)",
-                    marginBottom: 12,
-                  }}
-                >
-                  {s.id}
-                </div>
-                <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
-                  {s.title}
-                </h2>
-              </div>
+            <div style={{ paddingTop: 32 }}>
               <div
                 style={{
-                  maxWidth: 420,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 16,
-                  alignItems: "flex-end",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "var(--core-color-text-tertiary)",
+                  marginBottom: 12,
                 }}
               >
-                <p
-                  style={{
-                    margin: 0,
-                    fontSize: "var(--core-font-size-sm, 14px)",
-                    lineHeight: 1.6,
-                    color: "var(--core-color-text-secondary)",
-                    textAlign: "right",
-                    fontWeight: 400,
-                  }}
-                >
-                  {s.description}
-                </p>
+                {s.id}
               </div>
+              <h2 style={{ fontSize: 40, fontWeight: 600, letterSpacing: "-0.03em", margin: 0 }}>
+                {s.title}
+              </h2>
             </div>
             <div>{s.content}</div>
           </div>
-        ))}
+      ))}
+    </div>
+  );
+
+  if (embedded) return sectionList;
+
+  return (
+    <div style={{ maxWidth: 1024, margin: "0 auto", padding: "20px" }}>
+      <div style={{ textAlign: "center", marginBottom: 60, marginTop: 40 }}>
+        <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--core-color-brand-600)", marginBottom: 12 }}>Components</div>
+        <h1 style={{ fontSize: 72, fontWeight: 800, letterSpacing: "-0.06em", margin: "0 0 16px 0", color: "var(--core-color-text-primary)", lineHeight: 1.1 }}>Data Display</h1>
+        <p style={{ maxWidth: 580, margin: "0 auto", color: "var(--core-color-text-tertiary)", fontSize: "var(--core-font-size-lg, 20px)", lineHeight: 1.6, fontWeight: 400 }}>
+          Cards, Badges, Tables, Avatars, Progress meters, and description lists designed for metrics and data summaries.
+        </p>
       </div>
+      {sectionList}
     </div>
   );
 }

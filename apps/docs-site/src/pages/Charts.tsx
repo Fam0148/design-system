@@ -18,18 +18,22 @@ const allocationBySource = [
   { source: "Rollover", amount: 5700 },
 ];
 
-export default function Charts() {
+export default function Charts({ embedded = false }: { embedded?: boolean }) {
   return (
     <div>
-      <h1 className="site-h1">Charts &amp; Graphs</h1>
-      <p className="site-lede">
-        Built on <a href="https://recharts.org/" target="_blank" rel="noreferrer" style={{ color: "var(--site-accent)" }}>Recharts</a>{" "}
-        (recharts.org) — an SVG-based, composable React charting library, MIT-licensed. CORE doesn't build charting
-        from scratch; it wraps Recharts' primitives and owns two things: the visual layer (every color, font, and
-        stroke below is a CORE token, never a Recharts default) and accessibility (see the note below).
-      </p>
+      {!embedded && (
+        <>
+          <h1 className="site-h1">Charts &amp; Graphs</h1>
+          <p className="site-lede">
+            Built on <a href="https://recharts.org/" target="_blank" rel="noreferrer" style={{ color: "var(--site-accent)" }}>Recharts</a>{" "}
+            (recharts.org) — an SVG-based, composable React charting library, MIT-licensed. CORE doesn't build charting
+            from scratch; it wraps Recharts' primitives and owns two things: the visual layer (every color, font, and
+            stroke below is a CORE token, never a Recharts default) and accessibility (see the note below).
+          </p>
+        </>
+      )}
 
-      <h2 className="site-section-title" id="line-chart">Line chart</h2>
+      <h2 className="site-section-title docs-section" id="line-chart">Line chart</h2>
       <p className="site-section-sub">For a value over time — account balance, contribution growth.</p>
       <div className="site-panel site-panel--flush">
         <Preview>
