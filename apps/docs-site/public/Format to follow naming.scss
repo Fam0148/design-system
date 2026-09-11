@@ -98,11 +98,6 @@ html[data-site-mode="light"],
   --semantics-critical-background-light: var(--theme-colors-red-50);
   --semantics-critical-background-strong: var(--theme-colors-red-500);
 
-  /* Disabled ----------------------------------------------------------------------*/
-  --semantics-disabled-background: var(--theme-colors-neutral-lightgrey-50);
-  --semantics-disabled-border: var(--theme-colors-neutral-lightgrey-700);
-  --semantics-disabled-text: var(--theme-colors-neutral-100);
-
   --semantics-highlight-border: var(--theme-colors-info-200);
   --semantics-highlight-text: var(--theme-colors-info-700);
   --semantics-highlight-background-light: var(--theme-colors-info-50);
@@ -117,6 +112,11 @@ html[data-site-mode="light"],
   --semantics-warning-text: var(--theme-colors-warning-700);
   --semantics-warning-background-light: var(--theme-colors-warning-50);
   --semantics-warning-background-strong: var(--theme-colors-warning-500);
+
+  /* Disabled ----------------------------------------------------------------------*/
+  --semantics-disabled-background: var(--theme-colors-neutral-lightgrey-50);
+  --semantics-disabled-border: var(--theme-colors-neutral-lightgrey-700);
+  --semantics-disabled-text: var(--theme-colors-neutral-100);
 
   /* ---------------------------------------------------------------------------------- */
   /* Theme-prefixed aliases (components + docs) */
@@ -198,10 +198,6 @@ html[data-site-mode="light"],
   --theme-semantics-critical-strong-background: var(--semantics-critical-background-strong);
   --theme-semantics-critical-background-strong: var(--semantics-critical-background-strong);
 
-  --theme-semantics-disabled-background: var(--semantics-disabled-background);
-  --theme-semantics-disabled-text: var(--semantics-disabled-text);
-  --theme-semantics-disabled-border: var(--semantics-disabled-border);
-
   --theme-semantics-highlight-border: var(--semantics-highlight-border);
   --theme-semantics-highlight-text: var(--semantics-highlight-text);
   --theme-semantics-highlight-light-background: var(--semantics-highlight-background-light);
@@ -222,6 +218,10 @@ html[data-site-mode="light"],
   --theme-semantics-warning-background-light: var(--semantics-warning-background-light);
   --theme-semantics-warning-strong-background: var(--semantics-warning-background-strong);
   --theme-semantics-warning-background-strong: var(--semantics-warning-background-strong);
+
+  --theme-semantics-disabled-background: var(--semantics-disabled-background);
+  --theme-semantics-disabled-text: var(--semantics-disabled-text);
+  --theme-semantics-disabled-border: var(--semantics-disabled-border);
 }
 
 /* ---------------------------------------------------------------------------------- */
@@ -318,4 +318,9 @@ html[data-site-mode="dark"],
   --semantics-warning-text: var(--theme-colors-warning-300);
   --semantics-warning-background-light: var(--theme-colors-warning-950);
   --semantics-warning-background-strong: var(--theme-colors-warning-500);
+
+  /* Disabled ----------------------------------------------------------------------*/
+  --semantics-disabled-background: var(--theme-colors-neutral-lightgrey-50);
+  --semantics-disabled-border: var(--theme-colors-neutral-lightgrey-700);
+  --semantics-disabled-text: var(--theme-colors-neutral-100);
 }
