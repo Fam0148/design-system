@@ -219,6 +219,9 @@ a { color: inherit; }
    that lives inside a flush panel. Corner-rounding for flush content (tables, code blocks)
    is each child's own responsibility (e.g. .cds-table-wrap has its own border-radius). */
 .site-panel--flush { padding: 0; }
+/* Component demo cards (Buttons, Inputs, etc.) render borderless — the
+   background/elevation of the card is enough separation from the page. */
+.site-panel--demo { border-color: transparent; }
 
 .preview-surface {
   border-radius: 12px;

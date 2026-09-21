@@ -71,19 +71,8 @@ function StepperStatePreview({
 
 function StepperStatesDemo() {
   return (
-    <div className="site-panel site-panel--flush">
-      <div
-        className="preview-surface"
-        data-theme="core"
-        data-mode="light"
-        style={{
-          background: "var(--theme-colors-neutral-50)",
-          flexDirection: "column",
-          alignItems: "stretch",
-          padding: "var(--core-space-5, 20px)",
-          gap: "var(--core-space-4, 16px)",
-        }}
-      >
+    <div className="site-panel site-panel--flush site-panel--demo">
+      <Preview showModeToggle>
         <div
           style={{
             display: "grid",
@@ -129,7 +118,7 @@ function StepperStatesDemo() {
             stepNumber={4}
           />
         </div>
-      </div>
+      </Preview>
     </div>
   );
 }
@@ -144,30 +133,8 @@ function SidebarRailStatesDemo() {
   ] as const;
 
   return (
-    <div className="site-panel site-panel--flush">
-      <div
-        className="preview-surface"
-        data-theme="core"
-        data-mode="light"
-        style={{
-          background: "var(--theme-colors-neutral-50)",
-          flexDirection: "column",
-          alignItems: "stretch",
-          padding: "var(--core-space-5, 20px)",
-          gap: "var(--core-space-4, 16px)",
-        }}
-      >
-        <div
-          style={{
-            fontFamily: "var(--typography-font-family-sans)",
-            fontSize: "var(--typography-label-size)",
-            lineHeight: "var(--typography-label-line-height)",
-            fontWeight: "var(--typography-label-weight)",
-            color: "var(--theme-neutral-text-primary-default)",
-          }}
-        >
-          Sidebar · <code style={{ fontWeight: 400, color: "var(--theme-neutral-text-subtle)" }}>variant=&quot;rail&quot;</code>
-        </div>
+    <div className="site-panel site-panel--flush site-panel--demo">
+      <Preview showModeToggle>
         <div
           style={{
             display: "grid",
@@ -190,7 +157,7 @@ function SidebarRailStatesDemo() {
             </div>
           ))}
         </div>
-      </div>
+      </Preview>
     </div>
   );
 }
@@ -205,19 +172,21 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
       </DocsSection>
 
       <DocsSection anchorId="tabs" title="Tabs">
-        <div className="site-panel site-panel--flush">
-          <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)", flexDirection: "column", alignItems: "stretch" }}>
-            <Tabs
-              items={[
-                { id: "overview", label: "Overview", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Account overview content.</p> },
-                { id: "transactions", label: "Transactions", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Transaction history content.</p> },
-                { id: "documents", label: "Documents", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Statements & tax forms content.</p> },
-              ]}
-            />
-          </div>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <div style={{ width: "100%" }}>
+              <Tabs
+                items={[
+                  { id: "overview", label: "Overview", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Account overview content.</p> },
+                  { id: "transactions", label: "Transactions", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Transaction history content.</p> },
+                  { id: "documents", label: "Documents", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Statements & tax forms content.</p> },
+                ]}
+              />
+            </div>
+          </Preview>
         </div>
-        <div className="site-panel site-panel--flush">
-          <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)" }}>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <Tabs
               orientation="vertical"
               items={[
@@ -227,34 +196,31 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
                 { id: "beneficiary", label: "Beneficiary Details", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)", margin: 0 }}>Beneficiary details content.</p> },
               ]}
             />
-          </div>
+          </Preview>
         </div>
       </DocsSection>
 
       <DocsSection anchorId="breadcrumb" title="Breadcrumb">
-        <div className="site-panel site-panel--flush">
-          <Preview>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <Breadcrumb items={[{ label: "Home", href: "#" }, { label: "Accounts", href: "#" }, { label: "Transactions" }]} />
           </Preview>
         </div>
-        <div className="site-panel site-panel--flush">
-          <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)", flexDirection: "column", alignItems: "stretch", gap: 10 }}>
-            {(["slash", "line", "dot", "none"] as const).map((sep) => (
-              <Breadcrumb key={sep} separator={sep} items={[{ label: "Home", href: "#" }, { label: "Accounts", href: "#" }, { label: "Transactions" }]} />
-            ))}
-          </div>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: 10, width: "100%" }}>
+              {(["slash", "line", "dot", "none"] as const).map((sep) => (
+                <Breadcrumb key={sep} separator={sep} items={[{ label: "Home", href: "#" }, { label: "Accounts", href: "#" }, { label: "Transactions" }]} />
+              ))}
+            </div>
+          </Preview>
         </div>
       </DocsSection>
 
       <DocsSection anchorId="stepper" title="Stepper">
         <StepperStatesDemo />
-        <div className="site-panel site-panel--flush">
-          <div
-            className="preview-surface"
-            data-theme="core"
-            data-mode="light"
-            style={{ background: "var(--theme-colors-neutral-50)", padding: "var(--core-space-5, 20px)" }}
-          >
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <Stepper
               currentIndex={1}
               steps={[
@@ -264,15 +230,10 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
                 { label: "Review" },
               ]}
             />
-          </div>
+          </Preview>
         </div>
-        <div className="site-panel site-panel--flush">
-          <div
-            className="preview-surface"
-            data-theme="core"
-            data-mode="light"
-            style={{ background: "var(--theme-colors-neutral-50)", padding: "var(--core-space-5, 20px)" }}
-          >
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <Stepper
               orientation="vertical"
               currentIndex={1}
@@ -284,13 +245,13 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
                 { label: "Summary", description: "Review and submit." },
               ]}
             />
-          </div>
+          </Preview>
         </div>
       </DocsSection>
 
       <DocsSection anchorId="pagination" title="Pagination">
-        <div className="site-panel site-panel--flush">
-          <Preview>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <Pagination page={page} pageCount={8} onChange={setPage} />
           </Preview>
         </div>
@@ -298,9 +259,9 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
 
       <style>{`
         .sidebar-state-hover .cds-app-sidebar--rail .cds-app-sidebar-link:nth-child(3):not([aria-current="page"]) {
-          color: var(--theme-primitive-color-primary-500) !important;
+          color: var(--brand-text-primary-default) !important;
           background: var(--theme-brand-background-primary-subtle) !important;
-          box-shadow: inset 3px 0 0 0 var(--theme-primitive-color-primary-500) !important;
+          box-shadow: inset 3px 0 0 0 var(--brand-background-primary-strong) !important;
         }
         .sidebar-state-focus .cds-app-sidebar--rail .cds-app-sidebar-link:nth-child(3):not([aria-current="page"]) {
           outline: var(--core-focusRing-width, 2px) solid var(--theme-primitive-color-primary-400) !important;

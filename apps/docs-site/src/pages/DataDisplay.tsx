@@ -73,26 +73,16 @@ function BadgeMatrixDemo() {
         ))}
       </div>
 
-      <div className="site-panel site-panel--flush">
-        <div
-          className="preview-surface"
-          data-theme="core"
-          data-mode="light"
-          style={{
-            background: "var(--theme-colors-neutral-0)",
-            flexDirection: "column",
-            alignItems: "stretch",
-            gap: "var(--core-space-4, 16px)",
-            padding: "var(--core-space-6, 24px) var(--core-space-6, 28px)",
-          }}
-        >
-          <div style={{ overflowX: "auto" }}>
+      <div className="site-panel site-panel--flush site-panel--demo">
+        <Preview showModeToggle>
+          <div style={{ overflowX: "auto", width: "100%" }}>
             <table className="cds-table" data-density="comfortable">
               <thead>
                 <tr>
                   <th scope="col" style={{ ...badgeMatrixHeaderStyle, width: 110 }}>Tone</th>
                   <th scope="col" style={badgeMatrixHeaderStyle}>Default</th>
                   <th scope="col" style={badgeMatrixHeaderStyle}>Hover</th>
+                  <th scope="col" style={badgeMatrixHeaderStyle}>Active</th>
                   <th scope="col" style={badgeMatrixHeaderStyle}>Disable</th>
                 </tr>
               </thead>
@@ -109,6 +99,11 @@ function BadgeMatrixDemo() {
                       </div>
                     </td>
                     <td>
+                      <div className="force-active" style={{ display: "inline-block" }}>
+                        <Badge tone={t} size={size} variant="soft" interactive className={`cds-badge-state--active cds-badge--${t}`}>{t}</Badge>
+                      </div>
+                    </td>
+                    <td>
                       <Badge tone={t} size={size} variant="soft" disabled>{t}</Badge>
                     </td>
                   </tr>
@@ -116,7 +111,7 @@ function BadgeMatrixDemo() {
               </tbody>
             </table>
           </div>
-        </div>
+        </Preview>
       </div>
     </div>
   );
@@ -126,19 +121,9 @@ const sampleAvatars = [...AVATAR_SAMPLES];
 
 function AvatarSizeDemo() {
   return (
-    <div className="site-panel site-panel--flush">
-      <div
-        className="preview-surface"
-        data-theme="core"
-        data-mode="light"
-        style={{
-          background: "var(--core-color-bg-page)",
-          flexDirection: "column",
-          alignItems: "stretch",
-          padding: "24px 28px",
-        }}
-      >
-        <div style={{ overflowX: "auto" }}>
+    <div className="site-panel site-panel--flush site-panel--demo">
+      <Preview showModeToggle>
+        <div style={{ overflowX: "auto", width: "100%" }}>
           <table className="cds-table" data-density="comfortable">
             <thead>
               <tr>
@@ -185,7 +170,7 @@ function AvatarSizeDemo() {
             </tbody>
           </table>
         </div>
-      </div>
+      </Preview>
     </div>
   );
 }
@@ -197,8 +182,8 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
       anchorId: "quick-links",
       title: "Quick links",
       content: (
-        <div className="site-panel site-panel--flush">
-          <Preview>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-8, 32px)", width: "100%", padding: "var(--core-space-2, 8px) 0" }}>
               <div>
                 <div style={sectionLabelStyle}>Variants</div>
@@ -214,15 +199,9 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
 
               <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: "var(--core-space-6, 24px)" }}>
                 <div style={sectionLabelStyle}>Interactive states</div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(160px, 1fr))", gap: "var(--core-space-4, 16px)" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(160px, 1fr))", gap: "var(--core-space-4, 16px)" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
                     <StateLabel>DEFAULT</StateLabel>
-                    <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
-                      <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
-                    </Card>
-                  </div>
-                  <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
-                    <StateLabel>HOVER</StateLabel>
                     <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
                       <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
                     </Card>
@@ -267,13 +246,8 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
           <div style={{ ...sectionLabelStyle, marginBottom: "var(--core-space-2, 8px)" }}>
             Basic Data Table
           </div>
-          <div className="site-panel site-panel--flush">
-            <div
-              className="preview-surface"
-              data-theme="core"
-              data-mode="light"
-              style={{ background: "var(--theme-colors-neutral-0)", flexDirection: "column", alignItems: "stretch" }}
-            >
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
               <Table
                 columns={[
                   { key: "date", header: "Date" },
@@ -291,7 +265,7 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
                 ]}
                 rows={rows}
               />
-            </div>
+            </Preview>
           </div>
         </div>
       ),
@@ -310,8 +284,8 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
       title: "Progress",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div className="site-panel site-panel--flush">
-            <Preview>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
               <div style={{ width: 320, display: "flex", flexDirection: "column", gap: 20 }}>
                 <Progress value={68} label="Retirement readiness — 68%" />
                 <Progress indeterminate label="Submitting your request…" />
@@ -336,16 +310,6 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
 
   const cardStateStyles = (
     <style>{`
-      .force-hover .cds-card--interactive:not(:disabled) {
-        box-shadow: var(--core-elevation-2) !important;
-        border-color: var(--theme-neutral-border-strong) !important;
-        background: var(--theme-colors-neutral-0) !important;
-        transform: none !important;
-      }
-      .force-hover .cds-card--interactive:not(:disabled) .cds-card__quick-link-icon {
-        background: var(--theme-brand-background-primary-subtle) !important;
-        color: var(--theme-brand-text-primary-hover) !important;
-      }
       .force-focus .cds-card--interactive:not(:disabled) {
         outline: none !important;
         border-color: var(--theme-primitive-color-primary-400) !important;

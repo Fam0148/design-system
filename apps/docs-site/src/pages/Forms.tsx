@@ -53,8 +53,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       title: "Input",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-          <div className="site-panel site-panel--flush">
-            <Preview>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 16 }}>
                 <div className="force-default">
                   <Field label="Default" required>{(p) => <Input {...p} placeholder="Jordan Lee" />}</Field>
@@ -85,8 +85,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       anchorId: "textarea",
       title: "Textarea",
       content: (
-        <div className="site-panel site-panel--flush">
-          <Preview>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
               <div className="force-default">
                 <Field label="Default">{(p) => <Textarea {...p} rows={2} placeholder="Type here..." />}</Field>
@@ -113,8 +113,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       anchorId: "select",
       title: "Select",
       content: (
-        <div className="site-panel site-panel--flush">
-          <Preview>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
               <div className="force-default">
                 <Field label="Default">{(p) => <Select {...p} options={employers} />}</Field>
@@ -141,8 +141,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       anchorId: "checkbox-radio",
       title: "Checkbox & Radio",
       content: (
-        <div className="site-panel site-panel--flush">
-          <Preview>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <div style={{ display: "flex", flexDirection: "column", gap: 32, width: "100%" }}>
               <div>
                 <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Checkbox</div>
@@ -205,8 +205,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       anchorId: "switch",
       title: "Switch",
       content: (
-        <div className="site-panel site-panel--flush">
-          <Preview>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(140px, 1fr))", gap: 32, width: "100%", padding: "16px 8px" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
                 <StateLabel>DEFAULT</StateLabel>
@@ -239,12 +239,12 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       title: "Toggle",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <div className="site-panel site-panel--flush">
-            <Preview>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
               <div style={{ display: "flex", flexDirection: "column", gap: 32, width: "100%" }}>
                 <div>
                   <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Single Toggle</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(140px, 1fr))", gap: 32, padding: "8px 0" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(140px, 1fr))", gap: 32, padding: "8px 0" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
                       <StateLabel>DEFAULT</StateLabel>
                       <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
@@ -256,6 +256,10 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
                       <StateLabel>FOCUS</StateLabel>
                       <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <StateLabel>PRESSED</StateLabel>
+                      <Toggle pressed={true} onPressedChange={() => { }}>★ Favorite</Toggle>
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
                       <StateLabel>DISABLED</StateLabel>
@@ -271,9 +275,17 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                       <StateLabel>DEFAULT</StateLabel>
                       <ToggleGroup value={segment} onChange={setSegment} options={toggleGroupOptions} />
                     </div>
+                    <div className="toggle-group-state-cell toggle-group-state-hover">
+                      <StateLabel>HOVER</StateLabel>
+                      <ToggleGroup value="sources" onChange={() => { }} options={toggleGroupOptions} />
+                    </div>
                     <div className="toggle-group-state-cell toggle-group-state-focus">
                       <StateLabel>FOCUS</StateLabel>
                       <ToggleGroup value="sources" onChange={() => { }} options={toggleGroupOptions} />
+                    </div>
+                    <div className="toggle-group-state-cell">
+                      <StateLabel>SELECTED</StateLabel>
+                      <ToggleGroup value="investments" onChange={() => { }} options={toggleGroupOptions} />
                     </div>
                     <div className="toggle-group-state-cell">
                       <StateLabel>DISABLED</StateLabel>
@@ -293,8 +305,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       title: "Input group",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <div className="site-panel site-panel--flush">
-            <Preview>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
               <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
                 {/* Prefix variant row */}
                 <div>
@@ -370,13 +382,25 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       anchorId: "slider",
       title: "Slider",
       content: (
-        <div className="site-panel site-panel--flush">
-          <Preview>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(220px, 1fr))", gap: 32, width: "100%", padding: "8px 0" }}>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(180px, 1fr))", gap: 24, width: "100%", padding: "8px 0" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
                 <StateLabel>DEFAULT</StateLabel>
                 <Field label="Contribution rate">{() => (
                   <Slider value={contribPct} min={0} max={25} onChange={setContribPct} formatValue={(v) => `${v}%`} />
+                )}</Field>
+              </div>
+              <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
+                <StateLabel>HOVER</StateLabel>
+                <Field label="Contribution rate">{() => (
+                  <Slider value={12} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
+                )}</Field>
+              </div>
+              <div className="force-active" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
+                <StateLabel>ACTIVE</StateLabel>
+                <Field label="Contribution rate">{() => (
+                  <Slider value={18} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
                 )}</Field>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
@@ -395,8 +419,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       anchorId: "combobox",
       title: "Combobox",
       content: (
-        <div className="site-panel site-panel--flush">
-          <Preview>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16, width: "100%" }}>
               <div className="force-default">
                 <Field label="Default">
@@ -434,8 +458,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       title: "Date Selection",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-          <div className="site-panel site-panel--flush">
-            <Preview>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
               <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
                 <div>
                   <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>DatePicker Popover</div>
@@ -471,8 +495,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
             </Preview>
           </div>
 
-          <div className="site-panel site-panel--flush">
-            <div className="preview-surface" data-theme="core" data-mode="light" style={{ background: "var(--core-color-bg-page)", padding: 24 }}>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
               <div style={{ display: "flex", gap: 40, flexWrap: "wrap" }}>
                 <div>
                   <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Calendar (Active)</div>
@@ -483,7 +507,7 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                   <Calendar disabled selected={dob} onSelect={() => { }} />
                 </div>
               </div>
-            </div>
+            </Preview>
           </div>
         </div>
       )
@@ -494,8 +518,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       title: "Input with icon",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <div className="site-panel site-panel--flush">
-            <Preview>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
               <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
                 {/* Leading icon */}
                 <div>
@@ -599,8 +623,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       title: "Bank fields",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <div className="site-panel site-panel--flush">
-            <Preview>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
               <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
                 {/* Card Number */}
                 <div>
@@ -737,8 +761,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       anchorId: "attachment",
       title: "Attachment",
       content: (
-        <div className="site-panel site-panel--flush">
-          <Preview>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))", gap: 32, width: "100%" }}>
               {/* Default State */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -868,8 +892,8 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       title: "Working Example",
       content: (
         <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-          <div className="site-panel site-panel--flush">
-            <Preview>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
               <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 420 }}>
                 {/* Kitchen Sink Input */}
                 <Field label="Kitchen Sink Input" hint="Prefix, suffix, icons, hint, and error all at once." error="Username is already taken">
@@ -938,22 +962,25 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
   const formStyles = (
     <style>{`
         .force-hover .cds-input,
-        .force-hover .cds-textarea, 
+        .force-hover .cds-textarea,
         .force-hover .cds-select,
         .force-hover .cds-combobox .cds-input,
         .force-hover .cds-input-affix-wrap .cds-input,
-        .force-hover .cds-input-group .cds-input,
+        .force-hover .cds-input-group .cds-input {
+          border-color: var(--theme-neutral-border-strong) !important;
+          background: var(--core-color-surface-sunken) !important;
+        }
         .force-hover .cds-input-group-addon,
         .force-hover .cds-incremental-selector__btn,
-        .force-hover .cds-incremental-selector__value { 
-          border-color: var(--theme-neutral-border-strong) !important; 
+        .force-hover .cds-incremental-selector__value {
+          border-color: var(--theme-neutral-border-strong) !important;
         }
         .force-hover .cds-incremental-selector__btn {
-          background: var(--theme-colors-neutral-200, #E8E8ED) !important;
+          background: var(--core-color-surface-raised) !important;
           color: var(--theme-neutral-text-primary-default) !important;
         }
         .force-hover .cds-incremental-selector__value {
-          background: var(--theme-colors-neutral-0) !important;
+          background: var(--core-color-surface-default) !important;
         }
         .force-hover .cds-toggle:not(:disabled):not([aria-pressed="true"]) { 
           background: var(--brand-background-primary-hover) !important;
@@ -961,9 +988,9 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
           border-color: var(--brand-border-primary-hover) !important;
         }
         .toggle-group-states {
-          display: grid;
-          grid-template-columns: repeat(3, max-content);
-          gap: 40px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 32px 40px;
           padding: 8px 0;
           align-items: start;
         }
@@ -978,11 +1005,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .toggle-group-state-cell .cds-toggle-group {
           width: max-content;
           max-width: 100%;
-        }
-        @media (max-width: 900px) {
-          .toggle-group-states {
-            grid-template-columns: repeat(2, max-content);
-          }
         }
         .toggle-group-state-focus .cds-toggle-group__item:nth-child(2):not(:disabled) {
           outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400) !important;
@@ -1041,11 +1063,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
           box-shadow: none !important;
         }
         .force-focus .cds-incremental-selector__btn {
-          background: var(--theme-colors-neutral-100) !important;
+          background: var(--core-color-surface-sunken) !important;
           color: var(--theme-neutral-text-primary-default) !important;
         }
         .force-focus .cds-incremental-selector__value {
-          background: var(--theme-colors-neutral-0) !important;
+          background: var(--core-color-surface-default) !important;
           color: var(--theme-neutral-text-primary-default) !important;
         }
         .force-focus .cds-checkbox input:not(:checked):not(:disabled) + .cds-checkbox-box,
@@ -1073,41 +1095,19 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-active .cds-checkbox input:checked:not(:disabled) + .cds-checkbox-box,
         .force-active .cds-radio input:checked:not(:disabled) + .cds-radio-box {
           background: var(--brand-background-primary-active) !important;
-          border-color: var(--brand-background-primary-active) !important;
+          border-color: var(--brand-border-primary-default) !important;
         }
         .force-error .cds-input[aria-invalid="true"] {
           border-color: var(--theme-semantics-critical-border) !important;
         }
 
-        .force-disabled .cds-select, .cds-select:disabled, .cds-select[aria-disabled="true"] { 
-          background: var(--theme-brand-background-primary-disabled-light) !important; 
-          color: var(--theme-neutral-text-subtleleast) !important; 
-          border-color: var(--theme-neutral-border-primary-default) !important; 
-          opacity: 1 !important; 
-          cursor: not-allowed !important;
-        }
-        .force-disabled .cds-textarea, .cds-textarea:disabled { 
-          background: var(--theme-brand-background-primary-disabled-light) !important; 
-          color: var(--theme-neutral-text-subtleleast) !important; 
-          border-color: var(--theme-neutral-border-primary-default) !important; 
-          opacity: 1 !important; 
-          cursor: not-allowed !important;
-        }
-        .force-disabled .cds-input, .cds-input:disabled { 
-          background: var(--theme-brand-background-primary-disabled-light) !important; 
-          color: var(--theme-neutral-text-subtleleast) !important; 
-          border-color: var(--theme-neutral-border-primary-default) !important; 
-          opacity: 1 !important; 
-          cursor: not-allowed !important;
-        }
-        .force-disabled .cds-input-group-addon, .cds-input-group:has(.cds-input:disabled) .cds-input-group-addon {
-          background: var(--theme-brand-background-primary-disabled-light) !important; 
-          color: var(--theme-neutral-text-subtleleast) !important; 
-          border-color: var(--theme-neutral-border-primary-default) !important; 
-          cursor: not-allowed !important;
-        }
+        /* Input/Textarea/Select/Input-group are plain neutral surfaces — their
+           real :disabled CSS (components.css) already applies the canonical
+           --theme-semantics-disabled-* neutral tokens. No docs override
+           needed; letting the real state show is what keeps "disabled" from
+           looking different in every component page. */
         .force-disabled .cds-input-icon, .cds-input-affix-wrap:has(.cds-input:disabled) .cds-input-icon {
-          color: var(--theme-neutral-text-subtleleast) !important;
+          color: var(--theme-semantics-disabled-text) !important;
         }
         .force-disabled .cds-incremental-selector__btn,
         .force-disabled .cds-incremental-selector__value,
@@ -1150,6 +1150,20 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-disabled .cds-slider-value,
         .cds-slider--disabled .cds-slider-value {
           color: var(--theme-neutral-text-subtleleast) !important;
+        }
+        .force-hover .cds-slider {
+          --cds-slider-thumb-ring: var(--brand-background-primary-hover) !important;
+          --cds-slider-thumb-bg: var(--brand-background-primary-hover) !important;
+        }
+        .force-active .cds-slider {
+          --cds-slider-track-fill: var(--brand-background-primary-active) !important;
+          --cds-slider-thumb-bg: var(--brand-background-primary-active) !important;
+          --cds-slider-thumb-ring: var(--brand-background-primary-active) !important;
+          --cds-slider-thumb-size: 20px !important;
+        }
+        .toggle-group-state-hover .cds-toggle-group__item:first-child:not(:disabled) {
+          background: var(--brand-background-primary-hover) !important;
+          color: var(--brand-text-primary-oncolor) !important;
         }
       `}</style>
   );

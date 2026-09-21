@@ -4,192 +4,118 @@ import { Button, ButtonVariant } from "../../../packages/core/src/components/But
 export type MatrixSize = "sm" | "md" | "lg";
 export type VariantCategory = "all" | "brand" | "semantics" | "neutral";
 
+interface StateStyle {
+  bg: string;
+  text: string;
+  border?: string;
+  extraStyles?: React.CSSProperties;
+}
+
 interface VariantConfig {
   id: ButtonVariant;
   name: string;
   category: "brand" | "semantics" | "neutral";
-  stateTokens: Record<
-    "default" | "hover" | "active" | "focused" | "disabled",
-    {
-      bgVar: string;
-      bgFallback: string;
-      textVar: string;
-      textFallback: string;
-      borderVar?: string;
-      borderFallback?: string;
-      extraStyles?: React.CSSProperties;
-    }
-  >;
+  stateTokens: Record<"default" | "hover" | "active" | "focused" | "disabled", StateStyle>;
 }
 
+/* Every value below is a mode-aware semantic token, so light/dark is resolved
+   by CSS. Earlier this map held raw primitives plus hex fallbacks and the
+   component patched dark mode in JS — which is why Tertiary's text stayed
+   primary-500 (2.3:1) on the dark canvas. */
+const FOCUS_RING: React.CSSProperties = {
+  outline: "var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400)",
+  outlineOffset: "var(--core-focusRing-offset)",
+};
+
 const VARIANTS: VariantConfig[] = [
-  // 1. BRAND PRIMARY (SOLID)
   {
     id: "primary",
     name: "Primary CTA",
     category: "brand",
     stateTokens: {
       default: {
-        bgVar: "--theme-brand-background-primary-strong",
-        bgFallback: "#1F4F8D",
-        textVar: "--theme-brand-text-primary-oncolor",
-        textFallback: "#FFFFFF",
-        borderVar: "--theme-brand-border-primary-default",
-        borderFallback: "#3275CD",
-        extraStyles: { boxShadow: "0 1px 2px rgba(17,16,23,0.08)" },
+        bg: "var(--brand-background-primary-strong)",
+        text: "var(--brand-text-primary-oncolor)",
+        border: "var(--brand-border-primary-default)",
       },
       hover: {
-        bgVar: "--theme-brand-background-primary-hover",
-        bgFallback: "#1B4479",
-        textVar: "--theme-brand-text-primary-oncolor",
-        textFallback: "#FFFFFF",
-        borderVar: "--theme-brand-border-primary-hover",
-        borderFallback: "#1B4479",
-        extraStyles: { boxShadow: "0 2px 6px rgba(31,79,141,0.25)" },
+        bg: "var(--brand-background-primary-hover)",
+        text: "var(--brand-text-primary-oncolor)",
+        border: "var(--brand-border-primary-hover)",
       },
       active: {
-        bgVar: "--theme-brand-background-primary-active",
-        bgFallback: "#17365E",
-        textVar: "--theme-brand-text-primary-oncolor",
-        textFallback: "#FFFFFF",
-        borderVar: "--theme-brand-background-primary-active",
-        borderFallback: "#17365E",
+        bg: "var(--brand-background-primary-active)",
+        text: "var(--brand-text-primary-oncolor)",
+        border: "var(--brand-background-primary-active)",
         extraStyles: { transform: "translateY(1px)" },
       },
       focused: {
-        bgVar: "--theme-brand-background-primary-strong",
-        bgFallback: "#1F4F8D",
-        textVar: "--theme-brand-text-primary-oncolor",
-        textFallback: "#FFFFFF",
-        borderVar: "--theme-brand-border-primary-default",
-        borderFallback: "#3275CD",
-        extraStyles: {
-          outline: "2px solid var(--theme-brand-border-primary-default)",
-          outlineOffset: "2px",
-          boxShadow: "0 0 0 3px rgba(50,117,205,0.3)",
-        },
+        bg: "var(--brand-background-primary-strong)",
+        text: "var(--brand-text-primary-oncolor)",
+        border: "var(--brand-border-primary-default)",
+        extraStyles: FOCUS_RING,
       },
       disabled: {
-        bgVar: "--theme-brand-background-primary-disabled",
-        bgFallback: "#BACEE9",
-        textVar: "--theme-brand-text-primary-disabled",
-        textFallback: "#1B4479",
-        borderVar: "--theme-brand-border-primary-disabled",
-        borderFallback: "#1F4F8D",
-        extraStyles: { boxShadow: "0 1px 2px rgba(17,16,23,0.06)" },
+        bg: "var(--brand-background-primary-disabled)",
+        text: "var(--brand-text-primary-disabled)",
+        border: "var(--brand-border-primary-disabled)",
       },
     },
   },
-
-  // 2. BRAND SECONDARY (OUTLINE)
   {
     id: "secondary",
     name: "Secondary CTA",
     category: "brand",
     stateTokens: {
       default: {
-        bgVar: "transparent",
-        bgFallback: "transparent",
-        textVar: "--theme-primitive-color-primary-500",
-        textFallback: "#1F4F8D",
-        borderVar: "--theme-brand-border-primary-default",
-        borderFallback: "#3275CD",
+        bg: "transparent",
+        text: "var(--brand-text-primary-default)",
+        border: "var(--brand-border-primary-default)",
       },
       hover: {
-        bgVar: "--theme-brand-background-primary-hover",
-        bgFallback: "#1B4479",
-        textVar: "--theme-primitive-color-primary-100",
-        textFallback: "#E2E9F3",
-        borderVar: "--theme-brand-border-primary-hover",
-        borderFallback: "#1B4479",
+        bg: "var(--brand-background-primary-hover)",
+        text: "var(--brand-text-primary-oncolor)",
+        border: "var(--brand-border-primary-hover)",
       },
       active: {
-        bgVar: "--theme-brand-background-primary-active",
-        bgFallback: "#17365E",
-        textVar: "--theme-primitive-color-primary-100",
-        textFallback: "#E2E9F3",
-        borderVar: "--theme-brand-background-primary-active",
-        borderFallback: "#17365E",
+        bg: "var(--brand-background-primary-active)",
+        text: "var(--brand-text-primary-oncolor)",
+        border: "var(--brand-background-primary-active)",
         extraStyles: { transform: "translateY(1px)" },
       },
       focused: {
-        bgVar: "transparent",
-        bgFallback: "transparent",
-        textVar: "--theme-primitive-color-primary-500",
-        textFallback: "#1F4F8D",
-        borderVar: "--theme-brand-border-primary-default",
-        borderFallback: "#3275CD",
-        extraStyles: {
-          outline: "2px solid var(--theme-brand-border-primary-default)",
-          outlineOffset: "2px",
-        },
+        bg: "transparent",
+        text: "var(--brand-text-primary-default)",
+        border: "var(--brand-border-primary-default)",
+        extraStyles: FOCUS_RING,
       },
+      // Outline/ghost styles have no fill to mute, so a same-hue disabled step
+      // reads as identical to default — neutral is the only legible signal.
       disabled: {
-        bgVar: "transparent",
-        bgFallback: "transparent",
-        textVar: "--theme-brand-text-primary-disabled",
-        textFallback: "#1B4479",
-        borderVar: "--theme-brand-border-primary-disabled",
-        borderFallback: "#1F4F8D",
-        extraStyles: {},
+        bg: "transparent",
+        text: "var(--theme-semantics-disabled-text)",
+        border: "var(--theme-semantics-disabled-border)",
       },
     },
   },
-
-  // 3. BRAND TERTIARY (GHOST)
   {
     id: "tertiary",
     name: "Tertiary CTA",
     category: "brand",
     stateTokens: {
-      default: {
-        bgVar: "transparent",
-        bgFallback: "transparent",
-        textVar: "--theme-primitive-color-primary-500",
-        textFallback: "#1F4F8D",
-        borderVar: "transparent",
-        borderFallback: "transparent",
-        extraStyles: {},
-      },
-      hover: {
-        bgVar: "transparent",
-        bgFallback: "transparent",
-        textVar: "--theme-brand-text-primary-hover",
-        textFallback: "#1B4479",
-        borderVar: "transparent",
-        borderFallback: "transparent",
-        extraStyles: {},
-      },
+      default: { bg: "transparent", text: "var(--brand-text-primary-default)" },
+      hover: { bg: "transparent", text: "var(--brand-text-primary-hover)" },
       active: {
-        bgVar: "transparent",
-        bgFallback: "transparent",
-        textVar: "--theme-brand-text-primary-active",
-        textFallback: "#17365E",
-        borderVar: "transparent",
-        borderFallback: "transparent",
+        bg: "transparent",
+        text: "var(--brand-text-primary-active)",
         extraStyles: { transform: "translateY(1px)" },
       },
       focused: {
-        bgVar: "transparent",
-        bgFallback: "transparent",
-        textVar: "--theme-primitive-color-primary-500",
-        textFallback: "#1F4F8D",
-        borderVar: "transparent",
-        borderFallback: "transparent",
-        extraStyles: {
-          outline: "2px solid var(--theme-brand-border-primary-default)",
-          outlineOffset: "2px",
-        },
+        bg: "transparent",
+        text: "var(--brand-text-primary-default)",
+        extraStyles: FOCUS_RING,
       },
-      disabled: {
-        bgVar: "transparent",
-        bgFallback: "transparent",
-        textVar: "--theme-brand-text-primary-disabled",
-        textFallback: "#1B4479",
-        borderVar: "transparent",
-        borderFallback: "transparent",
-        extraStyles: {},
-      },
+      disabled: { bg: "transparent", text: "var(--theme-semantics-disabled-text)" },
     },
   },
 ];
@@ -244,31 +170,12 @@ export function ButtonMatrix() {
     { key: "disabled", label: "Disabled" },
   ];
 
-  const getButtonStyles = (variant: VariantConfig, stateKey: "default" | "hover" | "active" | "focused" | "disabled"): React.CSSProperties => {
+  const getButtonStyles = (
+    variant: VariantConfig,
+    stateKey: "default" | "hover" | "active" | "focused" | "disabled"
+  ): React.CSSProperties => {
     const tok = variant.stateTokens[stateKey];
-    const bgVal = tok.bgVar.startsWith("--") ? `var(${tok.bgVar}, ${tok.bgFallback})` : tok.bgFallback;
-    const useDarkPrimary50Text =
-      canvasBg === "dark" &&
-      stateKey !== "disabled" &&
-      (tok.textVar === "--theme-brand-text-primary-oncolor" ||
-        (variant.id === "secondary" && (stateKey === "default" || stateKey === "focused")));
-
-    const tertiaryDarkText =
-      canvasBg === "dark" && variant.id === "tertiary" && stateKey !== "disabled"
-        ? { textVar: "--theme-primitive-color-primary-50", textFallback: "#F5F7FA" }
-        : undefined;
-
-    const textVar =
-      tertiaryDarkText?.textVar ??
-      (useDarkPrimary50Text ? "--theme-primitive-color-primary-50" : tok.textVar);
-    const textFallback =
-      tertiaryDarkText?.textFallback ??
-      (useDarkPrimary50Text ? "#F5F7FA" : tok.textFallback);
-    const textVal = textVar.startsWith("--") ? `var(${textVar}, ${textFallback})` : textFallback;
-    const borderVal = tok.borderVar && tok.borderVar !== "transparent" ? `var(${tok.borderVar}, ${tok.borderFallback || "transparent"})` : "transparent";
-
-    const isTertiaryLinkState =
-      variant.id === "tertiary" && (stateKey === "hover" || stateKey === "active");
+    const isTertiaryLinkState = variant.id === "tertiary" && (stateKey === "hover" || stateKey === "active");
 
     return {
       display: "inline-flex",
@@ -280,17 +187,17 @@ export function ButtonMatrix() {
       lineHeight: sizeStyles.lineHeight,
       fontWeight: 600,
       borderRadius: sizeStyles.radius,
-      fontFamily: "var(--typography-font-family-sans, inherit)",
+      fontFamily: "var(--typography-font-family-sans)",
       cursor: stateKey === "disabled" ? "not-allowed" : "pointer",
-      border: `1px solid ${borderVal}`,
-      background: bgVal,
-      color: textVal,
+      border: `1px solid ${tok.border ?? "transparent"}`,
+      background: tok.bg,
+      color: tok.text,
       boxSizing: "border-box",
       transition: "all 140ms ease",
       userSelect: "none",
       textDecoration: isTertiaryLinkState ? "underline" : "none",
       textUnderlineOffset: isTertiaryLinkState ? "4px" : undefined,
-      textDecorationThickness: isTertiaryLinkState ? "1px" : undefined,
+      textDecorationThickness: isTertiaryLinkState ? "2px" : undefined,
       textDecorationColor: isTertiaryLinkState ? "currentColor" : undefined,
       whiteSpace: "nowrap",
       ...tok.extraStyles,
@@ -307,12 +214,12 @@ export function ButtonMatrix() {
           alignItems: "center",
           justifyContent: "space-between",
           gap: 16,
-          background: "var(--site-bg-elevated, #FFFFFF)",
+          background: "var(--site-bg-elevated)",
           border: "1px solid var(--site-border)",
           borderRadius: 14,
           padding: "14px 20px",
           marginBottom: 18,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+          boxShadow: "var(--core-elevation-2)",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
@@ -371,7 +278,7 @@ export function ButtonMatrix() {
                 top: 2,
                 left: canvasBg === "dark" ? 22 : 2,
                 transition: "left 0.3s ease",
-                boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+                boxShadow: "var(--core-elevation-1)",
               }}
             />
           </div>
@@ -389,12 +296,12 @@ export function ButtonMatrix() {
             bottom: 24,
             right: 24,
             background: "var(--theme-semantics-success-strong-background)",
-            color: "#FFFFFF",
+            color: "var(--theme-neutral-text-on-color)",
             padding: "10px 20px",
             borderRadius: 8,
             fontSize: 12,
             fontWeight: 600,
-            boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
+            boxShadow: "var(--core-elevation-4)",
             zIndex: 9999,
           }}
         >
@@ -407,11 +314,11 @@ export function ButtonMatrix() {
         data-theme="core"
         data-mode={canvasBg}
         style={{
-          background: canvasBg === "light" ? "#FFFFFF" : "#111017",
-          color: canvasBg === "light" ? "#1D1C24" : "#F4F4F6",
+          background: "var(--core-color-bg-page)",
+          color: "var(--core-color-text-primary)",
           borderRadius: 16,
           padding: "36px 32px",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
+          boxShadow: "var(--core-elevation-3)",
           border: "1px solid var(--site-border)",
           overflowX: "auto",
           transition: "background 150ms ease",
@@ -464,7 +371,7 @@ export function ButtonMatrix() {
                     >
                       <span
                         style={{
-                          color: "var(--site-text-dim, #787887)",
+                          color: "var(--site-text-dim)",
                           fontSize: "var(--typography-font-size-xs)",
                           fontWeight: 700,
                           textTransform: "uppercase",

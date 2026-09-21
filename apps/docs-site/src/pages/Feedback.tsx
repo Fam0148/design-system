@@ -5,6 +5,21 @@ import { Alert } from "../../../../packages/core/src/components/Misc";
 import { Toast, Spinner } from "../../../../packages/core/src/components/Overlays";
 import { Empty } from "../../../../packages/core/src/components/Primitives";
 import { Button } from "../../../../packages/core/src/components/Button";
+import { ToastProvider, useToast } from "../../../../packages/core/src/components/ToastManager";
+
+function ToastManagerDemo() {
+  const { push } = useToast();
+  return (
+    <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+      <button type="button" className="cds-btn cds-btn--primary cds-btn--sm" onClick={() => push({ tone: "success", title: "Changes saved", description: "Your contribution rate was updated." })}>
+        Trigger success toast
+      </button>
+      <button type="button" className="cds-btn cds-btn--secondary cds-btn--sm" onClick={() => push({ tone: "danger", title: "Couldn't connect", description: "Check your internet connection and retry." })}>
+        Trigger error toast
+      </button>
+    </div>
+  );
+}
 export default function Feedback({ embedded = false }: { embedded?: boolean }) {
   const [dismissed, setDismissed] = React.useState<Set<string>>(new Set());
   const [dismissedToasts, setDismissedToasts] = React.useState<Set<string>>(new Set());
@@ -18,18 +33,9 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
       anchorId: "alert",
       title: "Alert",
       content: (
-        <div className="site-panel site-panel--flush">
-          <div
-            className="preview-surface"
-            data-theme="core"
-            data-mode="light"
-            style={{
-              background: "var(--core-color-bg-page)",
-              flexDirection: "column",
-              alignItems: "stretch",
-              gap: 12,
-            }}
-          >
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: 12, width: "100%" }}>
             {!dismissed.has("success") && (
               <Alert tone="success" title="Enrollment complete" onDismiss={() => dismiss("success")}>
                 You are contributing 6% starting next pay cycle.
@@ -61,7 +67,8 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
                 </button>
               </div>
             )}
-          </div>
+            </div>
+          </Preview>
         </div>
       ),
     },
@@ -70,17 +77,9 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
       anchorId: "toast",
       title: "Toast & Notifications",
       content: (
-        <div className="site-panel site-panel--flush">
-          <div
-            className="preview-surface"
-            data-theme="core"
-            data-mode="light"
-            style={{
-              background: "var(--core-color-bg-page)",
-              flexWrap: "wrap",
-              gap: "var(--core-space-4, 16px)",
-            }}
-          >
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--core-space-4, 16px)", width: "100%" }}>
             {!dismissedToasts.has("success") && (
               <Toast tone="success" title="Changes saved" onClose={() => dismissToast("success")}>
                 Your contribution rate was updated.
@@ -112,47 +111,54 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
                 </button>
               </div>
             )}
-          </div>
+            </div>
+          </Preview>
         </div>
       ),
     },
     {
       id: "03",
-      anchorId: "empty",
-      title: "Empty State",
+      anchorId: "toast-manager",
+      title: "Toast Manager",
       content: (
-        <div className="site-panel site-panel--flush">
-          <div
-            className="preview-surface"
-            data-theme="core"
-            data-mode="light"
-            style={{
-              background: "var(--core-color-bg-page)",
-              justifyContent: "center",
-              alignItems: "center",
-              minHeight: 220,
-            }}
-          >
-            <Empty
-              title="No transactions yet"
-              description="Once you make your first contribution, it will show up here."
-              action={
-                <Button variant="primary" size="sm">
-                  Learn how contributions work
-                </Button>
-              }
-            />
-          </div>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <ToastProvider>
+              <ToastManagerDemo />
+            </ToastProvider>
+          </Preview>
         </div>
       ),
     },
     {
       id: "04",
+      anchorId: "empty",
+      title: "Empty State",
+      content: (
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: 220, width: "100%" }}>
+              <Empty
+                title="No transactions yet"
+                description="Once you make your first contribution, it will show up here."
+                action={
+                  <Button variant="primary" size="sm">
+                    Learn how contributions work
+                  </Button>
+                }
+              />
+            </div>
+          </Preview>
+        </div>
+      ),
+    },
+    {
+      id: "05",
       anchorId: "spinner",
       title: "Loading Spinner",
       content: (
-        <div className="site-panel site-panel--flush">
-          <Preview>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
             <Spinner />
             <span style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Saving your changes…</span>
           </Preview>
