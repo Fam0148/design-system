@@ -137,11 +137,29 @@ export function Alert({ tone = "info", title, children, onDismiss }: { tone?: Al
   );
 }
 
-export function Switch({ label, checked, disabled, onChange }: { label?: string; checked: boolean; disabled?: boolean; onChange: (v: boolean) => void }) {
-  const id = useId();
+export interface SwitchProps {
+  label?: string;
+  checked: boolean;
+  disabled?: boolean;
+  onChange: (v: boolean) => void;
+  id?: string;
+  "aria-label"?: string;
+  "aria-labelledby"?: string;
+  "aria-describedby"?: string;
+}
+
+/**
+ * When `label` is omitted (e.g. the switch sits beside its own heading
+ * elsewhere in the layout, as in a settings row), pass `aria-label` or
+ * `aria-labelledby` — without one of the three, the control has no
+ * accessible name at all and a screen reader announces only "switch, off".
+ */
+export function Switch({ label, checked, disabled, onChange, id, ...aria }: SwitchProps) {
+  const generatedId = useId();
+  const inputId = id ?? generatedId;
   return (
-    <label className={`cds-switch ${disabled ? "cds-switch--disabled" : ""}`} htmlFor={id}>
-      <input id={id} type="checkbox" role="switch" checked={checked} disabled={disabled} onChange={(e) => onChange(e.target.checked)} />
+    <label className={`cds-switch ${disabled ? "cds-switch--disabled" : ""}`} htmlFor={inputId}>
+      <input id={inputId} type="checkbox" role="switch" checked={checked} disabled={disabled} onChange={(e) => onChange(e.target.checked)} {...aria} />
       <span className="cds-switch-track" aria-hidden="true" />
       {label && <span>{label}</span>}
     </label>

@@ -293,13 +293,62 @@ const popoverPlacementStyle: Record<PopoverPlacement, React.CSSProperties> = {
   left: { right: "calc(100% + 8px)", top: 0 },
 };
 
+/**
+ * Previously the trigger only got an onClick — for a non-button trigger
+ * (DatePicker's own is a text input) that means no keyboard path opens the
+ * popover at all: Enter does nothing on a plain input, Space just types a
+ * space (blocked here since it's readOnly, but still consumed, doing
+ * nothing useful). Also had no Escape-to-close and no click-outside-to-close,
+ * both expected of any popup per the WAI-ARIA Dialog/Popup patterns Radix
+ * and shadcn's Popover both implement.
+ */
 export function Popover({ trigger, children, placement = "bottom" }: { trigger: React.ReactElement; children: React.ReactNode; placement?: PopoverPlacement }) {
   const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLSpanElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDocPointerDown = (e: MouseEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onDocKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener("mousedown", onDocPointerDown);
+    document.addEventListener("keydown", onDocKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onDocPointerDown);
+      document.removeEventListener("keydown", onDocKeyDown);
+    };
+  }, [open]);
+
+  const toggle = () => setOpen((o) => !o);
+
   return (
-    <span style={{ position: "relative", display: "inline-block" }}>
-      {React.cloneElement(trigger, { onClick: () => setOpen((o) => !o) })}
+    <span ref={rootRef} style={{ position: "relative", display: "inline-block" }}>
+      {React.cloneElement(trigger, {
+        ref: (el: HTMLElement | null) => {
+          triggerRef.current = el;
+          const childRef = (trigger as any).ref;
+          if (typeof childRef === "function") childRef(el);
+          else if (childRef) childRef.current = el;
+        },
+        onClick: toggle,
+        onKeyDown: (e: React.KeyboardEvent) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+          }
+        },
+        "aria-haspopup": "dialog",
+        "aria-expanded": open,
+      })}
       {open && (
-        <div className="cds-popover" style={{ position: "absolute", zIndex: 30, ...popoverPlacementStyle[placement] }}>
+        <div className="cds-popover" role="dialog" style={{ position: "absolute", zIndex: 30, ...popoverPlacementStyle[placement] }}>
           {children}
         </div>
       )}

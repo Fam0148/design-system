@@ -1443,12 +1443,43 @@
   height: 1px;
 }
 
+/*
+ * Off-track fill uses the mode-independent --theme-colors-neutral-500
+ * primitive rather than the semantic --theme-neutral-border-strong token:
+ * that semantic token is *designed* to get lighter in dark mode (so thin
+ * borders stay visible against a dark surface), which is exactly wrong for
+ * a large fill area sitting behind an always-white thumb — it measured only
+ * 2.64:1 against the thumb in dark mode (needs ≥3:1), a real WCAG 1.4.11
+ * failure, while passing fine in light mode purely by coincidence. The
+ * primitive stays a constant mid-grey in both modes (4.34:1 against white
+ * either way) so this can't silently break again when the palette is retuned.
+ * No border — the border token (--theme-neutral-text-subtle) it previously
+ * borrowed was the wrong category (a text color reused as a border) and
+ * measured only ~1.5:1 against the new fill anyway, i.e. invisible; the pill
+ * shape plus fill-vs-page contrast is sufficient, matching Radix/Chakra/MUI
+ * switches, none of which put a border on the track.
+ */
+/*
+ * Fixed geometry, not layout-derived: track is a hardcoded 32×18 box (no
+ * padding), and the thumb is absolutely positioned inside it with explicit
+ * `left`/`right` values — OFF sets `left: 2px`, ON sets `right: 2px`
+ * (switching which edge is anchored, not translating from a computed
+ * travel distance). Nothing here depends on flex alignment, gap, or padding
+ * to place the thumb; the track's own 32×18 box is the only container.
+ * Vertical centering uses `top: 50%` + `translateY(-50%)`, which stays
+ * exact regardless of track height, rather than assuming inset math
+ * happens to center it. No border on the track or default box-shadow on
+ * the thumb — either would add real layout box size (a border) or a visual
+ * halo that reads as size even though it technically isn't (a shadow), so
+ * both are pushed to :focus-visible / --disabled variants only, via
+ * box-shadow (which never affects layout or the 32×18 bounding box).
+ */
 .cds-switch-track {
-  width: 36px;
-  height: 20px;
-  border-radius: var(--core-radius-full);
-  background: var(--theme-neutral-border-strong);
-  border: 1px solid var(--theme-neutral-text-subtle);
+  width: 32px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--theme-colors-neutral-500);
+  border: none;
   box-sizing: border-box;
   transition: background-color 180ms cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -1458,40 +1489,69 @@
 .cds-switch-track::after {
   content: "";
   position: absolute;
-  top: 2px;
+  top: 50%;
   left: 2px;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: var(--theme-colors-neutral-0);
   box-shadow: var(--core-elevation-1);
-  transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(-50%);
+  transition: left 180ms cubic-bezier(0.4, 0, 0.2, 1), right 180ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cds-switch:hover input:not(:disabled):not(:checked) + .cds-switch-track {
-  background: var(--theme-colors-neutral-400);
+  /* Darkens on hover (n500 → n600), matching every other hover treatment in
+     this library. The previous n400 was actually *lighter* than the n500
+     default — backwards — and additionally failed contrast against the
+     white thumb (2.64:1, needs ≥3:1). */
+  background: var(--theme-colors-neutral-600);
 }
 
+/*
+ * Checked-track hover/active previously darkened further (-hover/-active
+ * tokens), which is backwards for a brand-blue fill sitting on a dark page:
+ * in dark mode those tokens measured only 2.31:1 / 1.94:1 against the page
+ * background — well under the 3:1 floor, meaning a hovered/pressed "on"
+ * switch nearly disappeared into the canvas. Lightening the strong fill
+ * instead (toward white) keeps the same "hover intensifies, press
+ * intensifies more" feel while staying compliant in both modes — 5.09:1 /
+ * 5.99:1 against the dark page, 5.65:1 / 4.38:1 against the light page.
+ */
 .cds-switch:hover input:not(:disabled):checked + .cds-switch-track {
-  background: var(--brand-background-primary-hover);
+  background: color-mix(in srgb, var(--brand-background-primary-strong) 88%, white);
 }
 
 .cds-switch:active input:not(:disabled):checked + .cds-switch-track {
-  background: var(--brand-background-primary-active);
+  background: color-mix(in srgb, var(--brand-background-primary-strong) 78%, white);
 }
 
 .cds-switch input:checked + .cds-switch-track {
   background: var(--brand-background-primary-strong);
 }
 
+/*
+ * ON is expressed as its own literal `right: 2px` (not a translateX computed
+ * from track/thumb/inset math) — per spec, switching which physical edge is
+ * anchored rather than sliding a transform. One consequence: `left`/`right`
+ * can't cross-animate through `auto`, so the thumb now jumps between the two
+ * anchored positions instead of sliding — an explicit trade-off for using
+ * literal edge offsets instead of a computed transform.
+ */
 .cds-switch input:checked + .cds-switch-track::after {
-  transform: translateX(16px);
+  left: auto;
+  right: 2px;
 }
 
 .cds-switch input:focus-visible + .cds-switch-track {
   outline: none;
+  /* The gap ring was hardcoded to --theme-colors-neutral-0 (literal white)
+     regardless of mode, so on a dark canvas it would render as a bright
+     white halo instead of blending with the surface behind it. Switched to
+     --core-color-surface-default — the same mode-aware "gap" token already
+     used for this exact purpose on Checkbox/Radio's focus ring. */
   box-shadow:
-    0 0 0 2px var(--theme-colors-neutral-0),
+    0 0 0 2px var(--core-color-surface-default),
     0 0 0 calc(2px + var(--core-focusRing-width)) var(--theme-primitive-color-primary-400);
 }
 
@@ -1501,8 +1561,33 @@
   color: var(--theme-semantics-disabled-text);
 }
 
+/*
+ * Disabled changes ONLY color — same treatment style as hover (background
+ * swap, nothing else). No border, no box-shadow ring: the track and thumb
+ * keep the exact same borderless, shadow-free construction as every other
+ * state, so size, padding, and thumb position stay identical throughout.
+ *
+ * Fill is --theme-colors-neutral-400 for BOTH OFF and ON — a deliberate
+ * three-way tradeoff:
+ *   - the pale --theme-semantics-disabled-background used elsewhere in this
+ *     library only works because those controls pair it with a real
+ *     border-color; used alone on a borderless track it measured 1.16:1
+ *     against the thumb (invisible);
+ *   - --theme-colors-neutral-500 (the enabled default track's own color)
+ *     is fully compliant at 4.34:1, but then disabled and enabled tracks
+ *     are pixel-identical, which reads as "not actually disabled";
+ *   - --theme-colors-neutral-300 is visibly lighter/muted but drops to
+ *     1.73:1 against the thumb and 1.62:1 against the light-mode page —
+ *     back to nearly invisible.
+ * neutral-400 (2.64:1 against the thumb) is the middle ground: visibly
+ * lighter than the enabled default so "disabled" reads at a glance, without
+ * collapsing into the page the way neutral-300 does. It doesn't clear the
+ * 3:1 AA floor on its own — disabled controls are WCAG-exempt from contrast
+ * requirements, and the thumb's position is the actual state indicator here,
+ * not the track's exact shade.
+ */
 .cds-switch--disabled .cds-switch-track {
-  background: var(--theme-colors-neutral-500);
+  background: var(--theme-colors-neutral-400);
   border: none;
   box-shadow: none;
 }
@@ -1510,10 +1595,6 @@
 .cds-switch--disabled .cds-switch-track::after {
   background: var(--theme-colors-neutral-0);
   box-shadow: none;
-}
-
-.cds-switch--disabled input:checked + .cds-switch-track {
-  background: var(--theme-colors-neutral-500);
 }
 
 /* ---------- Textarea / Select ---------- */
@@ -1551,6 +1632,7 @@
   border-color: var(--theme-semantics-disabled-border);
   opacity: 1;
   cursor: not-allowed;
+  resize: none;
 }
 
 .cds-select-wrap {
@@ -1647,8 +1729,20 @@
   cursor: pointer;
 }
 
+/*
+ * Highlight is a brand-blue tint (not the neutral grey wash used before) —
+ * mixed from --brand-text-primary-default *into* --core-color-surface-overlay
+ * rather than using the static --theme-brand-background-primary-subtle token:
+ * that static token happened to have almost the same luminance as the
+ * listbox's own overlay background in dark mode (#132A49 vs #2E2D38 — only
+ * 1.06:1, functionally invisible) purely by coincidence of the two palettes,
+ * the same class of bug fixed for Calendar/Combobox/Incremental Selector
+ * earlier. Mixing relative to the actual overlay color guarantees a visible
+ * step in both modes no matter how the underlying tokens are tuned.
+ */
+.cds-select-option:hover:not(.cds-select-option--disabled),
 .cds-select-option--active {
-  background: var(--core-color-surface-raised);
+  background: color-mix(in srgb, var(--brand-text-primary-default) 30%, var(--core-color-surface-overlay));
 }
 
 .cds-select-option[aria-selected="true"] {
@@ -1666,6 +1760,26 @@
   width: 14px;
   color: var(--brand-text-primary-default);
   flex-shrink: 0;
+}
+
+.cds-select-option-checkbox {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid var(--theme-neutral-border-primary-default);
+  background: var(--core-color-surface-default);
+  color: var(--theme-colors-neutral-0);
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.cds-select-option-checkbox--checked {
+  background: var(--brand-background-primary-strong);
+  border-color: var(--brand-background-primary-strong);
 }
 
 /* ---------- Checkbox / Radio ---------- */
@@ -2392,11 +2506,16 @@
   margin-right: 20px;
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   font-size: var(--typography-body-lg-size);
   font-weight: 500;
   color: var(--theme-neutral-text-subtle);
   cursor: pointer;
+  /* The tablist's own separator is 1px; the active-tab indicator is a
+     thicker 3px so it reads clearly as a selection marker rather than a
+     border. Since it's thicker than the separator it sits on top of, the
+     tab is nudged down by the separator's own width (1px) so the indicator
+     starts flush with the separator line, then extends past it. */
   transform: translateY(1px);
 }
 
@@ -2405,14 +2524,28 @@
 }
 
 .cds-tab[aria-selected="true"] {
+  /*
+   * --core-color-action-primary-bg is a static token that resolves to the
+   * exact same #1F4F8D in both light and dark mode (not mode-aware) — in
+   * dark mode that measured only 2.31:1 against the page, well under the
+   * 3:1 non-text floor. --brand-background-primary-strong is the same
+   * mode-aware "-strong" token already used across this library wherever a
+   * brand accent needs to be visible on either a light or dark canvas.
+   */
   color: var(--brand-text-primary-default);
-  border-bottom-color: var(--core-color-action-primary-bg);
+  border-bottom-color: var(--brand-background-primary-strong);
   font-weight: 600;
 }
 
 .cds-tab:focus-visible {
   outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400);
   outline-offset: 2px;
+}
+
+[role="tabpanel"]:focus-visible {
+  outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400);
+  outline-offset: 2px;
+  border-radius: var(--core-radius-sm);
 }
 
 /* Tabs: vertical orientation */
@@ -2437,7 +2570,7 @@
   padding: 9px 14px 9px 10px;
   text-align: left;
   border-bottom: none;
-  border-right: 2px solid transparent;
+  border-right: 3px solid transparent;
   border-radius: var(--core-radius-sm) 0 0 var(--core-radius-sm);
   transform: none;
 }
@@ -3424,12 +3557,26 @@
   cursor: not-allowed;
 }
 
-/* ---------- Incremental selector ---------- */
+/* ---------- Incremental selector ----------
+ * Reworked as a single unified control (one outer border/radius, internal
+ * 1px dividers between segments) instead of three independently-bordered
+ * segments whose grouping relied on a background-color difference between
+ * the buttons and the value cell — that background-only distinction broke
+ * down whenever a hover/focus token happened to coincide with its neighbor
+ * (e.g. surface-raised === surface-default in light mode). An explicit
+ * border-based divider can't disappear that way, matching how reference
+ * quantity steppers (Shopify Polaris, Ant InputNumber) build this control.
+ */
 .cds-incremental-selector {
   display: inline-flex;
   align-items: stretch;
   width: 100%;
   max-width: 160px;
+  border: 1px solid var(--theme-neutral-border-primary-default);
+  border-radius: var(--core-input-radius);
+  background: var(--core-color-surface-default);
+  overflow: hidden;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
 }
 
 .cds-incremental-selector__btn {
@@ -3440,14 +3587,14 @@
   width: 40px;
   min-height: 40px;
   padding: 0;
-  border: 1px solid var(--theme-neutral-border-primary-default);
-  background: var(--core-color-surface-sunken);
+  border: none;
+  background: transparent;
   color: var(--theme-neutral-text-subtle);
   font-size: var(--typography-text16-regular-size);
   line-height: 1;
   font-weight: 500;
   cursor: pointer;
-  transition: border-color 120ms ease, background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+  transition: background 120ms ease, color 120ms ease;
 }
 
 .cds-incremental-selector--sm .cds-incremental-selector__btn {
@@ -3463,32 +3610,37 @@
 }
 
 .cds-incremental-selector__btn--decrease {
-  border-right: none;
-  border-radius: var(--core-input-radius) 0 0 var(--core-input-radius);
+  border-right: 1px solid var(--theme-neutral-border-primary-default);
 }
 
 .cds-incremental-selector__btn--increase {
-  border-left: none;
-  border-radius: 0 var(--core-input-radius) var(--core-input-radius) 0;
+  border-left: 1px solid var(--theme-neutral-border-primary-default);
 }
 
 .cds-incremental-selector__value {
   box-sizing: border-box;
   flex: 1;
   min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  width: 100%;
+  text-align: center;
+  appearance: none;
+  outline: none;
   min-height: 40px;
   padding: 0 8px;
-  border-top: 1px solid var(--theme-neutral-border-primary-default);
-  border-bottom: 1px solid var(--theme-neutral-border-primary-default);
-  background: var(--core-color-surface-default);
+  border: none;
+  border-radius: 0;
+  background: transparent;
   color: var(--theme-neutral-text-primary-default);
+  font-family: inherit;
   font-size: var(--typography-text14-regular-size);
   line-height: var(--typography-text14-regular-line-height);
   font-weight: var(--typography-text14-regular-weight);
-  transition: border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+}
+
+.cds-incremental-selector__value:disabled {
+  cursor: not-allowed;
+  opacity: 1;
 }
 
 .cds-incremental-selector--sm .cds-incremental-selector__value {
@@ -3501,58 +3653,58 @@
   line-height: var(--typography-text16-regular-line-height);
 }
 
-.cds-incremental-selector__btn:hover:not(:disabled) {
+.cds-incremental-selector:hover:not(:has(.cds-incremental-selector__btn:disabled)) {
   border-color: var(--theme-neutral-border-strong);
-  background: var(--core-color-surface-raised);
+}
+
+/* Wash covers the whole button — visible against any surface in either
+   mode since it's mixed from the icon's own currentColor, not a fixed token. */
+.cds-incremental-selector__btn:hover:not(:disabled) {
+  background: color-mix(in srgb, currentColor 16%, transparent);
   color: var(--theme-neutral-text-primary-default);
 }
 
-.cds-incremental-selector:has(.cds-incremental-selector__btn:hover:not(:disabled)) .cds-incremental-selector__value {
-  border-color: var(--theme-neutral-border-strong);
-  background: var(--core-color-surface-default);
+.cds-incremental-selector__btn:active:not(:disabled) {
+  background: color-mix(in srgb, currentColor 24%, transparent);
 }
 
 .cds-incremental-selector:focus-within {
-  border-radius: var(--core-input-radius);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent);
-}
-
-.cds-incremental-selector:focus-within .cds-incremental-selector__btn,
-.cds-incremental-selector:focus-within .cds-incremental-selector__value {
   border-color: var(--theme-primitive-color-primary-400);
-}
-
-/* Focus ring on the wrapper only — same split as input-group (gray steppers, white value). */
-.cds-incremental-selector:focus-within .cds-incremental-selector__btn:not(:disabled) {
-  background: var(--core-color-surface-sunken);
-  box-shadow: none;
-}
-
-.cds-incremental-selector:focus-within .cds-incremental-selector__btn:not(:disabled):focus-visible {
-  color: var(--theme-neutral-text-primary-default);
-}
-
-.cds-incremental-selector:focus-within .cds-incremental-selector__value {
-  background: var(--core-color-surface-default);
-  box-shadow: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent);
 }
 
 .cds-incremental-selector__btn:focus-visible {
   outline: none;
 }
 
+.cds-incremental-selector__value:focus-visible {
+  outline: none;
+}
+
+.cds-incremental-selector--disabled,
+.cds-incremental-selector:has(.cds-incremental-selector__btn:disabled) {
+  background: var(--theme-semantics-disabled-background);
+  border-color: var(--theme-semantics-disabled-border);
+}
+
+.cds-incremental-selector--disabled .cds-incremental-selector__btn--decrease,
+.cds-incremental-selector:has(.cds-incremental-selector__btn:disabled) .cds-incremental-selector__btn--decrease {
+  border-right-color: var(--theme-semantics-disabled-border);
+}
+
+.cds-incremental-selector--disabled .cds-incremental-selector__btn--increase,
+.cds-incremental-selector:has(.cds-incremental-selector__btn:disabled) .cds-incremental-selector__btn--increase {
+  border-left-color: var(--theme-semantics-disabled-border);
+}
+
 .cds-incremental-selector__btn:disabled {
-  background: var(--brand-background-primary-disabled-light);
   color: var(--theme-semantics-disabled-text);
-  border-color: var(--theme-neutral-border-primary-default);
   cursor: not-allowed;
 }
 
 .cds-incremental-selector--disabled .cds-incremental-selector__value,
 .cds-incremental-selector:has(.cds-incremental-selector__btn:disabled) .cds-incremental-selector__value {
-  background: var(--brand-background-primary-disabled-light);
   color: var(--theme-semantics-disabled-text);
-  border-color: var(--theme-neutral-border-primary-default);
   cursor: not-allowed;
 }
 
@@ -3913,7 +4065,8 @@
   color: var(--brand-text-primary-default);
 }
 
-.cds-combobox-option:hover {
+.cds-combobox-option:hover,
+.cds-combobox-option--active {
   background: var(--core-color-surface-raised);
 }
 
@@ -4001,11 +4154,11 @@
   cursor: pointer;
 }
 
-.cds-calendar-day:hover {
-  background: var(--core-color-surface-raised);
+.cds-calendar-day:hover:not(:disabled):not([aria-pressed="true"]) {
+  background: color-mix(in srgb, currentColor 12%, transparent);
 }
 
-.cds-calendar-day[aria-selected="true"] {
+.cds-calendar-day[aria-pressed="true"] {
   background: var(--brand-background-primary-strong);
   color: var(--brand-text-primary-oncolor);
   font-weight: 600;
@@ -4032,7 +4185,7 @@
   color: var(--theme-semantics-disabled-text);
 }
 
-.cds-calendar--disabled .cds-calendar-day[aria-selected="true"] {
+.cds-calendar--disabled .cds-calendar-day[aria-pressed="true"] {
   background: var(--brand-background-primary-disabled);
   color: var(--brand-text-primary-disabled);
 }

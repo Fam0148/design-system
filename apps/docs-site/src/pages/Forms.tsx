@@ -19,6 +19,14 @@ const employers = [
   { value: "umbrella", label: "Umbrella Health" },
 ];
 
+const usStates = [
+  { value: "ca", label: "California" },
+  { value: "ny", label: "New York" },
+  { value: "tx", label: "Texas" },
+  { value: "fl", label: "Florida" },
+  { value: "wa", label: "Washington" },
+];
+
 export default function Forms({ embedded = false }: { embedded?: boolean }) {
   const [on, setOn] = useState(true);
   const [plan, setPlan] = useState("roth");
@@ -28,10 +36,42 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
   const [dob, setDob] = useState<Date | undefined>(undefined);
   const [files, setFiles] = useState<AttachmentFile[]>([{ id: "1", name: "beneficiary-form.pdf", size: "212 KB" }]);
   const [cardNumber, setCardNumber] = useState("");
+  const [cardNumberTouched, setCardNumberTouched] = useState(false);
+  const [expiration, setExpiration] = useState("");
+  const [expirationTouched, setExpirationTouched] = useState(false);
+  const [cvc, setCvc] = useState("");
+  const [cvcTouched, setCvcTouched] = useState(false);
   const [routing, setRouting] = useState("");
   const [account, setAccount] = useState("");
+  const [selectedStates, setSelectedStates] = useState<string[]>(["tx"]);
 
   const formatCardNumber = (raw: string) => raw.replace(/\D/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
+  const cardNumberDigits = cardNumber.replace(/\D/g, "");
+  const cardNumberError = cardNumberTouched && cardNumberDigits.length > 0 && cardNumberDigits.length !== 16
+    ? "Card number must be 16 digits."
+    : undefined;
+
+  const formatExpiration = (raw: string) => {
+    const digits = raw.replace(/\D/g, "").slice(0, 4);
+    return digits.length > 2 ? `${digits.slice(0, 2)} / ${digits.slice(2)}` : digits;
+  };
+  const expirationError = (() => {
+    if (!expirationTouched) return undefined;
+    const digits = expiration.replace(/\D/g, "");
+    if (digits.length === 0) return undefined;
+    if (digits.length < 4) return "Enter a valid expiration date (MM/YY).";
+    const month = Number(digits.slice(0, 2));
+    const year = 2000 + Number(digits.slice(2, 4));
+    if (month < 1 || month > 12) return "Enter a valid month (01–12).";
+    const now = new Date();
+    const expiresAt = new Date(year, month, 0);
+    if (expiresAt < new Date(now.getFullYear(), now.getMonth(), 1)) return "This card has expired.";
+    return undefined;
+  })();
+
+  const cvcError = cvcTouched && cvc.length > 0 && (cvc.length < 3 || cvc.length > 4)
+    ? "CVC must be 3–4 digits."
+    : undefined;
 
   const toggleGroupOptions = [
     {
@@ -668,7 +708,7 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                 <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 20 }}>
                   <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Interactive Card Verification Entry</div>
                   <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 16 }}>
-                    <Field label="Card number" hint="Stored securely — last 4 digits only.">
+                    <Field label="Card number" hint={cardNumberError ? undefined : "Stored securely — last 4 digits only."} error={cardNumberError}>
                       {(p) => (
                         <InputWithIcon
                           {...p}
@@ -677,14 +717,34 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                           placeholder="1234 5678 9012 3456"
                           value={cardNumber}
                           onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                          onBlur={() => setCardNumberTouched(true)}
                         />
                       )}
                     </Field>
-                    <Field label="Expiration date">
-                      {(p) => <Input {...p} placeholder="MM / YY" inputMode="numeric" />}
+                    <Field label="Expiration date" error={expirationError}>
+                      {(p) => (
+                        <Input
+                          {...p}
+                          placeholder="MM / YY"
+                          inputMode="numeric"
+                          value={expiration}
+                          onChange={(e) => setExpiration(formatExpiration(e.target.value))}
+                          onBlur={() => setExpirationTouched(true)}
+                        />
+                      )}
                     </Field>
-                    <Field label="CVC" hint="3 digits">
-                      {(p) => <Input {...p} placeholder="123" inputMode="numeric" maxLength={4} />}
+                    <Field label="CVC" hint={cvcError ? undefined : "3 digits"} error={cvcError}>
+                      {(p) => (
+                        <Input
+                          {...p}
+                          placeholder="123"
+                          inputMode="numeric"
+                          maxLength={4}
+                          value={cvc}
+                          onChange={(e) => setCvc(e.target.value.replace(/\D/g, "").slice(0, 4))}
+                          onBlur={() => setCvcTouched(true)}
+                        />
+                      )}
                     </Field>
                   </div>
                 </div>
@@ -701,21 +761,51 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       content: (
         <div className="site-panel site-panel--flush site-panel--demo">
           <Preview showModeToggle>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
-              <div className="force-default">
-                <Field label="Default">{(p) => <Select {...p} options={employers} />}</Field>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
+              <div>
+                <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Single Select</div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
+                  <div className="force-default">
+                    <Field label="Default">{(p) => <Select {...p} options={employers} />}</Field>
+                  </div>
+                  <div className="force-hover">
+                    <Field label="Hover">{(p) => <Select {...p} options={employers} />}</Field>
+                  </div>
+                  <div className="force-focus">
+                    <Field label="Focus">{(p) => <Select {...p} options={employers} />}</Field>
+                  </div>
+                  <div className="force-filled">
+                    <Field label="Filled">{(p) => <Select {...p} value="acme" options={employers} />}</Field>
+                  </div>
+                  <div className="force-disabled">
+                    <Field label="Disabled">{(p) => <Select {...p} disabled options={employers} />}</Field>
+                  </div>
+                </div>
               </div>
-              <div className="force-hover">
-                <Field label="Hover">{(p) => <Select {...p} options={employers} />}</Field>
-              </div>
-              <div className="force-focus">
-                <Field label="Focus">{(p) => <Select {...p} options={employers} />}</Field>
-              </div>
-              <div className="force-filled">
-                <Field label="Filled">{(p) => <Select {...p} value="acme" options={employers} />}</Field>
-              </div>
-              <div className="force-disabled">
-                <Field label="Disabled">{(p) => <Select {...p} disabled options={employers} />}</Field>
+
+              <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 20 }}>
+                <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Multi Select</div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
+                  <div className="force-default">
+                    <Field label="Default">{(p) => <Select {...p} multiple options={usStates} />}</Field>
+                  </div>
+                  <div className="force-hover">
+                    <Field label="Hover">{(p) => <Select {...p} multiple options={usStates} />}</Field>
+                  </div>
+                  <div className="force-focus">
+                    <Field label="Focus">{(p) => <Select {...p} multiple options={usStates} />}</Field>
+                  </div>
+                  <div>
+                    <Field label="Selected (interactive)">
+                      {(p) => (
+                        <Select {...p} multiple options={usStates} values={selectedStates} onValuesChange={setSelectedStates} />
+                      )}
+                    </Field>
+                  </div>
+                  <div className="force-disabled">
+                    <Field label="Disabled">{(p) => <Select {...p} multiple disabled values={["tx"]} options={usStates} />}</Field>
+                  </div>
+                </div>
               </div>
             </div>
           </Preview>
@@ -926,11 +1016,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     </Field>
 
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 0", borderTop: "1px solid var(--site-border)", borderBottom: "1px solid var(--site-border)" }}>
-                      <div>
+                      <div id="two-factor-label">
                         <div style={{ fontWeight: 600, fontSize: 14 }}>Two-factor authentication</div>
                         <div style={{ fontSize: "var(--typography-font-size-xs)", color: "var(--core-color-text-tertiary)", marginTop: 2 }}>Secure your account.</div>
                       </div>
-                      <Switch checked={on} onChange={setOn} />
+                      <Switch checked={on} onChange={setOn} aria-labelledby="two-factor-label" />
                     </div>
 
                     <Checkbox label="Subscribe to product updates" defaultChecked />
@@ -1013,10 +1103,10 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
           z-index: 1;
         }
         .force-hover .cds-switch input:not(:checked):not(:disabled) + .cds-switch-track {
-          background: var(--theme-colors-neutral-400) !important;
+          background: var(--theme-colors-neutral-600) !important;
         }
         .force-hover .cds-switch input:checked:not(:disabled) + .cds-switch-track {
-          background: var(--brand-background-primary-hover) !important;
+          background: color-mix(in srgb, var(--brand-background-primary-strong) 88%, white) !important;
         }
         .force-hover .cds-checkbox input:not(:checked):not(:disabled) + .cds-checkbox-box,
         .force-hover .cds-radio input:not(:checked):not(:disabled) + .cds-radio-box {
@@ -1029,6 +1119,14 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
           border-color: var(--brand-background-primary-hover) !important;
         }
 
+        .force-hover .cds-input,
+        .force-hover .cds-combobox .cds-input,
+        .force-hover .cds-date-picker .cds-input,
+        .force-hover .cds-date-picker .cds-input-affix-wrap .cds-input,
+        .force-hover .cds-input-affix-wrap .cds-input {
+          border-color: var(--theme-neutral-border-strong) !important;
+          background: var(--core-color-surface-sunken) !important;
+        }
         .force-focus .cds-input,
         .force-focus .cds-textarea,
         .force-focus .cds-select,
@@ -1053,22 +1151,16 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-focus .cds-input-group .cds-input {
           box-shadow: none !important;
         }
+        .force-hover .cds-incremental-selector:not(:has(.cds-incremental-selector__btn:disabled)) {
+          border-color: var(--theme-neutral-border-strong) !important;
+        }
+        .force-hover .cds-incremental-selector__btn:not(:disabled) {
+          background: color-mix(in srgb, currentColor 16%, transparent) !important;
+          color: var(--theme-neutral-text-primary-default) !important;
+        }
         .force-focus .cds-incremental-selector {
-          border-radius: var(--core-input-radius) !important;
-          box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important;
-        }
-        .force-focus .cds-incremental-selector__btn,
-        .force-focus .cds-incremental-selector__value {
           border-color: var(--theme-primitive-color-primary-400) !important;
-          box-shadow: none !important;
-        }
-        .force-focus .cds-incremental-selector__btn {
-          background: var(--core-color-surface-sunken) !important;
-          color: var(--theme-neutral-text-primary-default) !important;
-        }
-        .force-focus .cds-incremental-selector__value {
-          background: var(--core-color-surface-default) !important;
-          color: var(--theme-neutral-text-primary-default) !important;
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important;
         }
         .force-focus .cds-checkbox input:not(:checked):not(:disabled) + .cds-checkbox-box,
         .force-focus .cds-radio input:not(:checked):not(:disabled) + .cds-radio-box {
@@ -1080,7 +1172,7 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-focus .cds-switch-track {
           outline: none !important;
           box-shadow:
-            0 0 0 2px var(--theme-colors-neutral-0),
+            0 0 0 2px var(--core-color-surface-default),
             0 0 0 calc(2px + var(--core-focusRing-width)) var(--theme-primitive-color-primary-400) !important;
         }
         .force-focus .cds-toggle:not(:disabled) {
@@ -1108,15 +1200,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
            looking different in every component page. */
         .force-disabled .cds-input-icon, .cds-input-affix-wrap:has(.cds-input:disabled) .cds-input-icon {
           color: var(--theme-semantics-disabled-text) !important;
-        }
-        .force-disabled .cds-incremental-selector__btn,
-        .force-disabled .cds-incremental-selector__value,
-        .cds-incremental-selector--disabled .cds-incremental-selector__btn,
-        .cds-incremental-selector--disabled .cds-incremental-selector__value {
-          background: var(--theme-brand-background-primary-disabled-light) !important;
-          color: var(--theme-neutral-text-subtleleast) !important;
-          border-color: var(--theme-neutral-border-primary-default) !important;
-          cursor: not-allowed !important;
         }
         .force-disabled .cds-toggle, .cds-toggle:disabled {
           background: var(--theme-brand-background-primary-disabled-light) !important;

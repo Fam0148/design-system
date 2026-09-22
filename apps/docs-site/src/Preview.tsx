@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Switch } from "../../../packages/core/src/components/Misc";
 
 export function Preview({
   children,
@@ -37,43 +38,11 @@ export function Preview({
           >
             Light
           </span>
-          <div
-            role="switch"
-            aria-checked={resolvedMode === "dark"}
+          <Switch
+            checked={resolvedMode === "dark"}
+            onChange={() => setMode((prev) => (prev === "light" ? "dark" : "light"))}
             aria-label="Toggle preview canvas theme"
-            tabIndex={0}
-            onClick={() => setMode((prev) => (prev === "light" ? "dark" : "light"))}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                setMode((prev) => (prev === "light" ? "dark" : "light"));
-              }
-            }}
-            style={{
-              width: 44,
-              height: 24,
-              background: resolvedMode === "dark" ? "var(--theme-brand-background-primary-strong)" : "var(--theme-neutral-border-strong)",
-              borderRadius: 12,
-              position: "relative",
-              cursor: "pointer",
-              transition: "background 0.3s ease",
-              flexShrink: 0,
-            }}
-          >
-            <div
-              style={{
-                width: 20,
-                height: 20,
-                background: "var(--theme-colors-neutral-0)",
-                borderRadius: "50%",
-                position: "absolute",
-                top: 2,
-                left: resolvedMode === "dark" ? 22 : 2,
-                transition: "left 0.3s ease",
-                boxShadow: "var(--core-elevation-1)",
-              }}
-            />
-          </div>
+          />
           <span
             style={{
               fontSize: "var(--typography-font-size-xs)",
