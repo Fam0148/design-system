@@ -13,14 +13,28 @@ const rows = [
   { id: 4, date: "Jul 15, 2026", type: "Fee", amount: "-$4.00", status: "danger" as const },
 ];
 
-function CardQuickLink({ icon, label }: { icon: string; label: string }) {
+/**
+ * Reuses the exact same flat row + icon-badge pattern as the Sidebar's
+ * "panel" variant (cds-sidenav-item / cds-sidenav-icon) rather than a new,
+ * one-off set of classes — a quick link and a settings sub-nav row are the
+ * same shape (icon badge + label, a tinted pill when selected), so they
+ * should share one implementation instead of two independently-styled
+ * near-duplicates.
+ */
+function CardQuickLink({ icon, label, selected, disabled }: { icon: string; label: string; selected?: boolean; disabled?: boolean }) {
   return (
-    <div className="cds-card__quick-link">
-      <span className="cds-card__quick-link-icon" aria-hidden="true">
+    <button
+      type="button"
+      className="cds-sidenav-item"
+      data-active={selected || undefined}
+      disabled={disabled}
+      aria-current={selected ? "true" : undefined}
+    >
+      <span className="cds-sidenav-icon" aria-hidden="true">
         <Icon name={icon} size="md" />
       </span>
-      <span className="cds-card__quick-link-label">{label}</span>
-    </div>
+      <span className="cds-sidenav-label">{label}</span>
+    </button>
   );
 }
 
@@ -139,27 +153,6 @@ function AvatarSizeDemo() {
                   <AvatarGroup avatars={sampleAvatars} size="lg" max={3} />
                 </td>
               </tr>
-              <tr>
-                <td style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-primary)" }}>Status</td>
-                <td>
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                    <Avatar name={AVATAR_JORDAN.name} src={AVATAR_JORDAN.src} size="sm" status="online" />
-                    <Avatar name={AVATAR_SAM.name} src={AVATAR_SAM.src} size="sm" status="away" />
-                  </div>
-                </td>
-                <td>
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                    <Avatar name={AVATAR_JORDAN.name} src={AVATAR_JORDAN.src} size="md" status="online" />
-                    <Avatar name={AVATAR_SAM.name} src={AVATAR_SAM.src} size="md" status="offline" />
-                  </div>
-                </td>
-                <td>
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                    <Avatar name={AVATAR_JORDAN.name} src={AVATAR_JORDAN.src} size="lg" status="away" />
-                    <Avatar name={AVATAR_SAM.name} src={AVATAR_SAM.src} size="lg" status="offline" />
-                  </div>
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -245,42 +238,34 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
             <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-8, 32px)", width: "100%", padding: "var(--core-space-2, 8px) 0" }}>
               <div>
                 <div style={sectionLabelStyle}>Variants</div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--core-space-4, 16px)" }}>
-                  <Card style={{ minWidth: 200, maxWidth: 260 }}>
-                    <CardQuickLink icon="fa-solid fa-user-plus" label="Add beneficiary" />
-                  </Card>
-                  <Card variant="outlined" style={{ minWidth: 200, maxWidth: 260 }}>
-                    <CardQuickLink icon="fa-solid fa-file-lines" label="My documents" />
-                  </Card>
+                <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-2, 8px)", maxWidth: 280 }}>
+                  <CardQuickLink icon="fa-solid fa-heart" label="Personal Details" selected />
+                  <CardQuickLink icon="fa-solid fa-building-columns" label="Bank Details" />
                 </div>
               </div>
 
               <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: "var(--core-space-6, 24px)" }}>
                 <div style={sectionLabelStyle}>Interactive states</div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(160px, 1fr))", gap: "var(--core-space-4, 16px)" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(160px, 1fr))", gap: "var(--core-space-4, 16px)" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
                     <StateLabel>DEFAULT</StateLabel>
-                    <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
-                      <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
-                    </Card>
+                    <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
+                  </div>
+                  <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
+                    <StateLabel>HOVER</StateLabel>
+                    <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
                   </div>
                   <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
                     <StateLabel>FOCUS</StateLabel>
-                    <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
-                      <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
-                    </Card>
+                    <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
                   </div>
-                  <div className="force-active" style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
-                    <StateLabel>CLICKED</StateLabel>
-                    <Card variant="interactive" style={{ minWidth: 0 }} onClick={() => {}}>
-                      <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
-                    </Card>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
+                    <StateLabel>SELECTED</StateLabel>
+                    <CardQuickLink icon="fa-solid fa-chart-line" label="Links" selected />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)" }}>
                     <StateLabel>DISABLED</StateLabel>
-                    <Card variant="interactive" disabled style={{ minWidth: 0 }} onClick={() => {}}>
-                      <CardQuickLink icon="fa-solid fa-chart-line" label="Links" />
-                    </Card>
+                    <CardQuickLink icon="fa-solid fa-chart-line" label="Links" disabled />
                   </div>
                 </div>
               </div>
@@ -303,20 +288,13 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
 
   const cardStateStyles = (
     <style>{`
-      .force-focus .cds-card--interactive:not(:disabled) {
-        outline: none !important;
-        border-color: var(--theme-primitive-color-primary-400) !important;
-        box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important;
+      .force-hover .cds-sidenav-item:not(:disabled) {
+        background: var(--core-sidebar-item-hoverBg) !important;
+        color: var(--theme-neutral-text-primary-default) !important;
       }
-      .force-active .cds-card--interactive:not(:disabled) {
-        transform: translateY(1px) !important;
-        box-shadow: none !important;
-        border-color: var(--theme-brand-border-primary-default) !important;
-        background: var(--theme-brand-background-primary-subtle) !important;
-      }
-      .force-active .cds-card--interactive:not(:disabled) .cds-card__quick-link-icon {
-        background: var(--theme-brand-background-primary-light) !important;
-        color: var(--theme-brand-text-primary-active) !important;
+      .force-focus .cds-sidenav-item:not(:disabled) {
+        outline: var(--core-focusRing-width, 2px) solid var(--theme-primitive-color-primary-400) !important;
+        outline-offset: -2px !important;
       }
     `}</style>
   );

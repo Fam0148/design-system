@@ -965,64 +965,10 @@
   pointer-events: none;
 }
 
-.cds-card:has(.cds-card__quick-link) {
-  padding: var(--core-space-3, 12px);
-  font-family: var(--typography-font-family-sans);
-  color: var(--theme-neutral-text-primary-default);
-}
-
-.cds-card__quick-link {
-  display: flex;
-  align-items: center;
-  gap: var(--core-space-3, 12px);
-}
-
-.cds-card__quick-link-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--core-radius-sm);
-  background: var(--brand-background-primary-light);
-  color: var(--brand-text-primary-default);
-  transition: background-color 150ms ease, color 150ms ease;
-}
-
-.cds-card__quick-link-icon .cds-icon {
-  color: inherit;
-}
-
-.cds-card__quick-link-label {
-  font-family: var(--typography-font-family-sans);
-  font-size: var(--typography-body-md-size);
-  line-height: var(--typography-body-md-line-height);
-  font-weight: var(--typography-body-md-weight);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-  color: var(--theme-neutral-text-primary-default);
-}
-
-.cds-card--interactive:hover:not(:disabled) .cds-card__quick-link-icon {
-  background: var(--brand-background-primary-subtle);
-  color: var(--brand-text-primary-hover);
-}
-
-.cds-card--interactive:active:not(:disabled) .cds-card__quick-link-icon {
-  background: var(--brand-background-primary-light);
-  color: var(--brand-text-primary-active);
-}
-
-.cds-card--disabled .cds-card__quick-link-label,
-.cds-card--interactive:disabled .cds-card__quick-link-label {
-  color: var(--theme-semantics-disabled-text);
-}
-
-.cds-card--disabled .cds-card__quick-link-icon,
-.cds-card--interactive:disabled .cds-card__quick-link-icon {
-  background: var(--theme-semantics-disabled-background);
-  color: var(--theme-semantics-disabled-text);
-}
+/* Quick Links now reuses .cds-sidenav-item / .cds-sidenav-icon directly
+   (see Navigation.tsx's AppSidebar "panel" variant) instead of its own
+   card-scoped classes — removed here to avoid two parallel, near-identical
+   implementations of the same icon-badge-row pattern. */
 
 .cds-badge {
   display: inline-flex;
@@ -4818,6 +4764,29 @@
 .cds-sidenav-item[data-active="true"] .cds-sidenav-icon {
   background: var(--core-sidebar-icon-activeBg);
   color: var(--core-sidebar-icon-activeText);
+}
+
+/*
+ * The shell/panel sidenav item never had a disabled treatment at all —
+ * only the rail variant did (.cds-app-sidebar--rail .cds-app-sidebar-link:disabled,
+ * further down). Reusing the same semantics-disabled-* tokens every other
+ * disabled control in this library uses.
+ */
+.cds-sidenav-item:disabled {
+  cursor: not-allowed;
+  color: var(--theme-semantics-disabled-text);
+  background: none;
+}
+
+.cds-sidenav-item:disabled .cds-sidenav-icon {
+  background: var(--theme-semantics-disabled-background);
+  color: var(--theme-semantics-disabled-text);
+}
+
+.cds-app-sidebar-link:focus-visible,
+.cds-sidenav-item:focus-visible {
+  outline: var(--core-focusRing-width, 2px) solid var(--theme-primitive-color-primary-400);
+  outline-offset: -2px;
 }
 
 .cds-sidenav-label {

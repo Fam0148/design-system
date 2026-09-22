@@ -5,7 +5,7 @@ import { Button, IconButton } from "../../../../packages/core/src/components/But
 import { Modal, Drawer, Tooltip } from "../../../../packages/core/src/components/Overlays";
 import { Field, Input } from "../../../../packages/core/src/components/Field";
 import { Select } from "../../../../packages/core/src/components/FormControls";
-import { DescriptionList, Icon } from "../../../../packages/core/src/components/Primitives";
+import { Icon } from "../../../../packages/core/src/components/Primitives";
 
 export default function OverlaysPage({ embedded = false }: { embedded?: boolean }) {
   const [modal, setModal] = useState(false);
@@ -39,18 +39,6 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
             <Button variant="secondary" size="sm" onClick={() => setSlideover(false)}>Cancel</Button>
             <Button size="sm" onClick={() => setSlideover(false)}>Save</Button>
           </>}
-          aside={
-            <DescriptionList
-              orientation="inline"
-              items={[
-                { term: "Requested amount", value: "$0.00" },
-                { term: "Tax deduction", value: "$0.00" },
-                { term: "Withdrawal fee", value: "0%" },
-                { term: "Federal tax", value: "20%" },
-                { term: "Gross amount", value: "$0.00" },
-              ]}
-            />
-          }
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <Field label="Recipient name">{(p) => <Input {...p} placeholder="e.g. Taylor Hale" />}</Field>
