@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { CoreLogo } from "./CoreLogo";
-import { componentLinks, totalComponentCount, type NavLink } from "./navConfig";
+import { flatComponentLinks, totalComponentCount, type NavLink } from "./navConfig";
 import { pageSections } from "./pageSections";
 import { useScrollSpy } from "./useScrollSpy";
 
@@ -19,7 +19,7 @@ const nav = [
     group: "Component",
     links: [
       { to: "/components", label: `All Components (${totalComponentCount})` },
-      ...componentLinks,
+      ...flatComponentLinks,
     ],
   },
 ];
@@ -181,17 +181,19 @@ export default function Layout() {
   const scrollHash = useScrollSpy(location.pathname, spyHashes, location.hash);
   const onPageNav = pageSections[location.pathname] ?? [];
 
-  // Scroll sidebar only when the user clicks a link — not on every scroll-spy tick.
+  // Keep the active sidebar link in view as the section changes — both on a
+  // click (location.hash) and while scrolling the content (scrollHash).
+  // `block: "nearest"` only nudges the sidebar's own scroll position enough
+  // to reveal the active item; it never collapses or hides any other link.
   useEffect(() => {
-    if (!location.hash) return;
     const sidebar = sidebarRef.current;
     if (!sidebar) return;
     const timer = window.setTimeout(() => {
       const active = sidebar.querySelector(".site-nav-link.active");
-      active?.scrollIntoView({ block: "nearest", behavior: "auto" });
+      active?.scrollIntoView({ block: "nearest", behavior: "smooth" });
     }, 120);
     return () => window.clearTimeout(timer);
-  }, [location.pathname, location.hash]);
+  }, [location.pathname, location.hash, scrollHash]);
 
   return (
     // data-theme/data-mode here is what makes every CORE component actually

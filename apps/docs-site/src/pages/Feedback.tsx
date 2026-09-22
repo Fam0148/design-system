@@ -73,6 +73,41 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
       ),
     },
     {
+      id: "04",
+      anchorId: "empty",
+      title: "Empty State",
+      content: (
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: 220, width: "100%" }}>
+              <Empty
+                title="No transactions yet"
+                description="Once you make your first contribution, it will show up here."
+                action={
+                  <Button variant="primary" size="sm">
+                    Learn how contributions work
+                  </Button>
+                }
+              />
+            </div>
+          </Preview>
+        </div>
+      ),
+    },
+    {
+      id: "05",
+      anchorId: "spinner",
+      title: "Loading Spinner",
+      content: (
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <Spinner />
+            <span style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Saving your changes…</span>
+          </Preview>
+        </div>
+      ),
+    },
+    {
       id: "02",
       anchorId: "toast",
       title: "Toast & Notifications",
@@ -130,45 +165,10 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
         </div>
       ),
     },
-    {
-      id: "04",
-      anchorId: "empty",
-      title: "Empty State",
-      content: (
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: 220, width: "100%" }}>
-              <Empty
-                title="No transactions yet"
-                description="Once you make your first contribution, it will show up here."
-                action={
-                  <Button variant="primary" size="sm">
-                    Learn how contributions work
-                  </Button>
-                }
-              />
-            </div>
-          </Preview>
-        </div>
-      ),
-    },
-    {
-      id: "05",
-      anchorId: "spinner",
-      title: "Loading Spinner",
-      content: (
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
-            <Spinner />
-            <span style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Saving your changes…</span>
-          </Preview>
-        </div>
-      ),
-    },
   ];
 
   const sectionList = (
-    <DocsSectionList>
+    <DocsSectionList flat={embedded}>
       {sections.map((s) => (
         <DocsSection key={s.anchorId} anchorId={s.anchorId} title={s.title}>
           {s.content}

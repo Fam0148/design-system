@@ -170,21 +170,55 @@ export function Radio({ label, size = "md", ...rest }: { label: string; size?: C
 }
 
 export interface RadioGroupOption { value: string; label: string; disabled?: boolean; }
-export function RadioGroup({ name, value, onChange, options, orientation = "vertical" }: { name: string; value: string; onChange: (v: string) => void; options: RadioGroupOption[]; orientation?: "vertical" | "horizontal" }) {
+export function RadioGroup({
+  name,
+  value,
+  onChange,
+  options,
+  orientation = "vertical",
+  label,
+  "aria-label": ariaLabel,
+}: {
+  name: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: RadioGroupOption[];
+  orientation?: "vertical" | "horizontal";
+  /** Visible group label (rendered above the options). Provide this or
+   *  `aria-label` — every reference RadioGroup (Radix, Chakra, shadcn)
+   *  requires the group to have an accessible name of its own, separate
+   *  from each option's own label. Previously this pointed
+   *  `aria-labelledby` at an id no element ever had, a silently broken
+   *  reference — the group had no accessible name at all. */
+  label?: string;
+  "aria-label"?: string;
+}) {
   const groupId = useId();
   return (
-    <div role="radiogroup" aria-labelledby={groupId} style={{ display: "flex", flexDirection: orientation === "vertical" ? "column" : "row", gap: orientation === "vertical" ? 12 : 20 }}>
-      {options.map((o) => (
-        <Radio
-          key={o.value}
-          name={name}
-          label={o.label}
-          value={o.value}
-          checked={value === o.value}
-          disabled={o.disabled}
-          onChange={() => onChange(o.value)}
-        />
-      ))}
+    <div>
+      {label && (
+        <div id={groupId} style={{ fontSize: "var(--typography-label-size)", fontWeight: "var(--typography-label-weight)", color: "var(--theme-neutral-text-subtle)", marginBottom: 8 }}>
+          {label}
+        </div>
+      )}
+      <div
+        role="radiogroup"
+        aria-labelledby={label ? groupId : undefined}
+        aria-label={!label ? ariaLabel : undefined}
+        style={{ display: "flex", flexDirection: orientation === "vertical" ? "column" : "row", gap: orientation === "vertical" ? 12 : 20 }}
+      >
+        {options.map((o) => (
+          <Radio
+            key={o.value}
+            name={name}
+            label={o.label}
+            value={o.value}
+            checked={value === o.value}
+            disabled={o.disabled}
+            onChange={() => onChange(o.value)}
+          />
+        ))}
+      </div>
     </div>
   );
 }

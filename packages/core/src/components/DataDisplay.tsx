@@ -232,10 +232,16 @@ export type AvatarSize = "sm" | "md" | "lg";
 export type AvatarStatus = "online" | "away" | "offline";
 export function Avatar({ name, src, size = "md", status }: { name: string; src?: string; size?: AvatarSize; status?: AvatarStatus }) {
   const initials = name.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase();
+  // Radix/Chakra/shadcn's Avatar all fall back to initials when the image
+  // fails to load (a stale photo URL, an offline network, a 404 — the
+  // ordinary case, not an edge case). Without this, a broken `src` fell
+  // through to the browser's own broken-image glyph instead.
+  const [imgFailed, setImgFailed] = useState(false);
+  const showImage = !!src && !imgFailed;
   return (
     <span className="cds-avatar-wrap">
       <span className={`cds-avatar cds-avatar--${size}`} role="img" aria-label={name}>
-        {src ? <img src={src} alt="" /> : initials}
+        {showImage ? <img src={src} alt="" onError={() => setImgFailed(true)} /> : initials}
       </span>
       {status && <span className={`cds-avatar-status cds-avatar-status--${status}`} aria-label={`Status: ${status}`} />}
     </span>
@@ -261,8 +267,8 @@ export function AvatarGroup({
         </span>
       ))}
       {overflow > 0 && (
-        <span className="cds-avatar-group-item">
-          <span className={`cds-avatar cds-avatar--${size}`} aria-label={`${overflow} more`}>
+        <span className="cds-avatar-group-item" title={avatars.slice(max).map((a) => a.name).join(", ")}>
+          <span className={`cds-avatar cds-avatar--${size}`} role="img" aria-label={`${overflow} more: ${avatars.slice(max).map((a) => a.name).join(", ")}`}>
             +{overflow}
           </span>
         </span>

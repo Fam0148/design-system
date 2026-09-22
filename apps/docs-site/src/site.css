@@ -119,6 +119,15 @@ a { color: inherit; }
   gap: 80px;
 }
 
+/* Unified /components page only — see DocsSectionList's `flat` prop.
+   Collapses this wrapper's own box so its .docs-section children become
+   direct flex items of the outer page container, where each section's own
+   `order` (flatOrderForAnchor) can interleave it across category boundaries
+   into one global A-Z sequence instead of staying grouped by category. */
+.docs-section-list--flat {
+  display: contents;
+}
+
 .docs-section {
   display: flex;
   flex-direction: column;

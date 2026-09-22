@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { componentLinks } from "../navConfig";
+import { flatComponentLinks } from "../navConfig";
 
 const sections = [
   {
@@ -136,7 +136,7 @@ const sections = [
           gap: 8,
         }}
       >
-        {componentLinks.map((link) => (
+        {flatComponentLinks.map((link) => (
           <Link
             key={link.to}
             to={link.to}

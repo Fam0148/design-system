@@ -20,6 +20,7 @@ html[data-site-mode=light],
   --brand-text-primary-active: var(--theme-primitive-color-primary-900);
   --brand-text-primary-disabled: var(--theme-primitive-color-primary-600);
   --brand-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --brand-text-primary-on-surface: var(--theme-primitive-color-primary-500);
   /* brand-background-primary */
   --brand-background-primary-strong: var(--theme-primitive-color-primary-500);
   --brand-background-primary-hover: var(--theme-primitive-color-primary-600);
@@ -38,6 +39,7 @@ html[data-site-mode=light],
   --secondary-text-primary-active: var(--theme-primitive-color-secondary-900);
   --secondary-text-primary-disabled: var(--theme-primitive-color-secondary-600);
   --secondary-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --secondary-text-primary-on-surface: var(--theme-primitive-color-secondary-500);
   /* secondary-background-primary */
   --secondary-background-primary-strong: var(--theme-primitive-color-secondary-500);
   --secondary-background-primary-hover: var(--theme-primitive-color-secondary-600);
@@ -56,6 +58,7 @@ html[data-site-mode=light],
   --tertiary-text-primary-active: var(--theme-primitive-color-tertiary-900);
   --tertiary-text-primary-disabled: var(--theme-primitive-color-tertiary-600);
   --tertiary-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --tertiary-text-primary-on-surface: var(--theme-primitive-color-tertiary-500);
   /* tertiary-background-primary */
   --tertiary-background-primary-strong: var(--theme-primitive-color-tertiary-500);
   --tertiary-background-primary-hover: var(--theme-primitive-color-tertiary-600);
@@ -136,6 +139,7 @@ html[data-site-mode=dark],
   --brand-text-primary-active: var(--theme-primitive-color-primary-100);
   --brand-text-primary-disabled: var(--theme-primitive-color-primary-300);
   --brand-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --brand-text-primary-on-surface: var(--theme-colors-neutral-white);
   /* brand-background-primary */
   --brand-background-primary-strong: var(--theme-primitive-color-primary-400);
   --brand-background-primary-hover: var(--theme-primitive-color-primary-500);
@@ -154,6 +158,7 @@ html[data-site-mode=dark],
   --secondary-text-primary-active: var(--theme-primitive-color-secondary-100);
   --secondary-text-primary-disabled: var(--theme-primitive-color-secondary-300);
   --secondary-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --secondary-text-primary-on-surface: var(--theme-colors-neutral-white);
   /* secondary-background-primary */
   --secondary-background-primary-strong: var(--theme-primitive-color-secondary-400);
   --secondary-background-primary-hover: var(--theme-primitive-color-secondary-500);
@@ -172,6 +177,7 @@ html[data-site-mode=dark],
   --tertiary-text-primary-active: var(--theme-primitive-color-tertiary-100);
   --tertiary-text-primary-disabled: var(--theme-primitive-color-tertiary-300);
   --tertiary-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --tertiary-text-primary-on-surface: var(--theme-colors-neutral-white);
   /* tertiary-background-primary */
   --tertiary-background-primary-strong: var(--theme-primitive-color-tertiary-400);
   --tertiary-background-primary-hover: var(--theme-primitive-color-tertiary-500);

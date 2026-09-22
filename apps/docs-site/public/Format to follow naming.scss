@@ -119,7 +119,7 @@ $accent-border-primary-dark: (
   disabled: 700,
 );
 
-@mixin accent-role-tokens($role, $family, $text, $background, $border, $oncolor) {
+@mixin accent-role-tokens($role, $family, $text, $background, $border, $oncolor, $mode) {
 
   /* #{$role}-text-primary */
   --#{$role}-text-primary-default: #{prim($family, map.get($text, default))};
@@ -127,6 +127,11 @@ $accent-border-primary-dark: (
   --#{$role}-text-primary-active: #{prim($family, map.get($text, active))};
   --#{$role}-text-primary-disabled: #{prim($family, map.get($text, disabled))};
   --#{$role}-text-primary-oncolor: #{$oncolor};
+  // Text for a control with no solid fill behind it (Secondary/Tertiary
+  // default & focused states). Brand-colored on the light canvas reads
+  // fine, but the same hue against the near-black dark canvas falls short
+  // of 4.5:1 (WCAG 1.4.3) — dark mode uses oncolor (white) instead.
+  --#{$role}-text-primary-on-surface: #{if($mode == "dark", $oncolor, prim($family, map.get($text, default)))};
 
   /* #{$role}-background-primary */
   --#{$role}-background-primary-strong: #{prim($family, map.get($background, strong))};
@@ -311,7 +316,8 @@ html[data-site-mode="light"],
       $accent-text-primary-light,
       $accent-background-primary-light,
       $accent-border-primary-light,
-      map.get(map.get($accent-text-oncolor, light), $role)
+      map.get(map.get($accent-text-oncolor, light), $role),
+      "light"
     );
   }
 
@@ -338,7 +344,8 @@ html[data-site-mode="dark"],
       $accent-text-primary-dark,
       $accent-background-primary-dark,
       $accent-border-primary-dark,
-      map.get(map.get($accent-text-oncolor, dark), $role)
+      map.get(map.get($accent-text-oncolor, dark), $role),
+      "dark"
     );
   }
 

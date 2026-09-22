@@ -75,41 +75,13 @@ function BadgeMatrixDemo() {
 
       <div className="site-panel site-panel--flush site-panel--demo">
         <Preview showModeToggle>
-          <div style={{ overflowX: "auto", width: "100%" }}>
-            <table className="cds-table" data-density="comfortable">
-              <thead>
-                <tr>
-                  <th scope="col" style={{ ...badgeMatrixHeaderStyle, width: 110 }}>Tone</th>
-                  <th scope="col" style={badgeMatrixHeaderStyle}>Default</th>
-                  <th scope="col" style={badgeMatrixHeaderStyle}>Hover</th>
-                  <th scope="col" style={badgeMatrixHeaderStyle}>Active</th>
-                  <th scope="col" style={badgeMatrixHeaderStyle}>Disable</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tones.map((t) => (
-                  <tr key={t}>
-                    <td style={{ fontSize: "var(--typography-body-md-size)", lineHeight: "var(--typography-body-md-line-height)", fontWeight: "var(--typography-font-weight-semibold)", textTransform: "capitalize", color: "var(--theme-neutral-text-primary-default)" }}>{t}</td>
-                    <td>
-                      <Badge tone={t} size={size} variant="soft">{t}</Badge>
-                    </td>
-                    <td>
-                      <div className="force-hover" style={{ display: "inline-block" }}>
-                        <Badge tone={t} size={size} variant="soft" interactive className={`cds-badge-state--hover cds-badge--${t}`}>{t}</Badge>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="force-active" style={{ display: "inline-block" }}>
-                        <Badge tone={t} size={size} variant="soft" interactive className={`cds-badge-state--active cds-badge--${t}`}>{t}</Badge>
-                      </div>
-                    </td>
-                    <td>
-                      <Badge tone={t} size={size} variant="soft" disabled>{t}</Badge>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--core-space-6, 24px)" }}>
+            {tones.map((t) => (
+              <div key={t} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "var(--core-space-2, 8px)" }}>
+                <span style={badgeMatrixHeaderStyle}>{t}</span>
+                <Badge tone={t} size={size} variant="soft">{t}</Badge>
+              </div>
+            ))}
           </div>
         </Preview>
       </div>
@@ -167,6 +139,27 @@ function AvatarSizeDemo() {
                   <AvatarGroup avatars={sampleAvatars} size="lg" max={3} />
                 </td>
               </tr>
+              <tr>
+                <td style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-primary)" }}>Status</td>
+                <td>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    <Avatar name={AVATAR_JORDAN.name} src={AVATAR_JORDAN.src} size="sm" status="online" />
+                    <Avatar name={AVATAR_SAM.name} src={AVATAR_SAM.src} size="sm" status="away" />
+                  </div>
+                </td>
+                <td>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    <Avatar name={AVATAR_JORDAN.name} src={AVATAR_JORDAN.src} size="md" status="online" />
+                    <Avatar name={AVATAR_SAM.name} src={AVATAR_SAM.src} size="md" status="offline" />
+                  </div>
+                </td>
+                <td>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    <Avatar name={AVATAR_JORDAN.name} src={AVATAR_JORDAN.src} size="lg" status="away" />
+                    <Avatar name={AVATAR_SAM.name} src={AVATAR_SAM.src} size="lg" status="offline" />
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -177,6 +170,71 @@ function AvatarSizeDemo() {
 
 export default function DataDisplay({ embedded = false }: { embedded?: boolean }) {
   const sections = [
+    {
+      id: "04",
+      anchorId: "avatar",
+      title: "Avatar & Groups",
+      content: (
+        <AvatarSizeDemo />
+      ),
+    },
+    {
+      id: "02",
+      anchorId: "badge",
+      title: "Badge",
+      content: <BadgeMatrixDemo />,
+    },
+    {
+      id: "03",
+      anchorId: "data-table",
+      title: "Table & Data Table",
+      content: (
+        <div id="table">
+          <div style={{ ...sectionLabelStyle, marginBottom: "var(--core-space-2, 8px)" }}>
+            Basic Data Table
+          </div>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
+              <Table
+                columns={[
+                  { key: "date", header: "Date" },
+                  { key: "type", header: "Type" },
+                  { key: "amount", header: "Amount" },
+                  {
+                    key: "status",
+                    header: "Status",
+                    render: (r) => (
+                      <Badge tone={r.status}>
+                        {r.status === "success" ? "Posted" : r.status === "warning" ? "Pending" : "Failed"}
+                      </Badge>
+                    ),
+                  },
+                ]}
+                rows={rows}
+              />
+            </Preview>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "05",
+      anchorId: "progress",
+      title: "Progress",
+      content: (
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
+              <div style={{ width: 320, display: "flex", flexDirection: "column", gap: 20 }}>
+                <Progress value={68} label="Retirement readiness — 68%" />
+                <Progress indeterminate label="Submitting your request…" />
+              </div>
+            </Preview>
+
+          </div>
+        </div>
+      ),
+    },
     {
       id: "01",
       anchorId: "quick-links",
@@ -231,75 +289,10 @@ export default function DataDisplay({ embedded = false }: { embedded?: boolean }
         </div>
       ),
     },
-    {
-      id: "02",
-      anchorId: "badge",
-      title: "Badge",
-      content: <BadgeMatrixDemo />,
-    },
-    {
-      id: "03",
-      anchorId: "data-table",
-      title: "Table & Data Table",
-      content: (
-        <div id="table">
-          <div style={{ ...sectionLabelStyle, marginBottom: "var(--core-space-2, 8px)" }}>
-            Basic Data Table
-          </div>
-          <div className="site-panel site-panel--flush site-panel--demo">
-            <Preview showModeToggle>
-              <Table
-                columns={[
-                  { key: "date", header: "Date" },
-                  { key: "type", header: "Type" },
-                  { key: "amount", header: "Amount" },
-                  {
-                    key: "status",
-                    header: "Status",
-                    render: (r) => (
-                      <Badge tone={r.status}>
-                        {r.status === "success" ? "Posted" : r.status === "warning" ? "Pending" : "Failed"}
-                      </Badge>
-                    ),
-                  },
-                ]}
-                rows={rows}
-              />
-            </Preview>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "04",
-      anchorId: "avatar",
-      title: "Avatar & Groups",
-      content: (
-        <AvatarSizeDemo />
-      ),
-    },
-    {
-      id: "05",
-      anchorId: "progress",
-      title: "Progress",
-      content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div className="site-panel site-panel--flush site-panel--demo">
-            <Preview showModeToggle>
-              <div style={{ width: 320, display: "flex", flexDirection: "column", gap: 20 }}>
-                <Progress value={68} label="Retirement readiness — 68%" />
-                <Progress indeterminate label="Submitting your request…" />
-              </div>
-            </Preview>
-
-          </div>
-        </div>
-      ),
-    },
   ];
 
   const sectionList = (
-    <DocsSectionList>
+    <DocsSectionList flat={embedded}>
       {sections.map((s) => (
         <DocsSection key={s.anchorId} anchorId={s.anchorId} title={s.title}>
           {s.content}

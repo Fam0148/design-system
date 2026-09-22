@@ -51,26 +51,37 @@ export function Dropzone({
       ? "File attachments are locked for this request."
       : "PDF, JPG, or PNG up to 10MB";
 
+  // A real <button>, not a <strong onClick> — the previous span had no
+  // tabIndex, role, or keyboard handling, so it was completely unreachable
+  // without a mouse (fails WCAG 2.1.1 Keyboard). Drag-and-drop is
+  // inherently mouse-only, so this button is also the *only* keyboard path
+  // to open the file picker (WCAG 2.5.7 Dragging Movements requires one).
+  const BrowseTrigger = ({ children }: { children: React.ReactNode }) => (
+    <button type="button" className="cds-dropzone-trigger" disabled={disabled} onClick={() => inputRef.current?.click()}>
+      {children}
+    </button>
+  );
+
   const defaultLabel =
     label !== undefined ? (
       label
     ) : status === "success" ? (
       <span>
-        File uploaded successfully, or <strong onClick={() => !disabled && inputRef.current?.click()}>browse more</strong>
+        File uploaded successfully, or <BrowseTrigger>browse more</BrowseTrigger>
       </span>
     ) : status === "error" ? (
       <span>
-        Upload failed, or <strong onClick={() => !disabled && inputRef.current?.click()}>choose another</strong>
+        Upload failed, or <BrowseTrigger>choose another</BrowseTrigger>
       </span>
     ) : status === "warning" ? (
       <span>
-        Storage limit approaching, or <strong onClick={() => !disabled && inputRef.current?.click()}>browse</strong>
+        Storage limit approaching, or <BrowseTrigger>browse</BrowseTrigger>
       </span>
     ) : disabled ? (
       <span>File uploads are disabled</span>
     ) : (
       <span>
-        Drag a file here, or <strong onClick={() => !disabled && inputRef.current?.click()}>browse</strong>
+        Drag a file here, or <BrowseTrigger>browse</BrowseTrigger>
       </span>
     );
 

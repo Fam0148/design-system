@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Preview } from "../Preview";
 import { DocsSection, DocsSectionList, StateLabel } from "../DocsSection";
-import { Tabs, Breadcrumb, Pagination, AppSidebar, Stepper, type SidebarItem, type StepState } from "../../../../packages/core/src/components/Navigation";
+import { Tabs, Pagination, AppSidebar, Stepper, type SidebarItem, type StepState } from "../../../../packages/core/src/components/Navigation";
 import { Icon } from "../../../../packages/core/src/components/Primitives";
 
 type SidebarRailState = "DEFAULT" | "HOVER" | "SELECTED" | "FOCUS" | "DISABLED";
@@ -166,55 +166,17 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
   const [page, setPage] = useState(3);
 
   const sections = (
-    <DocsSectionList>
+    <DocsSectionList flat={embedded}>
+      <DocsSection anchorId="pagination" title="Pagination">
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <Pagination page={page} pageCount={8} onChange={setPage} />
+          </Preview>
+        </div>
+      </DocsSection>
+
       <DocsSection anchorId="sidebar" title="Sidebar">
         <SidebarRailStatesDemo />
-      </DocsSection>
-
-      <DocsSection anchorId="tabs" title="Tabs">
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
-            <div style={{ width: "100%" }}>
-              <Tabs
-                items={[
-                  { id: "overview", label: "Overview", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Account overview content.</p> },
-                  { id: "transactions", label: "Transactions", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Transaction history content.</p> },
-                  { id: "documents", label: "Documents", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Statements & tax forms content.</p> },
-                ]}
-              />
-            </div>
-          </Preview>
-        </div>
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
-            <Tabs
-              orientation="vertical"
-              items={[
-                { id: "personal", label: "Personal Details", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)", margin: 0 }}>Personal details content.</p> },
-                { id: "bank", label: "Bank Details", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)", margin: 0 }}>Bank details content.</p> },
-                { id: "employment", label: "Employment Information", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)", margin: 0 }}>Employment info content.</p> },
-                { id: "beneficiary", label: "Beneficiary Details", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)", margin: 0 }}>Beneficiary details content.</p> },
-              ]}
-            />
-          </Preview>
-        </div>
-      </DocsSection>
-
-      <DocsSection anchorId="breadcrumb" title="Breadcrumb">
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
-            <Breadcrumb items={[{ label: "Home", href: "#" }, { label: "Accounts", href: "#" }, { label: "Transactions" }]} />
-          </Preview>
-        </div>
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: 10, width: "100%" }}>
-              {(["slash", "line", "dot", "none"] as const).map((sep) => (
-                <Breadcrumb key={sep} separator={sep} items={[{ label: "Home", href: "#" }, { label: "Accounts", href: "#" }, { label: "Transactions" }]} />
-              ))}
-            </div>
-          </Preview>
-        </div>
       </DocsSection>
 
       <DocsSection anchorId="stepper" title="Stepper">
@@ -249,10 +211,31 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
         </div>
       </DocsSection>
 
-      <DocsSection anchorId="pagination" title="Pagination">
+      <DocsSection anchorId="tabs" title="Tabs">
         <div className="site-panel site-panel--flush site-panel--demo">
           <Preview showModeToggle>
-            <Pagination page={page} pageCount={8} onChange={setPage} />
+            <div style={{ width: "100%" }}>
+              <Tabs
+                items={[
+                  { id: "overview", label: "Overview", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Account overview content.</p> },
+                  { id: "transactions", label: "Transactions", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Transaction history content.</p> },
+                  { id: "documents", label: "Documents", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)" }}>Statements & tax forms content.</p> },
+                ]}
+              />
+            </div>
+          </Preview>
+        </div>
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <Tabs
+              orientation="vertical"
+              items={[
+                { id: "personal", label: "Personal Details", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)", margin: 0 }}>Personal details content.</p> },
+                { id: "bank", label: "Bank Details", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)", margin: 0 }}>Bank details content.</p> },
+                { id: "employment", label: "Employment Information", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)", margin: 0 }}>Employment info content.</p> },
+                { id: "beneficiary", label: "Beneficiary Details", content: <p style={{ fontSize: 14, color: "var(--core-color-text-secondary)", margin: 0 }}>Beneficiary details content.</p> },
+              ]}
+            />
           </Preview>
         </div>
       </DocsSection>
@@ -275,7 +258,7 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
 
   return (
     <div>
-      <h1 className="site-h1">Tabs, Breadcrumb &amp; Pagination</h1>
+      <h1 className="site-h1">Tabs &amp; Pagination</h1>
       <p className="site-lede">Wayfinding components — where you are, how you got here, how to move through a list.</p>
       {sections}
     </div>

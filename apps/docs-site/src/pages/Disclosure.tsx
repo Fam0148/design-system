@@ -208,7 +208,7 @@ export default function DisclosurePage({ embedded = false }: { embedded?: boolea
   ];
 
   const sectionList = (
-    <DocsSectionList>
+    <DocsSectionList flat={embedded}>
       {sections.map((s) => (
         <DocsSection key={s.anchorId} anchorId={s.anchorId} title={s.title}>
           {s.content}

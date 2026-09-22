@@ -1,7 +1,7 @@
 import React from "react";
 import { Preview } from "../Preview";
 import { Anatomy, AnatomyLegend } from "../Anatomy";
-import { Button, IconButton, Link } from "../../../../packages/core/src/components/Button";
+import { Button, IconButton } from "../../../../packages/core/src/components/Button";
 import { ButtonMatrix } from "../ButtonMatrix";
 import { ComponentStateMatrix, DEFAULT_MATRIX_STATES } from "../ComponentStateMatrix";
 import { DocsSection, DocsSectionList, StateLabel } from "../DocsSection";
@@ -38,6 +38,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
             ]}
             defaultSize="md"
             columnMinWidth={140}
+            orientation="rows"
             renderCell={({ columnId, stateKey, size }) => {
               const variant = columnId as "secondary" | "tertiary";
               const wrapperClass = stateKey === "hover" ? "force-hover" : stateKey === "active" ? "force-active" : stateKey === "focused" ? "force-focus" : undefined;
@@ -56,53 +57,14 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
             }}
           />
           <style>{`
-            .force-hover .cds-icon-btn--secondary { background: var(--theme-brand-background-primary-hover); color: var(--theme-brand-text-primary-oncolor); border-color: var(--theme-brand-border-primary-hover); }
-            .force-hover .cds-icon-btn--tertiary { background: var(--theme-brand-background-primary-disabled-light); color: var(--theme-brand-text-primary-default); }
-            .force-active .cds-icon-btn--secondary { background: var(--theme-brand-background-primary-active); color: var(--theme-brand-text-primary-oncolor); border-color: var(--theme-brand-background-primary-active); transform: translateY(1px); }
-            .force-active .cds-icon-btn--tertiary { background: var(--theme-brand-background-primary-subtle); color: var(--theme-brand-text-primary-active); transform: translateY(1px); }
+            /* Mirrors the real .cds-icon-btn--secondary/--tertiary hover/active CSS
+               (components.css) so this "forced state" demo never drifts from what
+               actually renders on real hover/active. */
+            .force-hover .cds-icon-btn--secondary { background: color-mix(in srgb, var(--theme-brand-background-primary-strong) 12%, transparent); color: var(--theme-brand-text-primary-hover); border-color: var(--theme-brand-border-primary-hover); }
+            .force-hover .cds-icon-btn--tertiary { background: color-mix(in srgb, var(--theme-brand-background-primary-strong) 8%, transparent); color: var(--theme-brand-text-primary-hover); }
+            .force-active .cds-icon-btn--secondary { background: color-mix(in srgb, var(--theme-brand-background-primary-strong) 24%, transparent); color: var(--theme-brand-text-primary-active); border-color: var(--theme-brand-border-primary-hover); transform: translateY(1px); }
+            .force-active .cds-icon-btn--tertiary { background: color-mix(in srgb, var(--theme-brand-background-primary-strong) 16%, transparent); color: var(--theme-brand-text-primary-active); transform: translateY(1px); }
             .force-focus .cds-icon-btn { outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400); outline-offset: 2px; }
-          `}</style>
-        </div>
-      ),
-    },
-
-    {
-      anchorId: "link",
-      title: "Link",
-      content: (
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <ComponentStateMatrix
-            columns={[{ id: "link", label: "Link" }]}
-            states={DEFAULT_MATRIX_STATES}
-            columnMinWidth={260}
-            renderCell={({ stateKey }) => {
-              const wrapperClass = stateKey === "hover" ? "force-hover" : stateKey === "active" ? "force-active" : stateKey === "focused" ? "force-focus" : undefined;
-              return (
-                <span
-                  className={wrapperClass}
-                  style={{
-                    fontSize: "var(--core-typography-text14Regular-size, 14px)",
-                    lineHeight: "var(--core-typography-text14Regular-lineHeight, 1.6)",
-                    color: "inherit",
-                  }}
-                >
-                  Read our{" "}
-                  <Link href="#" disabled={stateKey === "disabled"} onClick={(e) => e.preventDefault()}>
-                    documents
-                  </Link>{" "}
-                  before enrolling.
-                </span>
-              );
-            }}
-          />
-          <style>{`
-            .force-hover .cds-link { color: var(--theme-brand-text-primary-hover); text-decoration-thickness: 2px; }
-            .force-active .cds-link { color: var(--theme-brand-text-primary-active); text-decoration-thickness: 2px; }
-            .force-focus .cds-link {
-              outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400);
-              outline-offset: 2px;
-              border-radius: 2px;
-            }
           `}</style>
         </div>
       ),
@@ -111,7 +73,7 @@ export default function Actions({ embedded = false }: { embedded?: boolean }) {
   ];
 
   const sectionList = (
-    <DocsSectionList>
+    <DocsSectionList flat={embedded}>
       {sections.map((s) => (
         <DocsSection key={s.anchorId} anchorId={s.anchorId} title={s.title}>
           {s.content}

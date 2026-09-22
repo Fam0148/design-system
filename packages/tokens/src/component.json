@@ -30,7 +30,7 @@
   "card.border": "{color.border.subtle}",
   "card.radius": "{radius.sm}",
   "card.shadow": "{elevation.1}",
-  "badge.radius": "{radius.sm}",
+  "badge.radius": "{radius.full}",
   "focusRing.color": "{color.focus.ring}",
   "focusRing.width": "{border.width.focus}",
   "focusRing.offset": "2px",

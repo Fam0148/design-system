@@ -67,25 +67,40 @@ const VARIANTS: VariantConfig[] = [
     name: "Secondary CTA",
     category: "brand",
     stateTokens: {
+      // text-primary-on-surface: brand-colored in light, white in dark — a
+      // brand hue at any step read under 4.5:1 (WCAG 1.4.3) against the
+      // near-black dark canvas since there's no fill behind it to boost
+      // contrast against.
       default: {
         bg: "transparent",
-        text: "var(--brand-text-primary-default)",
+        text: "var(--brand-text-primary-on-surface)",
         border: "var(--brand-border-primary-default)",
       },
+      // Outline convention (shadcn `outline` / Chakra `outline`): hover/active
+      // stay a translucent wash of the brand color, never Primary's opaque
+      // fill — color-mix against `transparent` composites over the canvas
+      // directly, so one pair of percentages reads correctly in both light
+      // and dark. Active is a deeper wash than hover so the two states are
+      // never visually equal to each other or to Primary.
       hover: {
-        bg: "var(--brand-background-primary-hover)",
-        text: "var(--brand-text-primary-oncolor)",
+        bg: "color-mix(in srgb, var(--brand-background-primary-strong) 12%, transparent)",
+        text: "var(--brand-text-primary-hover)",
         border: "var(--brand-border-primary-hover)",
       },
       active: {
-        bg: "var(--brand-background-primary-active)",
-        text: "var(--brand-text-primary-oncolor)",
-        border: "var(--brand-background-primary-active)",
+        bg: "color-mix(in srgb, var(--brand-background-primary-strong) 24%, transparent)",
+        text: "var(--brand-text-primary-active)",
+        // Not background-primary-active — that step is tuned to contrast
+        // against an opaque canvas, but this border sits against the
+        // translucent active wash instead; in dark mode the two converge
+        // toward the same hue (1.48:1, failing WCAG 1.4.11's 3:1). -hover
+        // is a lighter step chosen to clear 3:1 against the wash.
+        border: "var(--brand-border-primary-hover)",
         extraStyles: { transform: "translateY(1px)" },
       },
       focused: {
         bg: "transparent",
-        text: "var(--brand-text-primary-default)",
+        text: "var(--brand-text-primary-on-surface)",
         border: "var(--brand-border-primary-default)",
         extraStyles: FOCUS_RING,
       },
@@ -103,16 +118,24 @@ const VARIANTS: VariantConfig[] = [
     name: "Tertiary CTA",
     category: "brand",
     stateTokens: {
-      default: { bg: "transparent", text: "var(--brand-text-primary-default)" },
-      hover: { bg: "transparent", text: "var(--brand-text-primary-hover)" },
+      default: { bg: "transparent", text: "var(--brand-text-primary-on-surface)" },
+      // Ghost/text convention (shadcn `ghost`+`link` / Chakra `ghost` / MUI
+      // `text`): never a border, never an opaque fill — only a faint wash
+      // that deepens on press, lighter than Secondary's so the two variants
+      // stay visually distinct at every state, plus the underline that
+      // marks this as a "text" action rather than a boxed one.
+      hover: {
+        bg: "color-mix(in srgb, var(--brand-background-primary-strong) 8%, transparent)",
+        text: "var(--brand-text-primary-hover)",
+      },
       active: {
-        bg: "transparent",
+        bg: "color-mix(in srgb, var(--brand-background-primary-strong) 16%, transparent)",
         text: "var(--brand-text-primary-active)",
         extraStyles: { transform: "translateY(1px)" },
       },
       focused: {
         bg: "transparent",
-        text: "var(--brand-text-primary-default)",
+        text: "var(--brand-text-primary-on-surface)",
         extraStyles: FOCUS_RING,
       },
       disabled: { bg: "transparent", text: "var(--theme-semantics-disabled-text)" },

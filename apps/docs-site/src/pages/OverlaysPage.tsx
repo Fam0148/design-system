@@ -12,7 +12,7 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
   const [slideover, setSlideover] = useState(false);
 
   const sections = (
-    <DocsSectionList>
+    <DocsSectionList flat={embedded}>
       <DocsSection anchorId="modal" title="Modal">
         <div className="site-panel site-panel--flush site-panel--demo">
           <Preview showModeToggle>

@@ -48,88 +48,129 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
 
   const sections = [
     {
-      id: "01",
-      anchorId: "input",
-      title: "Input",
-      content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-          <div className="site-panel site-panel--flush site-panel--demo">
-            <Preview showModeToggle>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 16 }}>
-                <div className="force-default">
-                  <Field label="Default" required>{(p) => <Input {...p} placeholder="Jordan Lee" />}</Field>
-                </div>
-                <div className="force-hover">
-                  <Field label="Hover">{(p) => <Input {...p} placeholder="Jordan Lee" />}</Field>
-                </div>
-                <div className="force-focus">
-                  <Field label="Focus">{(p) => <Input {...p} placeholder="Jordan Lee" />}</Field>
-                </div>
-                <div className="force-filled">
-                  <Field label="Filled">{(p) => <Input {...p} defaultValue="Jordan Lee" />}</Field>
-                </div>
-                <div className="force-error">
-                  <Field label="With error" error="Must be between 1% and 100%">{(p) => <Input {...p} defaultValue="150" />}</Field>
-                </div>
-                <div className="force-disabled">
-                  <Field label="Disabled">{(p) => <Input {...p} disabled placeholder="Locked" />}</Field>
-                </div>
-              </div>
-            </Preview>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: "02",
-      anchorId: "textarea",
-      title: "Textarea",
+      id: "14",
+      anchorId: "attachment",
+      title: "Attachment",
       content: (
         <div className="site-panel site-panel--flush site-panel--demo">
           <Preview showModeToggle>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
-              <div className="force-default">
-                <Field label="Default">{(p) => <Textarea {...p} rows={2} placeholder="Type here..." />}</Field>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))", gap: 32, width: "100%" }}>
+              {/* Default State */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-secondary)" }}>
+                    Default (Interactive)
+                  </span>
+                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 500, color: "var(--core-color-text-tertiary)" }}>Ready to upload</span>
+                </div>
+                <Dropzone
+                  onFiles={(fl) =>
+                    setFiles((prev) => [
+                      ...prev,
+                      { id: String(Date.now()), name: fl[0].name, size: `${Math.round(fl[0].size / 1024)} KB` }
+                    ])
+                  }
+                />
+                <AttachmentList files={files} onRemove={(id) => setFiles((prev) => prev.filter((f) => f.id !== id))} />
               </div>
-              <div className="force-hover">
-                <Field label="Hover">{(p) => <Textarea {...p} rows={2} placeholder="Type here..." />}</Field>
+
+              {/* Success State */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-status-success-text)", display: "flex", alignItems: "center", gap: 6 }}>
+                    <Icon name="fa-solid fa-circle-check" size="sm" /> Success State
+                  </span>
+                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--core-color-status-success-text)", background: "var(--core-color-status-success-bg)", border: "1px solid var(--core-color-status-success-border)", padding: "1px 8px", borderRadius: 999 }}>
+                    Complete
+                  </span>
+                </div>
+                <Dropzone
+                  status="success"
+                  icon={<Icon name="fa-solid fa-circle-check" size="md" color="var(--core-color-status-success-text)" />}
+                  label={<span>File uploaded successfully, or <strong style={{ color: "var(--core-color-status-success-text)" }}>browse more</strong></span>}
+                  hint="All files passed security and format verification."
+                />
+                <AttachmentList
+                  files={[
+                    { id: "s1", name: "beneficiary-form.pdf", size: "212 KB", status: "success", statusText: "Uploaded" },
+                    { id: "s2", name: "voided-check.png", size: "480 KB", status: "success", statusText: "Verified" }
+                  ]}
+                  onRemove={() => {}}
+                />
               </div>
-              <div className="force-focus">
-                <Field label="Focus">{(p) => <Textarea {...p} rows={2} placeholder="Type here..." />}</Field>
+
+              {/* Error State */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-status-danger-text)", display: "flex", alignItems: "center", gap: 6 }}>
+                    <Icon name="fa-solid fa-circle-exclamation" size="sm" /> Error State
+                  </span>
+                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--core-color-status-danger-text)", background: "var(--core-color-status-danger-bg)", border: "1px solid var(--core-color-status-danger-border)", padding: "1px 8px", borderRadius: 999 }}>
+                    Failed
+                  </span>
+                </div>
+                <Dropzone
+                  status="error"
+                  icon={<Icon name="fa-solid fa-circle-exclamation" size="md" color="var(--core-color-status-danger-text)" />}
+                  label={<span>Upload failed, or <strong style={{ color: "var(--core-color-status-danger-text)" }}>choose another file</strong></span>}
+                  hint="File exceeds 10MB limit. Please select a smaller file."
+                />
+                <AttachmentList
+                  files={[
+                    { id: "e1", name: "annual-financial-audit-2024.zip", size: "14.2 MB", status: "error", statusText: "Exceeds 10MB limit" },
+                    { id: "e2", name: "unsupported-installer.pkg", size: "3.5 MB", status: "error", statusText: "Unsupported format" }
+                  ]}
+                  onRemove={() => {}}
+                />
               </div>
-              <div className="force-filled">
-                <Field label="Filled">{(p) => <Textarea {...p} rows={2} defaultValue="Entered text" />}</Field>
+
+              {/* Warning State */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-status-warning-text)", display: "flex", alignItems: "center", gap: 6 }}>
+                    <Icon name="fa-solid fa-triangle-exclamation" size="sm" /> Warning State
+                  </span>
+                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--core-color-status-warning-text)", background: "var(--core-color-status-warning-bg)", border: "1px solid var(--core-color-status-warning-border)", padding: "1px 8px", borderRadius: 999 }}>
+                    Warning
+                  </span>
+                </div>
+                <Dropzone
+                  status="warning"
+                  icon={<Icon name="fa-solid fa-triangle-exclamation" size="md" color="var(--core-color-status-warning-text)" />}
+                  label={<span>Storage capacity warning, or <strong style={{ color: "var(--core-color-status-warning-text)" }}>browse</strong></span>}
+                  hint="Only 1 upload remaining before reaching capacity limit (3 files max)."
+                />
+                <AttachmentList
+                  files={[
+                    { id: "w1", name: "macro-enabled-roster.xlsm", size: "4.8 MB", status: "warning", statusText: "Virus scan pending" },
+                    { id: "w2", name: "high-res-contract.tiff", size: "8.9 MB", status: "warning", statusText: "Auto-converted" }
+                  ]}
+                  onRemove={() => {}}
+                />
               </div>
-              <div className="force-disabled">
-                <Field label="Disabled">{(p) => <Textarea {...p} disabled rows={2} placeholder="Type here..." />}</Field>
-              </div>
-            </div>
-          </Preview>
-        </div>
-      )
-    },
-    {
-      id: "03",
-      anchorId: "select",
-      title: "Select",
-      content: (
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
-              <div className="force-default">
-                <Field label="Default">{(p) => <Select {...p} options={employers} />}</Field>
-              </div>
-              <div className="force-hover">
-                <Field label="Hover">{(p) => <Select {...p} options={employers} />}</Field>
-              </div>
-              <div className="force-focus">
-                <Field label="Focus">{(p) => <Select {...p} options={employers} />}</Field>
-              </div>
-              <div className="force-filled">
-                <Field label="Filled">{(p) => <Select {...p} value="acme" options={employers} />}</Field>
-              </div>
-              <div className="force-disabled">
-                <Field label="Disabled">{(p) => <Select {...p} disabled options={employers} />}</Field>
+
+              {/* Disable State */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-tertiary)", display: "flex", alignItems: "center", gap: 6 }}>
+                    <Icon name="fa-solid fa-lock" size="sm" /> Disable State
+                  </span>
+                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--theme-neutral-text-subtleleast)", background: "var(--theme-brand-background-primary-disabled-light)", border: "1px solid var(--theme-brand-border-primary-disabled)", padding: "1px 8px", borderRadius: 999 }}>
+                    Disabled
+                  </span>
+                </div>
+                <Dropzone
+                  disabled={true}
+                  icon={<Icon name="fa-solid fa-lock" size="md" color="var(--theme-neutral-text-subtleleast)" />}
+                  label={<span>File uploads are disabled</span>}
+                  hint="Attachments are locked and read-only for submitted requests."
+                />
+                <AttachmentList
+                  disabled={true}
+                  files={[
+                    { id: "d1", name: "beneficiary-form.pdf", size: "212 KB", status: "disabled", statusText: "Locked" }
+                  ]}
+                />
               </div>
             </div>
           </Preview>
@@ -194,220 +235,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     <Radio name="radio-disabled" label="Option" value="opt" checked={false} disabled readOnly onChange={() => {}} />
                   </div>
                 </div>
-              </div>
-            </div>
-          </Preview>
-        </div>
-      )
-    },
-    {
-      id: "05",
-      anchorId: "switch",
-      title: "Switch",
-      content: (
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(140px, 1fr))", gap: 32, width: "100%", padding: "16px 8px" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                <StateLabel>DEFAULT</StateLabel>
-                <Switch label="Option" checked={false} onChange={() => { }} />
-              </div>
-              <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                <StateLabel>HOVER</StateLabel>
-                <Switch label="Option" checked={false} onChange={() => { }} />
-              </div>
-              <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                <StateLabel>FOCUS</StateLabel>
-                <Switch label="Option" checked={false} onChange={() => { }} />
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                <StateLabel>ACTIVE (ON)</StateLabel>
-                <Switch label="Option" checked={true} onChange={() => { }} />
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                <StateLabel>DISABLED</StateLabel>
-                <Switch label="Option" disabled checked={false} onChange={() => { }} />
-              </div>
-            </div>
-          </Preview>
-        </div>
-      )
-    },
-    {
-      id: "06",
-      anchorId: "toggle",
-      title: "Toggle",
-      content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <div className="site-panel site-panel--flush site-panel--demo">
-            <Preview showModeToggle>
-              <div style={{ display: "flex", flexDirection: "column", gap: 32, width: "100%" }}>
-                <div>
-                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Single Toggle</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(140px, 1fr))", gap: 32, padding: "8px 0" }}>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <StateLabel>DEFAULT</StateLabel>
-                      <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
-                    </div>
-                    <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <StateLabel>HOVER</StateLabel>
-                      <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
-                    </div>
-                    <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <StateLabel>FOCUS</StateLabel>
-                      <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <StateLabel>PRESSED</StateLabel>
-                      <Toggle pressed={true} onPressedChange={() => { }}>★ Favorite</Toggle>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <StateLabel>DISABLED</StateLabel>
-                      <Toggle disabled pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 24 }}>
-                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Toggle Group</div>
-                  <div className="toggle-group-states">
-                    <div className="toggle-group-state-cell">
-                      <StateLabel>DEFAULT</StateLabel>
-                      <ToggleGroup value={segment} onChange={setSegment} options={toggleGroupOptions} />
-                    </div>
-                    <div className="toggle-group-state-cell toggle-group-state-hover">
-                      <StateLabel>HOVER</StateLabel>
-                      <ToggleGroup value="sources" onChange={() => { }} options={toggleGroupOptions} />
-                    </div>
-                    <div className="toggle-group-state-cell toggle-group-state-focus">
-                      <StateLabel>FOCUS</StateLabel>
-                      <ToggleGroup value="sources" onChange={() => { }} options={toggleGroupOptions} />
-                    </div>
-                    <div className="toggle-group-state-cell">
-                      <StateLabel>SELECTED</StateLabel>
-                      <ToggleGroup value="investments" onChange={() => { }} options={toggleGroupOptions} />
-                    </div>
-                    <div className="toggle-group-state-cell">
-                      <StateLabel>DISABLED</StateLabel>
-                      <ToggleGroup disabled value="investments" onChange={() => { }} options={toggleGroupOptions} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Preview>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: "07",
-      anchorId: "input-group",
-      title: "Input group",
-      content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <div className="site-panel site-panel--flush site-panel--demo">
-            <Preview showModeToggle>
-              <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
-                {/* Prefix variant row */}
-                <div>
-                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Prefix Addon ($)</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
-                    <div className="force-default">
-                      <Field label="Default">
-                        {(p) => <InputGroup prefix="$"><Input {...p} placeholder="0.00" /></InputGroup>}
-                      </Field>
-                    </div>
-                    <div className="force-hover">
-                      <Field label="Hover">
-                        {(p) => <InputGroup prefix="$"><Input {...p} placeholder="0.00" /></InputGroup>}
-                      </Field>
-                    </div>
-                    <div className="force-focus">
-                      <Field label="Focus">
-                        {(p) => <InputGroup prefix="$"><Input {...p} placeholder="0.00" /></InputGroup>}
-                      </Field>
-                    </div>
-                    <div className="force-filled">
-                      <Field label="Filled">
-                        {(p) => <InputGroup prefix="$"><Input {...p} defaultValue="250.00" /></InputGroup>}
-                      </Field>
-                    </div>
-                    <div className="force-disabled">
-                      <Field label="Disabled">
-                        {(p) => <InputGroup prefix="$"><Input {...p} disabled placeholder="0.00" /></InputGroup>}
-                      </Field>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Suffix variant row */}
-                <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 20 }}>
-                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Suffix Addon (%)</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
-                    <div className="force-default">
-                      <Field label="Default">
-                        {(p) => <InputGroup suffix="%"><Input {...p} placeholder="0" /></InputGroup>}
-                      </Field>
-                    </div>
-                    <div className="force-hover">
-                      <Field label="Hover">
-                        {(p) => <InputGroup suffix="%"><Input {...p} placeholder="0" /></InputGroup>}
-                      </Field>
-                    </div>
-                    <div className="force-focus">
-                      <Field label="Focus">
-                        {(p) => <InputGroup suffix="%"><Input {...p} placeholder="0" /></InputGroup>}
-                      </Field>
-                    </div>
-                    <div className="force-filled">
-                      <Field label="Filled">
-                        {(p) => <InputGroup suffix="%"><Input {...p} defaultValue="6" /></InputGroup>}
-                      </Field>
-                    </div>
-                    <div className="force-disabled">
-                      <Field label="Disabled">
-                        {(p) => <InputGroup suffix="%"><Input {...p} disabled placeholder="0" /></InputGroup>}
-                      </Field>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Preview>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: "09",
-      anchorId: "slider",
-      title: "Slider",
-      content: (
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(180px, 1fr))", gap: 24, width: "100%", padding: "8px 0" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
-                <StateLabel>DEFAULT</StateLabel>
-                <Field label="Contribution rate">{() => (
-                  <Slider value={contribPct} min={0} max={25} onChange={setContribPct} formatValue={(v) => `${v}%`} />
-                )}</Field>
-              </div>
-              <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
-                <StateLabel>HOVER</StateLabel>
-                <Field label="Contribution rate">{() => (
-                  <Slider value={12} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
-                )}</Field>
-              </div>
-              <div className="force-active" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
-                <StateLabel>ACTIVE</StateLabel>
-                <Field label="Contribution rate">{() => (
-                  <Slider value={18} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
-                )}</Field>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
-                <StateLabel>DISABLED</StateLabel>
-                <Field label="Contribution rate">{() => (
-                  <Slider disabled value={12} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
-                )}</Field>
               </div>
             </div>
           </Preview>
@@ -513,6 +340,39 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       )
     },
     {
+      id: "01",
+      anchorId: "input",
+      title: "Input",
+      content: (
+        <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 16 }}>
+                <div className="force-default">
+                  <Field label="Default" required>{(p) => <Input {...p} placeholder="Jordan Lee" />}</Field>
+                </div>
+                <div className="force-hover">
+                  <Field label="Hover">{(p) => <Input {...p} placeholder="Jordan Lee" />}</Field>
+                </div>
+                <div className="force-focus">
+                  <Field label="Focus">{(p) => <Input {...p} placeholder="Jordan Lee" />}</Field>
+                </div>
+                <div className="force-filled">
+                  <Field label="Filled">{(p) => <Input {...p} defaultValue="Jordan Lee" />}</Field>
+                </div>
+                <div className="force-error">
+                  <Field label="With error" error="Must be between 1% and 100%">{(p) => <Input {...p} defaultValue="150" />}</Field>
+                </div>
+                <div className="force-disabled">
+                  <Field label="Disabled">{(p) => <Input {...p} disabled placeholder="Locked" />}</Field>
+                </div>
+              </div>
+            </Preview>
+          </div>
+        </div>
+      )
+    },
+    {
       id: "12",
       anchorId: "input-icon",
       title: "Input with icon",
@@ -607,6 +467,84 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
                     <div className="force-disabled">
                       <Field label="Disabled">
                         {() => <IncrementalSelector disabled defaultValue={3} min={0} max={10} aria-label="Allocation percent" />}
+                      </Field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Preview>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: "07",
+      anchorId: "input-group",
+      title: "Input group",
+      content: (
+        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24, width: "100%" }}>
+                {/* Prefix variant row */}
+                <div>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Prefix Addon ($)</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
+                    <div className="force-default">
+                      <Field label="Default">
+                        {(p) => <InputGroup prefix="$"><Input {...p} placeholder="0.00" /></InputGroup>}
+                      </Field>
+                    </div>
+                    <div className="force-hover">
+                      <Field label="Hover">
+                        {(p) => <InputGroup prefix="$"><Input {...p} placeholder="0.00" /></InputGroup>}
+                      </Field>
+                    </div>
+                    <div className="force-focus">
+                      <Field label="Focus">
+                        {(p) => <InputGroup prefix="$"><Input {...p} placeholder="0.00" /></InputGroup>}
+                      </Field>
+                    </div>
+                    <div className="force-filled">
+                      <Field label="Filled">
+                        {(p) => <InputGroup prefix="$"><Input {...p} defaultValue="250.00" /></InputGroup>}
+                      </Field>
+                    </div>
+                    <div className="force-disabled">
+                      <Field label="Disabled">
+                        {(p) => <InputGroup prefix="$"><Input {...p} disabled placeholder="0.00" /></InputGroup>}
+                      </Field>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Suffix variant row */}
+                <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 20 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Suffix Addon (%)</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
+                    <div className="force-default">
+                      <Field label="Default">
+                        {(p) => <InputGroup suffix="%"><Input {...p} placeholder="0" /></InputGroup>}
+                      </Field>
+                    </div>
+                    <div className="force-hover">
+                      <Field label="Hover">
+                        {(p) => <InputGroup suffix="%"><Input {...p} placeholder="0" /></InputGroup>}
+                      </Field>
+                    </div>
+                    <div className="force-focus">
+                      <Field label="Focus">
+                        {(p) => <InputGroup suffix="%"><Input {...p} placeholder="0" /></InputGroup>}
+                      </Field>
+                    </div>
+                    <div className="force-filled">
+                      <Field label="Filled">
+                        {(p) => <InputGroup suffix="%"><Input {...p} defaultValue="6" /></InputGroup>}
+                      </Field>
+                    </div>
+                    <div className="force-disabled">
+                      <Field label="Disabled">
+                        {(p) => <InputGroup suffix="%"><Input {...p} disabled placeholder="0" /></InputGroup>}
                       </Field>
                     </div>
                   </div>
@@ -757,132 +695,194 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       )
     },
     {
-      id: "14",
-      anchorId: "attachment",
-      title: "Attachment",
+      id: "03",
+      anchorId: "select",
+      title: "Select",
       content: (
         <div className="site-panel site-panel--flush site-panel--demo">
           <Preview showModeToggle>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))", gap: 32, width: "100%" }}>
-              {/* Default State */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-secondary)" }}>
-                    Default (Interactive)
-                  </span>
-                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 500, color: "var(--core-color-text-tertiary)" }}>Ready to upload</span>
-                </div>
-                <Dropzone
-                  onFiles={(fl) =>
-                    setFiles((prev) => [
-                      ...prev,
-                      { id: String(Date.now()), name: fl[0].name, size: `${Math.round(fl[0].size / 1024)} KB` }
-                    ])
-                  }
-                />
-                <AttachmentList files={files} onRemove={(id) => setFiles((prev) => prev.filter((f) => f.id !== id))} />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
+              <div className="force-default">
+                <Field label="Default">{(p) => <Select {...p} options={employers} />}</Field>
               </div>
-
-              {/* Success State */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-status-success-text)", display: "flex", alignItems: "center", gap: 6 }}>
-                    <Icon name="fa-solid fa-circle-check" size="sm" /> Success State
-                  </span>
-                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--core-color-status-success-text)", background: "var(--core-color-status-success-bg)", border: "1px solid var(--core-color-status-success-border)", padding: "1px 8px", borderRadius: 999 }}>
-                    Complete
-                  </span>
-                </div>
-                <Dropzone
-                  status="success"
-                  icon={<Icon name="fa-solid fa-circle-check" size="md" color="var(--core-color-status-success-text)" />}
-                  label={<span>File uploaded successfully, or <strong style={{ color: "var(--core-color-status-success-text)" }}>browse more</strong></span>}
-                  hint="All files passed security and format verification."
-                />
-                <AttachmentList
-                  files={[
-                    { id: "s1", name: "beneficiary-form.pdf", size: "212 KB", status: "success", statusText: "Uploaded" },
-                    { id: "s2", name: "voided-check.png", size: "480 KB", status: "success", statusText: "Verified" }
-                  ]}
-                  onRemove={() => {}}
-                />
+              <div className="force-hover">
+                <Field label="Hover">{(p) => <Select {...p} options={employers} />}</Field>
               </div>
-
-              {/* Error State */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-status-danger-text)", display: "flex", alignItems: "center", gap: 6 }}>
-                    <Icon name="fa-solid fa-circle-exclamation" size="sm" /> Error State
-                  </span>
-                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--core-color-status-danger-text)", background: "var(--core-color-status-danger-bg)", border: "1px solid var(--core-color-status-danger-border)", padding: "1px 8px", borderRadius: 999 }}>
-                    Failed
-                  </span>
-                </div>
-                <Dropzone
-                  status="error"
-                  icon={<Icon name="fa-solid fa-circle-exclamation" size="md" color="var(--core-color-status-danger-text)" />}
-                  label={<span>Upload failed, or <strong style={{ color: "var(--core-color-status-danger-text)" }}>choose another file</strong></span>}
-                  hint="File exceeds 10MB limit. Please select a smaller file."
-                />
-                <AttachmentList
-                  files={[
-                    { id: "e1", name: "annual-financial-audit-2024.zip", size: "14.2 MB", status: "error", statusText: "Exceeds 10MB limit" },
-                    { id: "e2", name: "unsupported-installer.pkg", size: "3.5 MB", status: "error", statusText: "Unsupported format" }
-                  ]}
-                  onRemove={() => {}}
-                />
+              <div className="force-focus">
+                <Field label="Focus">{(p) => <Select {...p} options={employers} />}</Field>
               </div>
-
-              {/* Warning State */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-status-warning-text)", display: "flex", alignItems: "center", gap: 6 }}>
-                    <Icon name="fa-solid fa-triangle-exclamation" size="sm" /> Warning State
-                  </span>
-                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--core-color-status-warning-text)", background: "var(--core-color-status-warning-bg)", border: "1px solid var(--core-color-status-warning-border)", padding: "1px 8px", borderRadius: 999 }}>
-                    Warning
-                  </span>
-                </div>
-                <Dropzone
-                  status="warning"
-                  icon={<Icon name="fa-solid fa-triangle-exclamation" size="md" color="var(--core-color-status-warning-text)" />}
-                  label={<span>Storage capacity warning, or <strong style={{ color: "var(--core-color-status-warning-text)" }}>browse</strong></span>}
-                  hint="Only 1 upload remaining before reaching capacity limit (3 files max)."
-                />
-                <AttachmentList
-                  files={[
-                    { id: "w1", name: "macro-enabled-roster.xlsm", size: "4.8 MB", status: "warning", statusText: "Virus scan pending" },
-                    { id: "w2", name: "high-res-contract.tiff", size: "8.9 MB", status: "warning", statusText: "Auto-converted" }
-                  ]}
-                  onRemove={() => {}}
-                />
+              <div className="force-filled">
+                <Field label="Filled">{(p) => <Select {...p} value="acme" options={employers} />}</Field>
               </div>
-
-              {/* Disable State */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "var(--typography-body-md-size)", fontWeight: 600, color: "var(--core-color-text-tertiary)", display: "flex", alignItems: "center", gap: 6 }}>
-                    <Icon name="fa-solid fa-lock" size="sm" /> Disable State
-                  </span>
-                  <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 600, color: "var(--theme-neutral-text-subtleleast)", background: "var(--theme-brand-background-primary-disabled-light)", border: "1px solid var(--theme-brand-border-primary-disabled)", padding: "1px 8px", borderRadius: 999 }}>
-                    Disabled
-                  </span>
-                </div>
-                <Dropzone
-                  disabled={true}
-                  icon={<Icon name="fa-solid fa-lock" size="md" color="var(--theme-neutral-text-subtleleast)" />}
-                  label={<span>File uploads are disabled</span>}
-                  hint="Attachments are locked and read-only for submitted requests."
-                />
-                <AttachmentList
-                  disabled={true}
-                  files={[
-                    { id: "d1", name: "beneficiary-form.pdf", size: "212 KB", status: "disabled", statusText: "Locked" }
-                  ]}
-                />
+              <div className="force-disabled">
+                <Field label="Disabled">{(p) => <Select {...p} disabled options={employers} />}</Field>
               </div>
             </div>
           </Preview>
+        </div>
+      )
+    },
+    {
+      id: "09",
+      anchorId: "slider",
+      title: "Slider",
+      content: (
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(180px, 1fr))", gap: 24, width: "100%", padding: "8px 0" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
+                <StateLabel>DEFAULT</StateLabel>
+                <Field label="Contribution rate">{() => (
+                  <Slider value={contribPct} min={0} max={25} onChange={setContribPct} formatValue={(v) => `${v}%`} />
+                )}</Field>
+              </div>
+              <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
+                <StateLabel>HOVER</StateLabel>
+                <Field label="Contribution rate">{() => (
+                  <Slider value={12} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
+                )}</Field>
+              </div>
+              <div className="force-active" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
+                <StateLabel>ACTIVE</StateLabel>
+                <Field label="Contribution rate">{() => (
+                  <Slider value={18} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
+                )}</Field>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "stretch", padding: "8px 12px" }}>
+                <StateLabel>DISABLED</StateLabel>
+                <Field label="Contribution rate">{() => (
+                  <Slider disabled value={12} min={0} max={25} onChange={() => {}} formatValue={(v) => `${v}%`} />
+                )}</Field>
+              </div>
+            </div>
+          </Preview>
+        </div>
+      )
+    },
+    {
+      id: "05",
+      anchorId: "switch",
+      title: "Switch",
+      content: (
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(140px, 1fr))", gap: 32, width: "100%", padding: "16px 8px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                <StateLabel>DEFAULT</StateLabel>
+                <Switch label="Option" checked={false} onChange={() => { }} />
+              </div>
+              <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                <StateLabel>HOVER</StateLabel>
+                <Switch label="Option" checked={false} onChange={() => { }} />
+              </div>
+              <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                <StateLabel>FOCUS</StateLabel>
+                <Switch label="Option" checked={false} onChange={() => { }} />
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                <StateLabel>ACTIVE (ON)</StateLabel>
+                <Switch label="Option" checked={true} onChange={() => { }} />
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                <StateLabel>DISABLED</StateLabel>
+                <Switch label="Option" disabled checked={false} onChange={() => { }} />
+              </div>
+            </div>
+          </Preview>
+        </div>
+      )
+    },
+    {
+      id: "02",
+      anchorId: "textarea",
+      title: "Textarea",
+      content: (
+        <div className="site-panel site-panel--flush site-panel--demo">
+          <Preview showModeToggle>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
+              <div className="force-default">
+                <Field label="Default">{(p) => <Textarea {...p} rows={2} placeholder="Type here..." />}</Field>
+              </div>
+              <div className="force-hover">
+                <Field label="Hover">{(p) => <Textarea {...p} rows={2} placeholder="Type here..." />}</Field>
+              </div>
+              <div className="force-focus">
+                <Field label="Focus">{(p) => <Textarea {...p} rows={2} placeholder="Type here..." />}</Field>
+              </div>
+              <div className="force-filled">
+                <Field label="Filled">{(p) => <Textarea {...p} rows={2} defaultValue="Entered text" />}</Field>
+              </div>
+              <div className="force-disabled">
+                <Field label="Disabled">{(p) => <Textarea {...p} disabled rows={2} placeholder="Type here..." />}</Field>
+              </div>
+            </div>
+          </Preview>
+        </div>
+      )
+    },
+    {
+      id: "06",
+      anchorId: "toggle",
+      title: "Toggle",
+      content: (
+        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          <div className="site-panel site-panel--flush site-panel--demo">
+            <Preview showModeToggle>
+              <div style={{ display: "flex", flexDirection: "column", gap: 32, width: "100%" }}>
+                <div>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Single Toggle</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(140px, 1fr))", gap: 32, padding: "8px 0" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <StateLabel>DEFAULT</StateLabel>
+                      <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
+                    </div>
+                    <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <StateLabel>HOVER</StateLabel>
+                      <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
+                    </div>
+                    <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <StateLabel>FOCUS</StateLabel>
+                      <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <StateLabel>PRESSED</StateLabel>
+                      <Toggle pressed={true} onPressedChange={() => { }}>★ Favorite</Toggle>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
+                      <StateLabel>DISABLED</StateLabel>
+                      <Toggle disabled pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 24 }}>
+                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Toggle Group</div>
+                  <div className="toggle-group-states">
+                    <div className="toggle-group-state-cell">
+                      <StateLabel>DEFAULT</StateLabel>
+                      <ToggleGroup value={segment} onChange={setSegment} options={toggleGroupOptions} />
+                    </div>
+                    <div className="toggle-group-state-cell toggle-group-state-hover">
+                      <StateLabel>HOVER</StateLabel>
+                      <ToggleGroup value="sources" onChange={() => { }} options={toggleGroupOptions} />
+                    </div>
+                    <div className="toggle-group-state-cell toggle-group-state-focus">
+                      <StateLabel>FOCUS</StateLabel>
+                      <ToggleGroup value="sources" onChange={() => { }} options={toggleGroupOptions} />
+                    </div>
+                    <div className="toggle-group-state-cell">
+                      <StateLabel>SELECTED</StateLabel>
+                      <ToggleGroup value="investments" onChange={() => { }} options={toggleGroupOptions} />
+                    </div>
+                    <div className="toggle-group-state-cell">
+                      <StateLabel>DISABLED</StateLabel>
+                      <ToggleGroup disabled value="investments" onChange={() => { }} options={toggleGroupOptions} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Preview>
+          </div>
         </div>
       )
     },
@@ -950,7 +950,7 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
   ];
 
   const sectionList = (
-    <DocsSectionList>
+    <DocsSectionList flat={embedded}>
       {sections.map((s) => (
         <DocsSection key={s.anchorId} anchorId={s.anchorId} title={s.title}>
           {s.content}
@@ -982,7 +982,7 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-hover .cds-incremental-selector__value {
           background: var(--core-color-surface-default) !important;
         }
-        .force-hover .cds-toggle:not(:disabled):not([aria-pressed="true"]) { 
+        .force-hover .cds-toggle:not(:disabled):not([aria-pressed="true"]) {
           background: var(--brand-background-primary-hover) !important;
           color: var(--theme-primitive-color-primary-100) !important;
           border-color: var(--brand-border-primary-hover) !important;
@@ -1028,16 +1028,16 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
           background: var(--brand-background-primary-hover) !important;
           border-color: var(--brand-background-primary-hover) !important;
         }
-        
+
         .force-focus .cds-input,
-        .force-focus .cds-textarea, 
+        .force-focus .cds-textarea,
         .force-focus .cds-select,
         .force-focus .cds-combobox .cds-input,
         .force-focus .cds-date-picker .cds-input,
         .force-focus .cds-date-picker .cds-input-affix-wrap .cds-input,
-        .force-focus .cds-input-affix-wrap .cds-input { 
-          border-color: var(--theme-primitive-color-primary-400) !important; 
-          box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important; 
+        .force-focus .cds-input-affix-wrap .cds-input {
+          border-color: var(--theme-primitive-color-primary-400) !important;
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important;
         }
         .force-focus .cds-input-affix-wrap .cds-input-icon {
           color: var(--theme-neutral-text-subtle) !important;
@@ -1073,11 +1073,11 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-focus .cds-checkbox input:not(:checked):not(:disabled) + .cds-checkbox-box,
         .force-focus .cds-radio input:not(:checked):not(:disabled) + .cds-radio-box {
           border-color: var(--theme-primitive-color-primary-400) !important;
-          background: var(--theme-colors-neutral-0) !important;
+          background: var(--core-color-surface-default) !important;
           outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400) !important;
           outline-offset: 2px !important;
         }
-        .force-focus .cds-switch-track { 
+        .force-focus .cds-switch-track {
           outline: none !important;
           box-shadow:
             0 0 0 2px var(--theme-colors-neutral-0),
@@ -1087,15 +1087,15 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
           outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400) !important;
           outline-offset: var(--core-focusRing-offset) !important;
         }
-        .force-active .cds-textarea, .force-active .cds-select { 
-          border-color: var(--theme-primitive-color-primary-400) !important; 
-          box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important; 
+        .force-active .cds-textarea, .force-active .cds-select {
+          border-color: var(--theme-primitive-color-primary-400) !important;
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important;
           background: var(--theme-brand-background-primary-subtle) !important;
         }
         .force-active .cds-checkbox input:checked:not(:disabled) + .cds-checkbox-box,
         .force-active .cds-radio input:checked:not(:disabled) + .cds-radio-box {
-          background: var(--brand-background-primary-active) !important;
-          border-color: var(--brand-border-primary-default) !important;
+          background: var(--brand-background-primary-strong) !important;
+          border-color: var(--brand-background-primary-strong) !important;
         }
         .force-error .cds-input[aria-invalid="true"] {
           border-color: var(--theme-semantics-critical-border) !important;
@@ -1119,10 +1119,10 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
           cursor: not-allowed !important;
         }
         .force-disabled .cds-toggle, .cds-toggle:disabled {
-          background: var(--theme-brand-background-primary-disabled-light) !important; 
-          color: var(--theme-neutral-text-subtleleast) !important; 
-          border-color: var(--theme-neutral-border-primary-default) !important; 
-          opacity: 1 !important; 
+          background: var(--theme-brand-background-primary-disabled-light) !important;
+          color: var(--theme-neutral-text-subtleleast) !important;
+          border-color: var(--theme-neutral-border-primary-default) !important;
+          opacity: 1 !important;
           cursor: not-allowed !important;
         }
         .force-disabled .cds-toggle[aria-pressed="true"], .cds-toggle:disabled[aria-pressed="true"] {

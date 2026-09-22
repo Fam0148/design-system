@@ -145,6 +145,7 @@ html[data-site-mode=light],
   --brand-text-primary-active: var(--theme-primitive-color-primary-900);
   --brand-text-primary-disabled: var(--theme-primitive-color-primary-600);
   --brand-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --brand-text-primary-on-surface: var(--theme-primitive-color-primary-500);
   /* brand-background-primary */
   --brand-background-primary-strong: var(--theme-primitive-color-primary-500);
   --brand-background-primary-hover: var(--theme-primitive-color-primary-600);
@@ -163,6 +164,7 @@ html[data-site-mode=light],
   --secondary-text-primary-active: var(--theme-primitive-color-secondary-900);
   --secondary-text-primary-disabled: var(--theme-primitive-color-secondary-600);
   --secondary-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --secondary-text-primary-on-surface: var(--theme-primitive-color-secondary-500);
   /* secondary-background-primary */
   --secondary-background-primary-strong: var(--theme-primitive-color-secondary-500);
   --secondary-background-primary-hover: var(--theme-primitive-color-secondary-600);
@@ -181,6 +183,7 @@ html[data-site-mode=light],
   --tertiary-text-primary-active: var(--theme-primitive-color-tertiary-900);
   --tertiary-text-primary-disabled: var(--theme-primitive-color-tertiary-600);
   --tertiary-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --tertiary-text-primary-on-surface: var(--theme-primitive-color-tertiary-500);
   /* tertiary-background-primary */
   --tertiary-background-primary-strong: var(--theme-primitive-color-tertiary-500);
   --tertiary-background-primary-hover: var(--theme-primitive-color-tertiary-600);
@@ -261,6 +264,7 @@ html[data-site-mode=dark],
   --brand-text-primary-active: var(--theme-primitive-color-primary-100);
   --brand-text-primary-disabled: var(--theme-primitive-color-primary-300);
   --brand-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --brand-text-primary-on-surface: var(--theme-colors-neutral-white);
   /* brand-background-primary */
   --brand-background-primary-strong: var(--theme-primitive-color-primary-400);
   --brand-background-primary-hover: var(--theme-primitive-color-primary-500);
@@ -279,6 +283,7 @@ html[data-site-mode=dark],
   --secondary-text-primary-active: var(--theme-primitive-color-secondary-100);
   --secondary-text-primary-disabled: var(--theme-primitive-color-secondary-300);
   --secondary-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --secondary-text-primary-on-surface: var(--theme-colors-neutral-white);
   /* secondary-background-primary */
   --secondary-background-primary-strong: var(--theme-primitive-color-secondary-400);
   --secondary-background-primary-hover: var(--theme-primitive-color-secondary-500);
@@ -297,6 +302,7 @@ html[data-site-mode=dark],
   --tertiary-text-primary-active: var(--theme-primitive-color-tertiary-100);
   --tertiary-text-primary-disabled: var(--theme-primitive-color-tertiary-300);
   --tertiary-text-primary-oncolor: var(--theme-colors-neutral-white);
+  --tertiary-text-primary-on-surface: var(--theme-colors-neutral-white);
   /* tertiary-background-primary */
   --tertiary-background-primary-strong: var(--theme-primitive-color-tertiary-400);
   --tertiary-background-primary-hover: var(--theme-primitive-color-tertiary-500);
@@ -387,6 +393,7 @@ html[data-site-mode="light"],
   --theme-brand-text-primary-default: var(--brand-text-primary-default);
   --theme-brand-text-primary-disabled: var(--brand-text-primary-disabled);
   --theme-brand-text-primary-hover: var(--brand-text-primary-hover);
+  --theme-brand-text-primary-on-surface: var(--brand-text-primary-on-surface);
   --theme-brand-text-primary-oncolor: var(--brand-text-primary-oncolor);
   --theme-neutral-border-inverse: var(--neutral-border-inverse);
   --theme-neutral-border-light: var(--neutral-border-light);
@@ -413,6 +420,7 @@ html[data-site-mode="light"],
   --theme-secondary-text-primary-default: var(--secondary-text-primary-default);
   --theme-secondary-text-primary-disabled: var(--secondary-text-primary-disabled);
   --theme-secondary-text-primary-hover: var(--secondary-text-primary-hover);
+  --theme-secondary-text-primary-on-surface: var(--secondary-text-primary-on-surface);
   --theme-secondary-text-primary-oncolor: var(--secondary-text-primary-oncolor);
   --theme-semantics-critical-background-light: var(--semantics-critical-background-light);
   --theme-semantics-critical-background-strong: var(--semantics-critical-background-strong);
@@ -475,6 +483,7 @@ html[data-site-mode="light"],
   --theme-tertiary-text-primary-default: var(--tertiary-text-primary-default);
   --theme-tertiary-text-primary-disabled: var(--tertiary-text-primary-disabled);
   --theme-tertiary-text-primary-hover: var(--tertiary-text-primary-hover);
+  --theme-tertiary-text-primary-on-surface: var(--tertiary-text-primary-on-surface);
   --theme-tertiary-text-primary-oncolor: var(--tertiary-text-primary-oncolor);
   --brand-text-primaryhover: var(--brand-text-primary-hover);
 }
@@ -496,6 +505,7 @@ html[data-site-mode="dark"],
   --theme-brand-text-primary-default: var(--brand-text-primary-default);
   --theme-brand-text-primary-disabled: var(--brand-text-primary-disabled);
   --theme-brand-text-primary-hover: var(--brand-text-primary-hover);
+  --theme-brand-text-primary-on-surface: var(--brand-text-primary-on-surface);
   --theme-brand-text-primary-oncolor: var(--brand-text-primary-oncolor);
   --theme-neutral-border-inverse: var(--neutral-border-inverse);
   --theme-neutral-border-light: var(--neutral-border-light);
@@ -522,6 +532,7 @@ html[data-site-mode="dark"],
   --theme-secondary-text-primary-default: var(--secondary-text-primary-default);
   --theme-secondary-text-primary-disabled: var(--secondary-text-primary-disabled);
   --theme-secondary-text-primary-hover: var(--secondary-text-primary-hover);
+  --theme-secondary-text-primary-on-surface: var(--secondary-text-primary-on-surface);
   --theme-secondary-text-primary-oncolor: var(--secondary-text-primary-oncolor);
   --theme-semantics-critical-background-light: var(--semantics-critical-background-light);
   --theme-semantics-critical-background-strong: var(--semantics-critical-background-strong);
@@ -584,6 +595,7 @@ html[data-site-mode="dark"],
   --theme-tertiary-text-primary-default: var(--tertiary-text-primary-default);
   --theme-tertiary-text-primary-disabled: var(--tertiary-text-primary-disabled);
   --theme-tertiary-text-primary-hover: var(--tertiary-text-primary-hover);
+  --theme-tertiary-text-primary-on-surface: var(--tertiary-text-primary-on-surface);
   --theme-tertiary-text-primary-oncolor: var(--tertiary-text-primary-oncolor);
   --brand-text-primaryhover: var(--brand-text-primary-hover);
 }

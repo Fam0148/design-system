@@ -159,20 +159,34 @@
 
 .cds-btn--secondary {
   background: transparent;
-  color: var(--brand-text-primary-default);
+  /* Brand-colored in light, white in dark — a brand hue at any step falls
+     short of 4.5:1 (WCAG 1.4.3) against the near-black dark canvas since
+     there's no fill behind this outline button to boost contrast against. */
+  color: var(--brand-text-primary-on-surface);
   border-color: var(--brand-border-primary-default);
 }
 
+/* Outline convention (shadcn `outline` / Chakra `outline`): hover/active
+   stay a translucent wash of the brand color, never Primary's opaque
+   fill — color-mix against `transparent` composites over the canvas
+   directly, so the same two percentages read correctly in both light and
+   dark without a separate discrete token per mode. Active is a deeper wash
+   than hover so the two states are never visually equal. */
 .cds-btn--secondary:hover:not(:disabled) {
-  background: var(--brand-background-primary-hover);
-  color: var(--theme-primitive-color-primary-100);
+  background: color-mix(in srgb, var(--brand-background-primary-strong) 12%, transparent);
+  color: var(--brand-text-primary-hover);
   border-color: var(--brand-border-primary-hover);
 }
 
 .cds-btn--secondary:active:not(:disabled) {
-  background: var(--brand-background-primary-active);
-  color: var(--theme-primitive-color-primary-100);
-  border-color: var(--brand-background-primary-active);
+  background: color-mix(in srgb, var(--brand-background-primary-strong) 24%, transparent);
+  color: var(--brand-text-primary-active);
+  /* Not background-primary-active — that step is tuned to contrast against
+     an opaque canvas, but this border now sits against the translucent
+     active wash instead. In dark mode the two converge toward the same
+     hue (1.48:1, failing WCAG 1.4.11's 3:1 non-text minimum). -hover is a
+     lighter step chosen to clear 3:1 against the wash in both modes. */
+  border-color: var(--brand-border-primary-hover);
 }
 
 .cds-btn--secondary:disabled,
@@ -183,29 +197,14 @@
   opacity: 1;
 }
 
-[data-mode="dark"] .cds-btn--secondary:not(:hover):not(:active):not(:disabled):not([aria-disabled="true"]),
-[data-mode="dark"] .cds-btn--secondary:focus-visible:not(:disabled):not([aria-disabled="true"]) {
-  color: var(--brand-text-primary-oncolor);
-}
-
 [data-mode="dark"] .cds-btn--primary:not(:disabled):not([aria-disabled="true"]),
 [data-mode="dark"] .cds-btn--outline-primary:active:not(:disabled) {
   color: var(--brand-text-primary-oncolor);
 }
 
-[data-mode="dark"] .cds-btn--tertiary:not(:disabled):not([aria-disabled="true"]) {
-  color: var(--brand-text-primary-oncolor);
-}
-
-[data-mode="dark"] .cds-btn--tertiary:hover:not(:disabled):not([aria-disabled="true"]),
-[data-mode="dark"] .cds-btn--tertiary:active:not(:disabled):not([aria-disabled="true"]) {
-  background: transparent;
-  border-color: transparent;
-}
-
 .cds-btn--tertiary {
   background: transparent;
-  color: var(--brand-text-primary-default);
+  color: var(--brand-text-primary-on-surface);
   border-color: transparent;
   text-decoration: none;
 }
@@ -222,15 +221,20 @@
   text-decoration-color: currentColor;
 }
 
+/* Ghost/text convention (shadcn `ghost`+`link` / Chakra `ghost` / MUI
+   `text`): never a border, never an opaque fill — only a faint wash that
+   deepens on press, plus the underline that marks this as a "text" action
+   rather than a boxed one. Lighter wash percentages than Secondary's
+   outline keeps the two variants visually distinct at every state. */
 .cds-btn--tertiary:hover:not(:disabled) {
-  background: var(--brand-background-primary-disabled-light);
+  background: color-mix(in srgb, var(--brand-background-primary-strong) 8%, transparent);
   color: var(--brand-text-primary-hover);
   border-color: transparent;
 }
 
 .cds-btn--tertiary:active:not(:disabled) {
-  background: var(--brand-background-primary-active);
-  color: var(--brand-text-primary-oncolor);
+  background: color-mix(in srgb, var(--brand-background-primary-strong) 16%, transparent);
+  color: var(--brand-text-primary-active);
   border-color: transparent;
 }
 
@@ -238,7 +242,7 @@
   outline: none;
   border-color: var(--brand-border-primary-default);
   background: transparent;
-  color: var(--brand-text-primary-default);
+  color: var(--brand-text-primary-on-surface);
 }
 
 .cds-btn--tertiary:disabled,
@@ -461,20 +465,30 @@
 
 .cds-icon-btn--secondary {
   background: transparent;
-  color: var(--brand-text-primary-default);
+  /* Brand-colored in light, white in dark — a brand hue at any step falls
+     short of 4.5:1 (WCAG 1.4.3) against the near-black dark canvas since
+     there's no fill behind this outline button to boost contrast against. */
+  color: var(--brand-text-primary-on-surface);
   border-color: var(--brand-border-primary-default);
 }
 
+/* Outline convention (shadcn `outline` / Chakra `outline`) — matches
+   Button's Secondary: hover/active are a translucent wash of the brand
+   color, never an opaque fill, so this never reads as a Primary button.
+   Active is a deeper wash than hover so the two states stay distinct. */
 .cds-icon-btn--secondary:hover:not(:disabled) {
-  background: var(--brand-background-primary-hover);
-  color: var(--theme-primitive-color-primary-100);
+  background: color-mix(in srgb, var(--brand-background-primary-strong) 12%, transparent);
+  color: var(--brand-text-primary-hover);
   border-color: var(--brand-border-primary-hover);
 }
 
 .cds-icon-btn--secondary:active:not(:disabled) {
-  background: var(--brand-background-primary-active);
-  color: var(--brand-text-primary-oncolor);
-  border-color: var(--brand-background-primary-active);
+  background: color-mix(in srgb, var(--brand-background-primary-strong) 24%, transparent);
+  color: var(--brand-text-primary-active);
+  /* See Button's Secondary :active — -active's border step is tuned for an
+     opaque canvas, not this translucent wash; in dark mode the two converge
+     (1.48:1, failing 1.4.11's 3:1). -hover clears 3:1 against the wash. */
+  border-color: var(--brand-border-primary-hover);
 }
 
 .cds-icon-btn--secondary:disabled,
@@ -487,27 +501,28 @@
   border-color: var(--theme-semantics-disabled-border);
 }
 
-[data-mode="dark"] .cds-icon-btn--secondary:not(:hover):not(:active):not(:disabled):not([aria-disabled="true"]),
-[data-mode="dark"] .cds-icon-btn--secondary:focus-visible:not(:disabled):not([aria-disabled="true"]) {
-  color: var(--brand-text-primary-oncolor);
-}
-
 [data-mode="dark"] .cds-icon-btn--primary:not(:disabled):not([aria-disabled="true"]) {
   color: var(--brand-text-primary-oncolor);
 }
 
 .cds-icon-btn--tertiary {
   background: transparent;
-  color: var(--theme-primitive-color-primary-300);
+  /* Was a hardcoded primitive (--theme-primitive-color-primary-300) — wrong
+     in light mode (a dark-mode-tuned step, too pale against a light canvas)
+     and not mode-aware at all. on-surface matches Button's Tertiary. */
+  color: var(--brand-text-primary-on-surface);
 }
 
+/* Ghost/text convention (shadcn `ghost`+`link` / Chakra `ghost` / MUI
+   `text`) — matches Button's Tertiary: a faint wash, lighter than
+   Secondary's, that deepens on press. */
 .cds-icon-btn--tertiary:hover:not(:disabled) {
-  background: var(--brand-background-primary-disabled-light);
-  color: var(--brand-text-primary-default);
+  background: color-mix(in srgb, var(--brand-background-primary-strong) 8%, transparent);
+  color: var(--brand-text-primary-hover);
 }
 
 .cds-icon-btn--tertiary:active:not(:disabled) {
-  background: var(--brand-background-primary-subtle);
+  background: color-mix(in srgb, var(--brand-background-primary-strong) 16%, transparent);
   color: var(--brand-text-primary-active);
 }
 
@@ -1034,10 +1049,18 @@
   letter-spacing: var(--typography-body-xs-letter-spacing);
 }
 
+/* Soft variant borders reuse each tone's *-text token, not *-border — the
+   dedicated border step is tuned for controls sitting on the plain page
+   canvas, but a soft badge's border sits against its own light tinted fill
+   instead, where it fell short of 3:1 (WCAG 1.4.11): danger 2.89:1 (fail),
+   success 3.00:1 (razor's edge). The text token is already proven >=4.5:1
+   against this same fill, so reusing it guarantees the border reads at
+   least as well. Outline/solid variants are unaffected — their border sits
+   against the plain page canvas (outline) or is transparent (solid). */
 .cds-badge-style--soft.cds-badge--primary {
   background: var(--brand-background-primary-light);
   color: var(--brand-text-primary-default);
-  border-color: var(--brand-border-primary-default);
+  border-color: var(--brand-text-primary-default);
 }
 
 .cds-badge-style--outline.cds-badge--primary {
@@ -1056,7 +1079,7 @@
 .cds-badge-style--soft.cds-badge--success {
   background: var(--theme-semantics-success-light-background);
   color: var(--theme-semantics-success-text);
-  border-color: var(--theme-semantics-success-border);
+  border-color: var(--theme-semantics-success-text);
 }
 
 .cds-badge-style--outline.cds-badge--success {
@@ -1074,7 +1097,7 @@
 .cds-badge-style--soft.cds-badge--warning {
   background: var(--theme-semantics-warning-light-background);
   color: var(--theme-semantics-warning-text);
-  border-color: var(--theme-semantics-warning-border);
+  border-color: var(--theme-semantics-warning-text);
 }
 
 .cds-badge-style--outline.cds-badge--warning {
@@ -1092,7 +1115,7 @@
 .cds-badge-style--soft.cds-badge--danger {
   background: var(--theme-semantics-critical-light-background);
   color: var(--theme-semantics-critical-text);
-  border-color: var(--theme-semantics-critical-border);
+  border-color: var(--theme-semantics-critical-text);
 }
 
 .cds-badge-style--outline.cds-badge--danger {
@@ -1110,7 +1133,7 @@
 .cds-badge-style--soft.cds-badge--info {
   background: var(--theme-semantics-highlight-light-background);
   color: var(--theme-semantics-highlight-text);
-  border-color: var(--theme-semantics-highlight-border);
+  border-color: var(--theme-semantics-highlight-text);
 }
 
 .cds-badge-style--outline.cds-badge--info {
@@ -1159,10 +1182,15 @@
   border-color: var(--brand-border-primary-hover) !important;
 }
 
+/* Not surface-raised — in light mode that token is #FFFFFF, identical to
+   the page background, so hover looked like the badge vanishing instead of
+   a hover state. color-mix darkens the badge's own default fill (sunken)
+   by blending in some of the border gray, giving a visible, genuinely
+   darker shade of the default in both modes without a separate token. */
 .cds-badge--interactive:hover:not(.cds-badge--disabled).cds-badge--neutral,
 .cds-badge-state--hover.cds-badge--neutral,
 .force-hover .cds-badge--neutral {
-  background: var(--core-color-surface-raised) !important;
+  background: color-mix(in srgb, var(--theme-neutral-border-primary-default) 22%, var(--core-color-surface-sunken)) !important;
   color: var(--theme-neutral-text-primary-default) !important;
   border-color: var(--theme-neutral-border-strong) !important;
 }
@@ -1263,52 +1291,21 @@
   user-select: none !important;
 }
 
-/* Tone-specific disabled — faded mix of each tone's default soft colors */
-.cds-badge-style--soft.cds-badge--disabled.cds-badge--primary,
-.force-disabled .cds-badge-style--soft.cds-badge--primary {
-  background: var(--brand-background-primary-light) !important;
-  color: var(--brand-text-primary-disabled) !important;
-  border-color: var(--brand-border-primary-disabled) !important;
-  opacity: 1 !important;
-}
-
-.cds-badge-style--soft.cds-badge--disabled.cds-badge--neutral,
-.force-disabled .cds-badge-style--soft.cds-badge--neutral {
+/* Disabled — one neutral gray treatment for every tone, not a per-tone
+   "-disabled" step of that tone's own hue. The per-tone disabled tokens
+   this replaced resolved to the *same* background and near-identical text
+   color as the tone's own default/enabled state in dark mode (e.g. primary
+   disabled and primary default were pixel-identical: bg rgb(16,33,55),
+   text rgb(134,173,223) — only the border differed), so "disabled" was
+   indistinguishable from enabled. A same-hue disabled step reads as
+   identical to default whenever it's still close in lightness to that
+   hue's own default — neutral gray is the only reliably distinguishable
+   signal, matching Button/Icon Button's disabled convention. */
+.cds-badge-style--soft.cds-badge--disabled,
+.force-disabled .cds-badge-style--soft {
   background: var(--theme-semantics-disabled-background) !important;
   color: var(--theme-semantics-disabled-text) !important;
   border-color: var(--theme-semantics-disabled-border) !important;
-  opacity: 1 !important;
-}
-
-.cds-badge-style--soft.cds-badge--disabled.cds-badge--success,
-.force-disabled .cds-badge-style--soft.cds-badge--success {
-  background: var(--theme-semantics-success-disabled-background) !important;
-  color: var(--theme-semantics-success-disabled-text) !important;
-  border-color: var(--theme-semantics-success-disabled-border) !important;
-  opacity: 1 !important;
-}
-
-.cds-badge-style--soft.cds-badge--disabled.cds-badge--warning,
-.force-disabled .cds-badge-style--soft.cds-badge--warning {
-  background: var(--theme-semantics-warning-disabled-background) !important;
-  color: var(--theme-semantics-warning-disabled-text) !important;
-  border-color: var(--theme-semantics-warning-disabled-border) !important;
-  opacity: 1 !important;
-}
-
-.cds-badge-style--soft.cds-badge--disabled.cds-badge--danger,
-.force-disabled .cds-badge-style--soft.cds-badge--danger {
-  background: var(--theme-semantics-critical-disabled-background) !important;
-  color: var(--theme-semantics-critical-disabled-text) !important;
-  border-color: var(--theme-semantics-critical-disabled-border) !important;
-  opacity: 1 !important;
-}
-
-.cds-badge-style--soft.cds-badge--disabled.cds-badge--info,
-.force-disabled .cds-badge-style--soft.cds-badge--info {
-  background: var(--theme-semantics-highlight-disabled-background) !important;
-  color: var(--theme-semantics-highlight-disabled-text) !important;
-  border-color: var(--theme-semantics-highlight-disabled-border) !important;
   opacity: 1 !important;
 }
 
@@ -1321,23 +1318,34 @@
 }
 
 .cds-badge-remove {
+  /* 24x24 CSS-pixel minimum target (WCAG 2.5.8) — was font-size + 0/2px
+     padding alone, well under the minimum. Full-opacity icon by default —
+     the 0.65 opacity this replaced dropped contrast noticeably (same
+     pattern already fixed on Alert's and Attachment's dismiss buttons);
+     hover/focus use a background wash instead of an opacity change. */
+  width: 24px;
+  height: 24px;
   background: none;
   border: none;
   color: inherit;
   cursor: pointer;
-  padding: 0 2px;
-  margin-left: 4px;
+  margin-left: 2px;
   font-size: var(--typography-font-size-xs);
   line-height: 1;
-  opacity: 0.65;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   border-radius: 50%;
   transition: opacity 0.15s ease, background-color 0.15s ease;
 }
 
 .cds-badge-remove:hover {
-  opacity: 1;
+  background: color-mix(in srgb, currentColor 18%, transparent);
+}
+
+.cds-badge-remove:focus-visible {
+  outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400);
+  outline-offset: 1px;
 }
 
 .cds-alert {
@@ -1349,28 +1357,70 @@
   font-size: var(--typography-body-md-size);
 }
 
+.cds-alert__icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Border uses each tone's *-text token, not *-border — the dedicated
+   border step is tuned for controls sitting on the page canvas, but here it
+   sits against the alert's own light tinted fill and fell short of 3:1
+   (WCAG 1.4.11) for danger in light mode (2.89:1). The text token is
+   already proven >=4.5:1 against this same fill, so reusing it guarantees
+   the border reads at least as strongly. */
 .cds-alert--success {
   background: var(--theme-semantics-success-light-background);
   color: var(--theme-semantics-success-text);
-  border-color: var(--theme-semantics-success-border);
+  border-color: var(--theme-semantics-success-text);
 }
 
 .cds-alert--warning {
   background: var(--theme-semantics-warning-light-background);
   color: var(--theme-semantics-warning-text);
-  border-color: var(--theme-semantics-warning-border);
+  border-color: var(--theme-semantics-warning-text);
 }
 
 .cds-alert--danger {
   background: var(--theme-semantics-critical-light-background);
   color: var(--theme-semantics-critical-text);
-  border-color: var(--theme-semantics-critical-border);
+  border-color: var(--theme-semantics-critical-text);
 }
 
 .cds-alert--info {
   background: var(--theme-semantics-highlight-light-background);
   color: var(--theme-semantics-highlight-text);
-  border-color: var(--theme-semantics-highlight-border);
+  border-color: var(--theme-semantics-highlight-text);
+}
+
+/* Dismiss button — full-opacity icon by default (the 0.6 opacity fade this
+   replaced dropped as low as 2.50:1 in light mode, failing WCAG 1.4.11's
+   3:1 for a UI control); hover/focus get a background wash instead of an
+   opacity change, matching the wash convention used elsewhere (Button,
+   Icon Button). Sized to the 24x24 CSS-pixel minimum target (WCAG 2.5.8). */
+.cds-alert__dismiss {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  border-radius: var(--core-radius-sm);
+  cursor: pointer;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 120ms ease;
+}
+
+.cds-alert__dismiss:hover {
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.cds-alert__dismiss:focus-visible {
+  outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400);
+  outline-offset: 1px;
 }
 
 .cds-switch {
@@ -1654,7 +1704,10 @@
 }
 
 .cds-checkbox-box {
-  border-radius: var(--core-radius-sm);
+  /* -sm (8px) on an 18px box reads as nearly circular, indistinguishable
+     from Radio at a glance. -xs (4px) keeps visibly square corners so the
+     two controls stay distinct. */
+  border-radius: var(--core-radius-xs);
 }
 
 .cds-radio-box {
@@ -1679,10 +1732,18 @@
   background: var(--brand-background-primary-subtle);
 }
 
+/* Uses -strong (the same fill as the plain checked state), not -active —
+   -active is a deeper press-down step whose own boundary against the dark
+   canvas measured only 1.94:1 (checked with -hover fares no better, 2.31:1;
+   only -strong, at 4.11:1, actually clears WCAG 1.4.11's 3:1 for a filled
+   control's edge against the page). A checked box staying visually
+   unchanged through a brief press is preferable to a state that goes out
+   of compliance in dark mode. Border matches the fill, same convention
+   Primary Button already uses for its own solid states. */
 .cds-checkbox:active input:not(:disabled):checked + .cds-checkbox-box,
 .cds-radio:active input:not(:disabled):checked + .cds-radio-box {
-  background: var(--brand-background-primary-active);
-  border-color: var(--brand-border-primary-default);
+  background: var(--brand-background-primary-strong);
+  border-color: var(--brand-background-primary-strong);
 }
 
 .cds-checkbox input:checked + .cds-checkbox-box,
@@ -4016,9 +4077,31 @@
   transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
-.cds-dropzone strong {
+.cds-dropzone-trigger {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-weight: 700;
   color: var(--brand-text-primary-default);
   cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  border-radius: var(--core-radius-xs);
+}
+
+.cds-dropzone-trigger:hover:not(:disabled) {
+  color: var(--brand-text-primary-hover);
+}
+
+.cds-dropzone-trigger:focus-visible {
+  outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400);
+  outline-offset: 2px;
+}
+
+.cds-dropzone-trigger:disabled {
+  cursor: not-allowed;
 }
 
 .cds-dropzone-icon {
@@ -4028,41 +4111,43 @@
   justify-content: center;
 }
 
-/* Dropzone States */
+/* Dropzone States. Border reuses each tone's *-text token, not *-border —
+   the dedicated border step is tuned for controls on the page canvas, but
+   here it sits against the dropzone's own light tinted fill and fell short
+   of 3:1 (WCAG 1.4.11) for error in light mode (2.89:1), with success right
+   at the 3.00:1 edge. The text token is already proven >=4.5:1 against this
+   same fill, so reusing it guarantees the border reads at least as well. */
 .cds-dropzone--success {
-  border-color: var(--theme-semantics-success-border) !important;
+  border-color: var(--theme-semantics-success-text) !important;
   background: var(--theme-semantics-success-light-background) !important;
   color: var(--theme-semantics-success-text) !important;
 }
-.cds-dropzone--success strong {
+.cds-dropzone--success .cds-dropzone-trigger {
   color: var(--theme-semantics-success-text) !important;
-  text-decoration: underline;
 }
 .cds-dropzone--success .cds-dropzone-hint {
   color: var(--theme-semantics-success-text) !important;
 }
 
 .cds-dropzone--error {
-  border-color: var(--theme-semantics-critical-border) !important;
+  border-color: var(--theme-semantics-critical-text) !important;
   background: var(--theme-semantics-critical-light-background) !important;
   color: var(--theme-semantics-critical-text) !important;
 }
-.cds-dropzone--error strong {
+.cds-dropzone--error .cds-dropzone-trigger {
   color: var(--theme-semantics-critical-text) !important;
-  text-decoration: underline;
 }
 .cds-dropzone--error .cds-dropzone-hint {
   color: var(--theme-semantics-critical-text) !important;
 }
 
 .cds-dropzone--warning {
-  border-color: var(--theme-semantics-warning-border) !important;
+  border-color: var(--theme-semantics-warning-text) !important;
   background: var(--theme-semantics-warning-light-background) !important;
   color: var(--theme-semantics-warning-text) !important;
 }
-.cds-dropzone--warning strong {
+.cds-dropzone--warning .cds-dropzone-trigger {
   color: var(--theme-semantics-warning-text) !important;
-  text-decoration: underline;
 }
 .cds-dropzone--warning .cds-dropzone-hint {
   color: var(--theme-semantics-warning-text) !important;
@@ -4075,7 +4160,7 @@
   cursor: not-allowed !important;
   opacity: 1 !important;
 }
-.cds-dropzone--disabled strong {
+.cds-dropzone--disabled .cds-dropzone-trigger {
   color: var(--theme-semantics-disabled-text) !important;
   cursor: not-allowed !important;
   pointer-events: none;
@@ -4140,20 +4225,33 @@
 }
 
 .cds-attachment-remove {
+  flex-shrink: 0;
   margin-left: auto;
+  /* 24x24 CSS-pixel minimum target (WCAG 2.5.8) — was ~17x20 from font-size
+     + tight padding alone, under the minimum. */
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   color: var(--theme-neutral-text-subtleleast);
   cursor: pointer;
   font-size: var(--typography-body-lg-size);
   line-height: 1;
-  padding: 2px 4px;
+  padding: 0;
   border-radius: var(--core-radius-sm);
 }
 
 .cds-attachment-remove:hover {
   color: var(--theme-semantics-critical-strong-background);
   background: var(--core-color-surface-raised);
+}
+
+.cds-attachment-remove:focus-visible {
+  outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400);
+  outline-offset: 1px;
 }
 
 /* Attachment Item States */

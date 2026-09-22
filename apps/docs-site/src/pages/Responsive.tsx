@@ -14,7 +14,6 @@ const GROUPS: Group[] = [
     rows: [
       { name: "Button", status: "done", note: "Inline-flex, no fixed width — fluid by construction." },
       { name: "Icon Button", status: "done", note: "Fixed square, sized off control tokens — never overflows." },
-      { name: "Link", status: "done", note: "Inline text, wraps naturally." },
       { name: "Button Group", status: "done", note: "Row of Buttons, wraps or scrolls with its container." },
     ],
   },
@@ -53,7 +52,6 @@ const GROUPS: Group[] = [
       { name: "Navigation Menu", status: "review", note: "A long horizontal item row has no overflow handling yet — needs the same scroll treatment Stepper got this pass." },
       { name: "App Sidebar", status: "done", note: "Shell variant collapses to icon-only below md (fixed this pass); rail/panel variants were already compact." },
       { name: "Tabs", status: "review", note: "Horizontal tab strip doesn't scroll or condense with many/long labels — same gap as Navigation Menu." },
-      { name: "Breadcrumb", status: "done", note: "Wraps; low risk since crumb counts are typically small." },
       { name: "Stepper", status: "done", note: "Horizontal variant scrolls below sm instead of squeezing labels (fixed this pass)." },
       { name: "Pagination", status: "review", note: "No ellipsis/truncation for a large page count — fine for the typical case, not yet handled for very many pages." },
     ],

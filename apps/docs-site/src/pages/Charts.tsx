@@ -14,7 +14,7 @@ const contributionGrowth = [
 
 export default function Charts({ embedded = false }: { embedded?: boolean }) {
   const sections = (
-    <DocsSectionList>
+    <DocsSectionList flat={embedded}>
       <DocsSection anchorId="line-chart" title="Line chart">
         <div className="site-panel site-panel--flush site-panel--demo">
           <Preview showModeToggle>
