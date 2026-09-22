@@ -12,12 +12,14 @@ function sameDay(a: Date, b: Date) { return a.toDateString() === b.toDateString(
 export interface CalendarProps {
   selected?: Date;
   onSelect: (d: Date) => void;
+  /** Shows a "Clear" footer action that resets the selection — omit to hide it. */
+  onClear?: () => void;
   minDate?: Date;
   maxDate?: Date;
   disabled?: boolean;
 }
 
-export function Calendar({ selected, onSelect, minDate, maxDate, disabled }: CalendarProps) {
+export function Calendar({ selected, onSelect, onClear, minDate, maxDate, disabled }: CalendarProps) {
   const [cursor, setCursor] = useState(selected ?? new Date());
   // Roving tabindex (WAI-ARIA APG grid pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/)
   // — exactly one day is a Tab stop at a time; Arrow/Home/End/PageUp/PageDown
@@ -39,6 +41,14 @@ export function Calendar({ selected, onSelect, minDate, maxDate, disabled }: Cal
   while (cells.length % 7 !== 0) cells.push({ date: new Date(year, month, total + (cells.length % 7)), outside: true });
 
   const monthLabel = cursor.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+
+  const goToToday = () => {
+    const today = new Date();
+    setCursor(new Date(today.getFullYear(), today.getMonth(), 1));
+    setFocused(today);
+    shouldFocusRef.current = true;
+    onSelect(today);
+  };
 
   React.useEffect(() => {
     if (!shouldFocusRef.current) return;
@@ -132,13 +142,31 @@ export function Calendar({ selected, onSelect, minDate, maxDate, disabled }: Cal
           );
         })}
       </div>
+      <div className="cds-calendar-footer">
+        <button
+          type="button"
+          className="cds-calendar-footer-btn"
+          disabled={disabled || !onClear}
+          onClick={onClear}
+        >
+          Clear
+        </button>
+        <button
+          type="button"
+          className="cds-calendar-footer-btn"
+          disabled={disabled}
+          onClick={goToToday}
+        >
+          Today
+        </button>
+      </div>
     </div>
   );
 }
 
 export interface DatePickerProps {
   value?: Date;
-  onChange?: (d: Date) => void;
+  onChange?: (d: Date | undefined) => void;
   placeholder?: string;
   disabled?: boolean;
   id?: string;
@@ -162,7 +190,11 @@ export function DatePicker({ value, onChange, placeholder = "Select date", disab
   return (
     <div className="cds-date-picker">
       <Popover trigger={trigger}>
-        <Calendar selected={value} onSelect={onChange ?? (() => {})} />
+        <Calendar
+          selected={value}
+          onSelect={(d) => onChange?.(d)}
+          onClear={onChange ? () => onChange(undefined) : undefined}
+        />
       </Popover>
     </div>
   );

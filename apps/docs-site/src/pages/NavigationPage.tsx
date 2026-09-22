@@ -244,7 +244,6 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
         .sidebar-state-hover .cds-app-sidebar--rail .cds-app-sidebar-link:nth-child(3):not([aria-current="page"]) {
           color: var(--brand-text-primary-default) !important;
           background: var(--theme-brand-background-primary-subtle) !important;
-          box-shadow: inset 3px 0 0 0 var(--brand-background-primary-strong) !important;
         }
         .sidebar-state-focus .cds-app-sidebar--rail .cds-app-sidebar-link:nth-child(3):not([aria-current="page"]) {
           outline: var(--core-focusRing-width, 2px) solid var(--theme-primitive-color-primary-400) !important;

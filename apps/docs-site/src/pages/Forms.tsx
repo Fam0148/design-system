@@ -353,7 +353,7 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
               <div style={{ display: "flex", gap: 40, flexWrap: "wrap" }}>
                 <div>
                   <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Calendar (Active)</div>
-                  <Calendar selected={dob} onSelect={setDob} maxDate={new Date()} />
+                  <Calendar selected={dob} onSelect={setDob} onClear={() => setDob(undefined)} maxDate={new Date()} />
                 </div>
                 <div>
                   <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 12 }}>Calendar (Disabled)</div>

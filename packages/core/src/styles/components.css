@@ -4088,9 +4088,19 @@
   color: var(--brand-text-primary-default);
 }
 
-.cds-combobox-option:hover,
-.cds-combobox-option--active {
-  background: var(--core-color-surface-raised);
+/*
+ * Highlight uses a brand-blue wash rather than --core-color-surface-raised:
+ * the list sits on --core-color-surface-overlay, and raised === overlay in
+ * both light (#FFFFFF/#FFFFFF) and dark (#2E2D38/#2E2D38) mode, so hover was
+ * rendering pixel-identical to the resting option — completely invisible in
+ * either mode. Mixing brand-text-primary-default into the overlay (same
+ * technique and same blue tone as Select's option highlight, rather than a
+ * neutral grey) keeps the two dropdown patterns visually consistent while
+ * guaranteeing a visible step in both modes.
+ */
+.cds-combobox-option:hover:not([aria-selected="true"]),
+.cds-combobox-option--active:not([aria-selected="true"]) {
+  background: color-mix(in srgb, var(--brand-text-primary-default) 18%, var(--core-color-surface-overlay));
 }
 
 .cds-combobox-empty {
@@ -4211,6 +4221,42 @@
 .cds-calendar--disabled .cds-calendar-day[aria-pressed="true"] {
   background: var(--brand-background-primary-disabled);
   color: var(--brand-text-primary-disabled);
+}
+
+.cds-calendar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--theme-neutral-border-primary-default);
+}
+
+.cds-calendar-footer-btn {
+  border: none;
+  background: none;
+  padding: 4px 2px;
+  font-size: var(--typography-body-md-size);
+  font-weight: 600;
+  color: var(--brand-text-primary-default);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cds-calendar-footer-btn:hover:not(:disabled) {
+  color: var(--brand-text-primary-hover, var(--brand-text-primary-default));
+}
+
+.cds-calendar-footer-btn:focus-visible {
+  outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400);
+  outline-offset: 2px;
+  border-radius: var(--core-radius-xs);
+}
+
+.cds-calendar-footer-btn:disabled {
+  color: var(--theme-semantics-disabled-text);
+  cursor: not-allowed;
+  text-decoration: none;
 }
 
 /* ---------- Data Table (sortable) ---------- */
@@ -4687,7 +4733,7 @@
 .cds-app-sidebar--rail .cds-app-sidebar-link:hover:not(:disabled):not([aria-disabled="true"]) {
   color: var(--brand-text-primary-default);
   background: var(--brand-background-primary-subtle);
-  box-shadow: inset 3px 0 0 0 var(--theme-primitive-color-primary-500);
+  box-shadow: inset 3px 0 0 0 transparent;
 }
 
 .cds-app-sidebar--rail .cds-app-sidebar-link[aria-current="page"] {
