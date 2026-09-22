@@ -23,7 +23,7 @@ const GROUPS: Group[] = [
       { name: "Input / Textarea", status: "done", note: "width: 100% of container by default." },
       { name: "Select", status: "done", note: "Listbox popup clamps to viewport; trigger is fluid." },
       { name: "Checkbox / Radio", status: "done", note: "Fixed-size control + wrapping label text." },
-      { name: "Switch / Toggle / Toggle Group", status: "done", note: "Fixed-size control, fluid label." },
+      { name: "Switch", status: "done", note: "Fixed-size control, fluid label." },
       { name: "Input Group", status: "done", note: "Flex row of fixed-size cells with addon prefix/suffix." },
       { name: "Slider", status: "done", note: "width: 100% of container." },
       { name: "Combobox", status: "done", note: "Same fluid input + clamped popup as Select." },
@@ -60,7 +60,7 @@ const GROUPS: Group[] = [
     title: "Feedback",
     rows: [
       { name: "Alert / Empty / Spinner", status: "done", note: "Fluid width." },
-      { name: "Toast / Toast Manager", status: "done", note: "Fixed min-width by design (a toast shouldn't stretch edge-to-edge); viewport-anchored positioning already clamps to screen." },
+      { name: "Toast", status: "done", note: "Fixed min-width by design (a toast shouldn't stretch edge-to-edge); viewport-anchored positioning already clamps to screen." },
     ],
   },
   {

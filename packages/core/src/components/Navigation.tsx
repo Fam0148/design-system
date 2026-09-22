@@ -192,7 +192,7 @@ export function Stepper({ steps, currentIndex, orientation = "horizontal" }: { s
               {(state === "in-progress" || state === "warning" || state === "error") && step.status && (
                 <span className="cds-step-status">
                   {state === "in-progress" ? (
-                    <span className="cds-step-status-spinner" role="status" aria-hidden="true" />
+                    <span className="cds-step-status-spinner" aria-hidden="true" />
                   ) : (
                     <span className="cds-step-status-dot" aria-hidden="true" />
                   )}

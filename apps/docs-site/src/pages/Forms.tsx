@@ -6,7 +6,7 @@ import { Field, Input, InputWithIcon } from "../../../../packages/core/src/compo
 import { Icon } from "../../../../packages/core/src/components/Primitives";
 import { Switch } from "../../../../packages/core/src/components/Misc";
 import { Textarea, Select, Checkbox, Radio, RadioGroup } from "../../../../packages/core/src/components/FormControls";
-import { Toggle, ToggleGroup, InputGroup, IncrementalSelector } from "../../../../packages/core/src/components/ToggleInputs";
+import { InputGroup, IncrementalSelector } from "../../../../packages/core/src/components/ToggleInputs";
 import { Slider } from "../../../../packages/core/src/components/Primitives";
 import { Combobox } from "../../../../packages/core/src/components/Combobox";
 import { Calendar, DatePicker } from "../../../../packages/core/src/components/Calendar";
@@ -30,7 +30,6 @@ const usStates = [
 export default function Forms({ embedded = false }: { embedded?: boolean }) {
   const [on, setOn] = useState(true);
   const [plan, setPlan] = useState("roth");
-  const [segment, setSegment] = useState<"sources" | "investments">("sources");
   const [contribPct, setContribPct] = useState(12);
   const [employer, setEmployer] = useState("");
   const [dob, setDob] = useState<Date | undefined>(undefined);
@@ -72,19 +71,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
   const cvcError = cvcTouched && cvc.length > 0 && (cvc.length < 3 || cvc.length > 4)
     ? "CVC must be 3–4 digits."
     : undefined;
-
-  const toggleGroupOptions = [
-    {
-      value: "sources" as const,
-      label: "Sources",
-      icon: <Icon name="fa-solid fa-database" size="sm" />,
-    },
-    {
-      value: "investments" as const,
-      label: "Invest",
-      icon: <Icon name="fa-solid fa-chart-pie" size="sm" />,
-    },
-  ];
 
   const sections = [
     {
@@ -911,72 +897,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
       )
     },
     {
-      id: "06",
-      anchorId: "toggle",
-      title: "Toggle",
-      content: (
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <div className="site-panel site-panel--flush site-panel--demo">
-            <Preview showModeToggle>
-              <div style={{ display: "flex", flexDirection: "column", gap: 32, width: "100%" }}>
-                <div>
-                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Single Toggle</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(140px, 1fr))", gap: 32, padding: "8px 0" }}>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <StateLabel>DEFAULT</StateLabel>
-                      <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
-                    </div>
-                    <div className="force-hover" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <StateLabel>HOVER</StateLabel>
-                      <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
-                    </div>
-                    <div className="force-focus" style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <StateLabel>FOCUS</StateLabel>
-                      <Toggle pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <StateLabel>PRESSED</StateLabel>
-                      <Toggle pressed={true} onPressedChange={() => { }}>★ Favorite</Toggle>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "flex-start", padding: "8px 12px" }}>
-                      <StateLabel>DISABLED</StateLabel>
-                      <Toggle disabled pressed={false} onPressedChange={() => { }}>★ Favorite</Toggle>
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ borderTop: "1px solid var(--theme-neutral-border-primary-default)", paddingTop: 24 }}>
-                  <div style={{ fontSize: "var(--typography-label-size)", lineHeight: "var(--typography-label-line-height)", fontWeight: "var(--typography-label-weight)", letterSpacing: "var(--typography-label-letter-spacing)", color: "var(--theme-neutral-text-subtle)", marginBottom: 16 }}>Toggle Group</div>
-                  <div className="toggle-group-states">
-                    <div className="toggle-group-state-cell">
-                      <StateLabel>DEFAULT</StateLabel>
-                      <ToggleGroup value={segment} onChange={setSegment} options={toggleGroupOptions} />
-                    </div>
-                    <div className="toggle-group-state-cell toggle-group-state-hover">
-                      <StateLabel>HOVER</StateLabel>
-                      <ToggleGroup value="sources" onChange={() => { }} options={toggleGroupOptions} />
-                    </div>
-                    <div className="toggle-group-state-cell toggle-group-state-focus">
-                      <StateLabel>FOCUS</StateLabel>
-                      <ToggleGroup value="sources" onChange={() => { }} options={toggleGroupOptions} />
-                    </div>
-                    <div className="toggle-group-state-cell">
-                      <StateLabel>SELECTED</StateLabel>
-                      <ToggleGroup value="investments" onChange={() => { }} options={toggleGroupOptions} />
-                    </div>
-                    <div className="toggle-group-state-cell">
-                      <StateLabel>DISABLED</StateLabel>
-                      <ToggleGroup disabled value="investments" onChange={() => { }} options={toggleGroupOptions} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Preview>
-          </div>
-        </div>
-      )
-    },
-    {
       id: "15",
       anchorId: "working-example",
       title: "Working Example",
@@ -1072,36 +992,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-hover .cds-incremental-selector__value {
           background: var(--core-color-surface-default) !important;
         }
-        .force-hover .cds-toggle:not(:disabled):not([aria-pressed="true"]) {
-          background: var(--brand-background-primary-hover) !important;
-          color: var(--theme-primitive-color-primary-100) !important;
-          border-color: var(--brand-border-primary-hover) !important;
-        }
-        .toggle-group-states {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 32px 40px;
-          padding: 8px 0;
-          align-items: start;
-        }
-        .toggle-group-state-cell {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-          align-items: flex-start;
-          padding: 8px 4px;
-          isolation: isolate;
-        }
-        .toggle-group-state-cell .cds-toggle-group {
-          width: max-content;
-          max-width: 100%;
-        }
-        .toggle-group-state-focus .cds-toggle-group__item:nth-child(2):not(:disabled) {
-          outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400) !important;
-          outline-offset: 2px !important;
-          position: relative;
-          z-index: 1;
-        }
         .force-hover .cds-switch input:not(:checked):not(:disabled) + .cds-switch-track {
           background: var(--theme-colors-neutral-600) !important;
         }
@@ -1175,10 +1065,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
             0 0 0 2px var(--core-color-surface-default),
             0 0 0 calc(2px + var(--core-focusRing-width)) var(--theme-primitive-color-primary-400) !important;
         }
-        .force-focus .cds-toggle:not(:disabled) {
-          outline: var(--core-focusRing-width) solid var(--theme-primitive-color-primary-400) !important;
-          outline-offset: var(--core-focusRing-offset) !important;
-        }
         .force-active .cds-textarea, .force-active .cds-select {
           border-color: var(--theme-primitive-color-primary-400) !important;
           box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primitive-color-primary-400) 25%, transparent) !important;
@@ -1200,17 +1086,6 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
            looking different in every component page. */
         .force-disabled .cds-input-icon, .cds-input-affix-wrap:has(.cds-input:disabled) .cds-input-icon {
           color: var(--theme-semantics-disabled-text) !important;
-        }
-        .force-disabled .cds-toggle, .cds-toggle:disabled {
-          background: var(--theme-brand-background-primary-disabled-light) !important;
-          color: var(--theme-neutral-text-subtleleast) !important;
-          border-color: var(--theme-neutral-border-primary-default) !important;
-          opacity: 1 !important;
-          cursor: not-allowed !important;
-        }
-        .force-disabled .cds-toggle[aria-pressed="true"], .cds-toggle:disabled[aria-pressed="true"] {
-          background: var(--theme-neutral-border-subtle) !important;
-          color: var(--theme-neutral-text-subtleleast) !important;
         }
         .force-disabled .cds-slider,
         .cds-slider--disabled {
@@ -1238,15 +1113,19 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
           --cds-slider-thumb-ring: var(--brand-background-primary-hover) !important;
           --cds-slider-thumb-bg: var(--brand-background-primary-hover) !important;
         }
+        /*
+         * Uses -strong, not -active: --brand-background-primary-active
+         * measured only 1.94:1 against the dark-mode page (#1B4479 vs
+         * #111017) — nearly invisible, the same recurring "-active/-hover
+         * darken further and disappear on a dark canvas" bug already fixed
+         * this session for Checkbox, Switch, and Select. -strong stays
+         * compliant in both modes (4.11:1 dark).
+         */
         .force-active .cds-slider {
-          --cds-slider-track-fill: var(--brand-background-primary-active) !important;
-          --cds-slider-thumb-bg: var(--brand-background-primary-active) !important;
-          --cds-slider-thumb-ring: var(--brand-background-primary-active) !important;
-          --cds-slider-thumb-size: 20px !important;
-        }
-        .toggle-group-state-hover .cds-toggle-group__item:first-child:not(:disabled) {
-          background: var(--brand-background-primary-hover) !important;
-          color: var(--brand-text-primary-oncolor) !important;
+          --cds-slider-track-fill: var(--brand-background-primary-strong) !important;
+          --cds-slider-thumb-bg: var(--brand-background-primary-strong) !important;
+          --cds-slider-thumb-ring: var(--brand-background-primary-strong) !important;
+          --cds-slider-thumb-size: 18px !important;
         }
       `}</style>
   );

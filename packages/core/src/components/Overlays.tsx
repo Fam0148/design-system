@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "./Button";
+import { Icon } from "./Primitives";
 
 export function Modal({ open, onClose, title, children, actions }: { open: boolean; onClose: () => void; title: string; children?: React.ReactNode; actions?: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -361,19 +362,38 @@ export function Spinner({ label = "Loading" }: { label?: string }) {
 }
 
 export type ToastTone = "success" | "danger" | "warning" | "info";
+
+// Same icon per tone as Alert (Misc.tsx's ALERT_ICON) — severity reads from
+// the icon glyph, not just the badge color, so it doesn't rely on color
+// alone (WCAG 1.4.1), and a success toast and a success alert use the same
+// shape for "success" throughout the library.
+const TOAST_ICON: Record<ToastTone, string> = {
+  success: "fa-solid fa-circle-check",
+  warning: "fa-solid fa-triangle-exclamation",
+  danger: "fa-solid fa-circle-exclamation",
+  info: "fa-solid fa-circle-info",
+};
+
 export function Toast({ tone = "info", title, timestamp, onClose, children }: { tone?: ToastTone; title: string; timestamp?: string; onClose?: () => void; children?: React.ReactNode }) {
   return (
     <div className={`cds-toast cds-toast--${tone}`} role={tone === "danger" ? "alert" : "status"}>
-      <button type="button" className="cds-toast-close" aria-label="Dismiss notification" onClick={onClose}>
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-          <path d="M2 2L10 10M10 2L2 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-      </button>
-      <div className="cds-toast-header">
-        <strong className="cds-toast-title">{title}</strong>
-        {timestamp && <span className="cds-toast-timestamp">{timestamp}</span>}
+      <span className="cds-toast__icon-badge" aria-hidden="true">
+        <Icon name={TOAST_ICON[tone]} size="sm" />
+      </span>
+      <div className="cds-toast-content">
+        <div className="cds-toast-header">
+          <strong className="cds-toast-title">{title}</strong>
+          {timestamp && <span className="cds-toast-timestamp">{timestamp}</span>}
+        </div>
+        {children && <div className="cds-toast-body">{children}</div>}
       </div>
-      {children && <div className="cds-toast-body">{children}</div>}
+      {onClose && (
+        <button type="button" className="cds-toast-close" aria-label="Dismiss notification" onClick={onClose}>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 2L10 10M10 2L2 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 }

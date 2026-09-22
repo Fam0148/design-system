@@ -45,7 +45,6 @@ export const componentSections: NavSection[] = [
       componentLink("empty", "Empty"),
       componentLink("spinner", "Spinner"),
       componentLink("toast", "Toast"),
-      componentLink("toast-manager", "Toast Manager"),
     ],
   },
   {
@@ -64,7 +63,6 @@ export const componentSections: NavSection[] = [
       componentLink("slider", "Slider"),
       componentLink("switch", "Switch"),
       componentLink("textarea", "Textarea"),
-      componentLink("toggle", "Toggle / Toggle Group"),
     ],
   },
   {

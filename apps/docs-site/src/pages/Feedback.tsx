@@ -5,21 +5,7 @@ import { Alert } from "../../../../packages/core/src/components/Misc";
 import { Toast, Spinner } from "../../../../packages/core/src/components/Overlays";
 import { Empty } from "../../../../packages/core/src/components/Primitives";
 import { Button } from "../../../../packages/core/src/components/Button";
-import { ToastProvider, useToast } from "../../../../packages/core/src/components/ToastManager";
 
-function ToastManagerDemo() {
-  const { push } = useToast();
-  return (
-    <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-      <button type="button" className="cds-btn cds-btn--primary cds-btn--sm" onClick={() => push({ tone: "success", title: "Changes saved", description: "Your contribution rate was updated." })}>
-        Trigger success toast
-      </button>
-      <button type="button" className="cds-btn cds-btn--secondary cds-btn--sm" onClick={() => push({ tone: "danger", title: "Couldn't connect", description: "Check your internet connection and retry." })}>
-        Trigger error toast
-      </button>
-    </div>
-  );
-}
 export default function Feedback({ embedded = false }: { embedded?: boolean }) {
   const [dismissed, setDismissed] = React.useState<Set<string>>(new Set());
   const [dismissedToasts, setDismissedToasts] = React.useState<Set<string>>(new Set());
@@ -147,20 +133,6 @@ export default function Feedback({ embedded = false }: { embedded?: boolean }) {
               </div>
             )}
             </div>
-          </Preview>
-        </div>
-      ),
-    },
-    {
-      id: "03",
-      anchorId: "toast-manager",
-      title: "Toast Manager",
-      content: (
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
-            <ToastProvider>
-              <ToastManagerDemo />
-            </ToastProvider>
           </Preview>
         </div>
       ),

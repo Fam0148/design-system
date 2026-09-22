@@ -1742,7 +1742,7 @@
  */
 .cds-select-option:hover:not(.cds-select-option--disabled),
 .cds-select-option--active {
-  background: color-mix(in srgb, var(--brand-text-primary-default) 30%, var(--core-color-surface-overlay));
+  background: color-mix(in srgb, var(--brand-text-primary-default) 18%, var(--core-color-surface-overlay));
 }
 
 .cds-select-option[aria-selected="true"] {
@@ -2030,7 +2030,12 @@
   vertical-align: middle;
 }
 
-/* Toast: header structure */
+/* Toast: content structure */
+.cds-toast-content {
+  flex: 1;
+  min-width: 0;
+}
+
 .cds-toast-header {
   display: flex;
   align-items: center;
@@ -2040,10 +2045,10 @@
 .cds-toast-title {
   flex: 1;
   font-family: var(--typography-font-family-sans);
-  font-size: var(--typography-label-size);
-  line-height: var(--typography-label-line-height);
-  letter-spacing: var(--typography-label-letter-spacing);
-  font-weight: var(--typography-label-weight);
+  font-size: var(--typography-body-md-size);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+  font-weight: 700;
   color: var(--theme-neutral-text-primary-default);
 }
 
@@ -2054,12 +2059,9 @@
 }
 
 .cds-toast-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   background: none;
   border: none;
-  color: var(--theme-neutral-text-subtle-least);
+  color: var(--theme-neutral-text-subtleleast);
   cursor: pointer;
   padding: 4px;
   display: flex;
@@ -2071,7 +2073,7 @@
 
 .cds-toast-close:hover {
   color: var(--theme-neutral-text-primary-default);
-  background: var(--theme-neutral-background-subtle);
+  background: var(--core-color-surface-sunken);
 }
 
 .cds-toast-body {
@@ -2734,37 +2736,58 @@
 
 /* ---------- Toast ---------- */
 .cds-toast {
-  /* column, not row: cds-toast-header (title/timestamp/close) and
-     cds-toast-body (the description) are its two direct children and must
-     stack — a bare `display: flex` here was putting them side by side
-     instead, cramming the description into the same line as the timestamp
-     and close button. */
+  /*
+   * Row layout: icon badge, content column (title/timestamp/body), close
+   * button — replaces the old column layout that put a colored 3px stripe
+   * on the left edge to carry the tone. Severity now reads from the icon
+   * badge (a shape + a tinted circle) instead of a thin color-only stripe,
+   * and the card itself is a neutral surface with a uniform border on all
+   * sides, matching the plain "notification pill" pattern (icon + bold
+   * single-line message) rather than the alert-banner look.
+   */
   position: relative;
   display: flex;
-  flex-direction: column;
-  background: var(--core-color-surface-overlay);
+  align-items: center;
+  gap: 12px;
+  background: var(--core-color-surface-default);
   border: 1px solid var(--theme-neutral-border-primary-default);
-  border-left: 3px solid var(--theme-semantics-highlight-strong-background);
-  border-radius: var(--core-radius-sm);
-  padding: 12px 36px 12px 14px;
+  border-radius: var(--core-radius-xl);
+  padding: 14px 20px;
   box-shadow: var(--core-card-shadow);
   min-width: 280px;
 }
 
-.cds-toast--success {
-  border-left-color: var(--theme-semantics-success-strong-background);
+.cds-toast__icon-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
 }
 
-.cds-toast--danger {
-  border-left-color: var(--theme-semantics-critical-strong-background);
+/* Icon badge fill/color reuse Alert's already-audited tone tokens (light
+   background + matching text color, ≥4.5:1 in both light and dark mode) so
+   a "success" toast and a "success" alert share the same visual language. */
+.cds-toast--success .cds-toast__icon-badge {
+  background: var(--theme-semantics-success-light-background);
+  color: var(--theme-semantics-success-text);
 }
 
-.cds-toast--warning {
-  border-left-color: var(--theme-semantics-warning-strong-background);
+.cds-toast--danger .cds-toast__icon-badge {
+  background: var(--theme-semantics-critical-light-background);
+  color: var(--theme-semantics-critical-text);
 }
 
-.cds-toast--info {
-  border-left-color: var(--theme-semantics-highlight-strong-background);
+.cds-toast--warning .cds-toast__icon-badge {
+  background: var(--theme-semantics-warning-light-background);
+  color: var(--theme-semantics-warning-text);
+}
+
+.cds-toast--info .cds-toast__icon-badge {
+  background: var(--theme-semantics-highlight-light-background);
+  color: var(--theme-semantics-highlight-text);
 }
 
 /* ---------- Spinner ---------- */
@@ -3807,14 +3830,14 @@
 /* ---------- Slider ---------- */
 .cds-slider {
   position: relative;
-  min-height: 24px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   gap: 12px;
-  --cds-slider-track-height: 4px;
+  --cds-slider-track-height: 6px;
   --cds-slider-track-fill: var(--brand-background-primary-strong);
   --cds-slider-track-bg: var(--theme-colors-neutral-100);
-  --cds-slider-thumb-size: 16px;
+  --cds-slider-thumb-size: 18px;
   --cds-slider-thumb-bg: var(--brand-background-primary-strong);
   --cds-slider-thumb-border: var(--theme-colors-neutral-0);
   --cds-slider-thumb-ring: var(--brand-background-primary-strong);
@@ -3822,7 +3845,7 @@
 
 .cds-slider input[type="range"] {
   width: 100%;
-  height: 24px;
+  height: 32px;
   margin: 0;
   appearance: none;
   background: transparent;

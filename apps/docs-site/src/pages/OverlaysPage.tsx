@@ -63,13 +63,6 @@ export default function OverlaysPage({ embedded = false }: { embedded?: boolean 
       <DocsSection anchorId="tooltip" title="Tooltip">
         <div className="site-panel site-panel--flush site-panel--demo">
           <Preview showModeToggle>
-            <Tooltip label="Your vested balance after employer match">
-              <Button variant="secondary" size="sm">Vested balance ⓘ</Button>
-            </Tooltip>
-          </Preview>
-        </div>
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
             <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 14 }}>
               Vested balance
               <Tooltip label="The portion of employer contributions you keep if you leave today.">
