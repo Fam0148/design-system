@@ -41,7 +41,12 @@ const sections = [
                 fontWeight: 700,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
-                color: "var(--core-color-brand-600)",
+                // Was --core-color-brand-600, a raw (non-mode-aware) scale
+                // step that stayed the same dark blue in dark mode and read
+                // at ~1.7:1 against the dark card — the same mode-aware
+                // token used by the CTA link below resolves correctly in
+                // both modes.
+                color: "var(--theme-brand-text-primary-default)",
               }}
             >
               {item.label}

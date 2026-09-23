@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Preview } from "../Preview";
 import { DocsSection, DocsSectionList, StateLabel } from "../DocsSection";
-import { Tabs, Pagination, AppSidebar, Stepper, type SidebarItem, type StepState } from "../../../../packages/core/src/components/Navigation";
+import { Tabs, Pagination, AppSidebar, Stepper, defaultStepStatus, type SidebarItem, type StepState, type StepDef } from "../../../../packages/core/src/components/Navigation";
 import { Icon } from "../../../../packages/core/src/components/Primitives";
 
 type SidebarRailState = "DEFAULT" | "HOVER" | "SELECTED" | "FOCUS" | "DISABLED";
@@ -52,16 +52,14 @@ function StepperStatePreview({
           <span className="cds-step-label">
             <span className="cds-step-title">{title}</span>
             <span className="cds-step-desc">{description}</span>
-            {(state === "in-progress" || state === "warning" || state === "error") && status && (
-              <span className="cds-step-status">
-                {state === "in-progress" ? (
-                  <span className="cds-step-status-spinner" role="status" aria-hidden="true" />
-                ) : (
-                  <span className="cds-step-status-dot" aria-hidden="true" />
-                )}
-                {status}
-              </span>
-            )}
+            <span className="cds-step-status">
+              {state === "in-progress" ? (
+                <span className="cds-step-status-spinner" role="status" aria-hidden="true" />
+              ) : (
+                <span className="cds-step-status-dot" aria-hidden="true" />
+              )}
+              {status ?? defaultStepStatus(state)}
+            </span>
           </span>
         </li>
       </ol>
@@ -71,54 +69,99 @@ function StepperStatePreview({
 
 function StepperStatesDemo() {
   return (
-    <div className="site-panel site-panel--flush site-panel--demo">
-      <Preview showModeToggle>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
-            gap: "var(--core-space-4, 16px)",
-          }}
-        >
-          <StepperStatePreview
-            eyebrow="DEFAULT"
-            state="default"
-            title="Fees"
-            description="Review fees."
-            stepNumber={3}
-          />
-          <StepperStatePreview
-            eyebrow="IN PROGRESS"
-            state="in-progress"
-            title="Allocation"
-            description="Pick sources."
-            status="In progress"
-            stepNumber={2}
-          />
-          <StepperStatePreview
-            eyebrow="COMPLETED"
-            state="completed"
-            title="Withdrawal"
-            description="Set amount."
-          />
-          <StepperStatePreview
-            eyebrow="WARNING"
-            state="warning"
-            title="Fees"
-            description="Review fees."
-            status="Review needed"
-            stepNumber={3}
-          />
-          <StepperStatePreview
-            eyebrow="ERROR"
-            state="error"
-            title="Documents"
-            description="Attach forms."
-            status="Required"
-            stepNumber={4}
-          />
-        </div>
-      </Preview>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+        gap: "var(--core-space-4, 16px)",
+      }}
+    >
+      <StepperStatePreview
+        eyebrow="DEFAULT"
+        state="default"
+        title="Fees"
+        description="Review fees."
+        stepNumber={3}
+      />
+      <StepperStatePreview
+        eyebrow="IN PROGRESS"
+        state="in-progress"
+        title="Allocation"
+        description="Pick sources."
+        status="In progress"
+        stepNumber={2}
+      />
+      <StepperStatePreview
+        eyebrow="COMPLETED"
+        state="completed"
+        title="Withdrawal"
+        description="Set amount."
+      />
+      <StepperStatePreview
+        eyebrow="WARNING"
+        state="warning"
+        title="Fees"
+        description="Review fees."
+        status="Review needed"
+        stepNumber={3}
+      />
+      <StepperStatePreview
+        eyebrow="ERROR"
+        state="error"
+        title="Documents"
+        description="Attach forms."
+        status="Required"
+        stepNumber={4}
+      />
+    </div>
+  );
+}
+
+const variantLabelStyle: React.CSSProperties = {
+  fontSize: "var(--typography-label-size)",
+  lineHeight: "var(--typography-label-line-height)",
+  fontWeight: "var(--typography-label-weight)",
+  letterSpacing: "var(--typography-label-letter-spacing)",
+  color: "var(--theme-neutral-text-primary-default)",
+  marginBottom: 2,
+};
+
+/** Mobile stepper — a compact segmented progress bar for the whole flow
+ *  plus a focused card for just the current step, at realistic phone
+ *  width. Shown once per state so every state's marker/border/status
+ *  treatment is visible, matching the desktop states demo above it. */
+function MobileStepperStatesDemo() {
+  const cases: Array<{
+    eyebrow: string;
+    state: StepState;
+    title: string;
+    description: string;
+    status?: string;
+    stepNumber?: number;
+    totalSteps: number;
+    currentIndex: number;
+  }> = [
+    { eyebrow: "DEFAULT", state: "default", title: "Fees", description: "Review fees.", stepNumber: 3, totalSteps: 5, currentIndex: 2 },
+    { eyebrow: "IN PROGRESS", state: "in-progress", title: "Allocation", description: "Pick sources.", status: "In progress", stepNumber: 2, totalSteps: 5, currentIndex: 1 },
+    { eyebrow: "COMPLETED", state: "completed", title: "Withdrawal", description: "Set amount.", totalSteps: 5, currentIndex: 0 },
+    { eyebrow: "WARNING", state: "warning", title: "Fees", description: "Review fees.", status: "Review needed", stepNumber: 3, totalSteps: 5, currentIndex: 2 },
+    { eyebrow: "ERROR", state: "error", title: "Documents", description: "Attach forms.", status: "Required", stepNumber: 4, totalSteps: 5, currentIndex: 3 },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--core-space-5, 20px)" }}>
+      {cases.map((c) => {
+        const steps: StepDef[] = Array.from({ length: c.totalSteps }, (_, i) => {
+          if (i === c.currentIndex) return { label: c.title, description: c.description, status: c.status, state: c.state };
+          return { label: `Step ${i + 1}`, state: i < c.currentIndex ? "completed" : "default" };
+        });
+        return (
+          <div key={c.eyebrow} style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-3, 12px)", width: 280 }}>
+            <StateLabel>{c.eyebrow}</StateLabel>
+            <Stepper orientation="mobile" currentIndex={c.currentIndex} steps={steps} />
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -180,33 +223,47 @@ export default function NavigationPage({ embedded = false }: { embedded?: boolea
       </DocsSection>
 
       <DocsSection anchorId="stepper" title="Stepper">
-        <StepperStatesDemo />
         <div className="site-panel site-panel--flush site-panel--demo">
           <Preview showModeToggle>
-            <Stepper
-              currentIndex={1}
-              steps={[
-                { label: "Personal" },
-                { label: "Investments" },
-                { label: "Beneficiaries" },
-                { label: "Review" },
-              ]}
-            />
-          </Preview>
-        </div>
-        <div className="site-panel site-panel--flush site-panel--demo">
-          <Preview showModeToggle>
-            <Stepper
-              orientation="vertical"
-              currentIndex={1}
-              steps={[
-                { label: "Withdrawal", description: "Set type and amount." },
-                { label: "Allocation", description: "Pick sources.", status: "In progress" },
-                { label: "Fees", description: "Review fees." },
-                { label: "Documents", description: "Attach forms." },
-                { label: "Summary", description: "Review and submit." },
-              ]}
-            />
+            <div style={{ display: "flex", flexDirection: "column", gap: "var(--core-space-8, 32px)", width: "100%" }}>
+              <div>
+                <div style={{ ...variantLabelStyle, marginBottom: 12 }}>States</div>
+                <StepperStatesDemo />
+              </div>
+
+              <div>
+                <div style={{ ...variantLabelStyle, marginBottom: 12 }}>Horizontal Stepper</div>
+                <Stepper
+                  currentIndex={1}
+                  steps={[
+                    { label: "Personal" },
+                    { label: "Investments" },
+                    { label: "Beneficiaries" },
+                    { label: "Review" },
+                  ]}
+                />
+              </div>
+
+              <div>
+                <div style={{ ...variantLabelStyle, marginBottom: 12 }}>Vertical Stepper</div>
+                <Stepper
+                  orientation="vertical"
+                  currentIndex={1}
+                  steps={[
+                    { label: "Withdrawal", description: "Set type and amount." },
+                    { label: "Allocation", description: "Pick sources.", status: "In progress" },
+                    { label: "Fees", description: "Review fees." },
+                    { label: "Documents", description: "Attach forms." },
+                    { label: "Summary", description: "Review and submit." },
+                  ]}
+                />
+              </div>
+
+              <div>
+                <div style={{ ...variantLabelStyle, marginBottom: 12 }}>Mobile Stepper</div>
+                <MobileStepperStatesDemo />
+              </div>
+            </div>
           </Preview>
         </div>
       </DocsSection>

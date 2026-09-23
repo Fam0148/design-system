@@ -4,6 +4,8 @@ import { CoreLogo } from "./CoreLogo";
 import { flatComponentLinks, totalComponentCount, type NavLink } from "./navConfig";
 import { pageSections } from "./pageSections";
 import { useScrollSpy } from "./useScrollSpy";
+import { PreviewModeProvider, usePreviewMode } from "./PreviewModeContext";
+import { Switch } from "../../../packages/core/src/components/Misc";
 
 const nav = [
   { group: "Get Started", links: [{ to: "/", label: "Overview" }] },
@@ -50,13 +52,17 @@ function useAnchorScroll() {
   }, [location.pathname, location.hash]);
 }
 
+/** The site chrome (sidebar, background, nav) now follows the same global
+ *  Light/Dark switch as every demo canvas, instead of only the individual
+ *  components going dark while the surrounding page stayed light. */
 function useSiteMode() {
+  const { mode, toggle } = usePreviewMode();
   useEffect(() => {
-    document.documentElement.setAttribute("data-site-mode", "light");
-    try { localStorage.setItem("core-site-mode", "light"); } catch { }
-  }, []);
+    document.documentElement.setAttribute("data-site-mode", mode);
+    try { localStorage.setItem("core-site-mode", mode); } catch { }
+  }, [mode]);
 
-  return { mode: "light", toggle: () => { } };
+  return { mode, toggle };
 }
 
 function splitNavTo(to: string) {
@@ -159,7 +165,46 @@ function PageNavigation() {
   );
 }
 
-export default function Layout() {
+/** Fixed to the right edge of the viewport, vertically centered, so it's
+ *  reachable from anywhere on the page instead of scrolling back to the
+ *  sidebar — one switch drives every demo canvas's light/dark mode. */
+function GlobalPreviewModeToggle() {
+  const { mode, toggle } = usePreviewMode();
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: "50%",
+        right: 20,
+        transform: "translateY(-50%)",
+        zIndex: 1000,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 10,
+        background: "var(--site-bg-elevated)",
+        border: "1px solid var(--site-border)",
+        borderRadius: "var(--core-radius-lg, 16px)",
+        padding: "16px 10px",
+        boxShadow: "var(--core-elevation-3)",
+      }}
+    >
+      <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: mode === "light" ? "var(--site-text)" : "var(--site-text-dim)" }}>
+        Light
+      </span>
+      <Switch
+        checked={mode === "dark"}
+        onChange={toggle}
+        aria-label="Toggle every demo canvas between light and dark mode"
+      />
+      <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: mode === "dark" ? "var(--site-text)" : "var(--site-text-dim)" }}>
+        Dark
+      </span>
+    </div>
+  );
+}
+
+function LayoutInner() {
   useAnchorScroll();
   const { mode, toggle } = useSiteMode();
   const location = useLocation();
@@ -208,7 +253,8 @@ export default function Layout() {
     // This is unrelated to the site's own light/dark chrome toggle
     // ([data-site-mode] on <html>, driven by useSiteMode() below) — that's a
     // separate --site-* variable system for the docs UI itself.
-    <div className="site-shell" data-theme="core" data-mode="light">
+    <div className="site-shell" data-theme="core" data-mode={mode}>
+      <GlobalPreviewModeToggle />
       <aside className="site-sidebar" ref={sidebarRef}>
         <div className="site-logo" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 6, padding: "8px 12px 20px" }}>
           <CoreLogo size={22} />
@@ -252,11 +298,11 @@ export default function Layout() {
           </div>
         )}
       </aside>
-      <div className="site-main" style={location.pathname === "/" || location.pathname === "/components" ? { backgroundColor: "#FFFFFF" } : undefined}>
-        <div className="site-content" style={location.pathname === "/" || location.pathname === "/components" ? { maxWidth: "100%", padding: 0, backgroundColor: "#FFFFFF" } : undefined}>
+      <div className="site-main" style={location.pathname === "/" || location.pathname === "/components" ? { backgroundColor: "var(--site-bg-elevated)" } : undefined}>
+        <div className="site-content" style={location.pathname === "/" || location.pathname === "/components" ? { maxWidth: "100%", padding: 0, backgroundColor: "var(--site-bg-elevated)" } : undefined}>
           <Outlet />
         </div>
-        <footer className="site-footer" style={location.pathname === "/" || location.pathname === "/components" ? { backgroundColor: "#FFFFFF", borderColor: "#E5E7EB" } : undefined}>
+        <footer className="site-footer" style={location.pathname === "/" || location.pathname === "/components" ? { backgroundColor: "var(--site-bg-elevated)", borderColor: "var(--site-border)" } : undefined}>
           <div className="site-footer-inner">
             <div className="site-footer-left">
               <CoreLogo size={16} />
@@ -271,5 +317,13 @@ export default function Layout() {
         </footer>
       </div>
     </div>
+  );
+}
+
+export default function Layout() {
+  return (
+    <PreviewModeProvider>
+      <LayoutInner />
+    </PreviewModeProvider>
   );
 }

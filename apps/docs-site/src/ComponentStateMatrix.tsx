@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { usePreviewMode } from "./PreviewModeContext";
 
 export type MatrixMode = "light" | "dark";
 
@@ -53,138 +54,70 @@ export function ComponentStateMatrix({
   orientation = "columns",
 }: ComponentStateMatrixProps) {
   const [size, setSize] = useState<string | undefined>(defaultSize ?? sizes?.[0]?.id);
-  const [mode, setMode] = useState<MatrixMode>("light");
+  const { mode } = usePreviewMode();
 
   return (
     <div style={{ marginTop: 12, marginBottom: 32 }}>
-      {/* Toolbar */}
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 16,
-          background: "var(--site-bg-elevated)",
-          border: "1px solid var(--site-border)",
-          borderRadius: 14,
-          padding: "14px 20px",
-          marginBottom: 18,
-          boxShadow: "var(--core-elevation-2)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-          {sizes && sizes.length > 0 && (
-            <>
-              <span
-                style={{
-                  fontSize: "var(--typography-font-size-xs)",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                  color: "var(--theme-neutral-text-subtle)",
-                }}
-              >
-                Size:
-              </span>
-              <div
-                style={{
-                  display: "inline-flex",
-                  background: "var(--site-bg)",
-                  borderRadius: 8,
-                  padding: 3,
-                  border: "1px solid var(--site-border)",
-                }}
-              >
-                {sizes.map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    onClick={() => setSize(s.id)}
-                    style={{
-                      border: "none",
-                      background: size === s.id ? "var(--theme-brand-background-primary-strong)" : "transparent",
-                      color: size === s.id ? "var(--brand-text-primary-oncolor)" : "var(--site-text)",
-                      borderRadius: "var(--core-radius-sm)",
-                      padding: "4px 12px",
-                      fontSize: 12,
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      transition: "all 120ms ease",
-                    }}
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Light / dark canvas toggle */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      {/* Toolbar — size switcher only; light/dark now comes from the single
+          site-wide toggle in the sidebar (PreviewModeContext). */}
+      {sizes && sizes.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 14,
+            flexWrap: "wrap",
+            background: "var(--site-bg-elevated)",
+            border: "1px solid var(--site-border)",
+            borderRadius: 14,
+            padding: "14px 20px",
+            marginBottom: 18,
+            boxShadow: "var(--core-elevation-2)",
+          }}
+        >
           <span
             style={{
               fontSize: "var(--typography-font-size-xs)",
               fontWeight: 700,
               textTransform: "uppercase",
               letterSpacing: "0.08em",
-              color: mode === "light" ? "var(--site-text)" : "var(--theme-neutral-text-subtle)",
-              transition: "color 0.3s ease",
+              color: "var(--theme-neutral-text-subtle)",
             }}
           >
-            Light
+            Size:
           </span>
           <div
-            role="switch"
-            aria-checked={mode === "dark"}
-            aria-label="Toggle preview canvas theme"
-            tabIndex={0}
-            onClick={() => setMode((prev) => (prev === "light" ? "dark" : "light"))}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                setMode((prev) => (prev === "light" ? "dark" : "light"));
-              }
-            }}
             style={{
-              width: 44,
-              height: 24,
-              background: mode === "dark" ? "var(--theme-brand-background-primary-strong)" : "var(--theme-neutral-border-strong)",
-              borderRadius: 12,
-              position: "relative",
-              cursor: "pointer",
-              transition: "background 0.3s ease",
+              display: "inline-flex",
+              background: "var(--site-bg)",
+              borderRadius: 8,
+              padding: 3,
+              border: "1px solid var(--site-border)",
             }}
           >
-            <div
-              style={{
-                width: 20,
-                height: 20,
-                background: "var(--theme-colors-neutral-0)",
-                borderRadius: "50%",
-                position: "absolute",
-                top: 2,
-                left: mode === "dark" ? 22 : 2,
-                transition: "left 0.3s ease",
-                boxShadow: "var(--core-elevation-1)",
-              }}
-            />
+            {sizes.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => setSize(s.id)}
+                style={{
+                  border: "none",
+                  background: size === s.id ? "var(--theme-brand-background-primary-strong)" : "transparent",
+                  color: size === s.id ? "var(--brand-text-primary-oncolor)" : "var(--site-text)",
+                  borderRadius: "var(--core-radius-sm)",
+                  padding: "4px 12px",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  transition: "all 120ms ease",
+                }}
+              >
+                {s.label}
+              </button>
+            ))}
           </div>
-          <span
-            style={{
-              fontSize: "var(--typography-font-size-xs)",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              color: mode === "dark" ? "var(--site-text)" : "var(--theme-neutral-text-subtle)",
-              transition: "color 0.3s ease",
-            }}
-          >
-            Dark
-          </span>
         </div>
-      </div>
+      )}
 
       {/* Canvas — data-mode drives every --theme-* token to its dark/light value */}
       <div

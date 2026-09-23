@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { Select } from "./FormControls";
-import { ChevronIcon } from "./Primitives";
+import { ChevronIcon, SortIcon } from "./Primitives";
 
-export interface Column<T> { key: string; header: string; render?: (row: T) => React.ReactNode; }
+export interface Column<T> { key: string; header: string; render?: (row: T) => React.ReactNode; align?: "left" | "right"; }
 export interface TableProps<T extends { id: string | number }> {
   columns: Column<T>[];
   rows: T[];
@@ -41,12 +41,12 @@ export function Table<T extends { id: string | number }>({
         aria-readonly={viewMode ? "true" : undefined}
       >
         <thead>
-          <tr>{columns.map((c) => <th key={c.key} scope="col">{c.header}</th>)}</tr>
+          <tr>{columns.map((c) => <th key={c.key} scope="col" style={c.align === "right" ? { textAlign: "right" } : undefined}>{c.header}</th>)}</tr>
         </thead>
         <tbody>
           {rows.map((row) => (
             <tr key={row.id}>
-              {columns.map((c) => <td key={c.key}>{c.render ? c.render(row) : (row as any)[c.key]}</td>)}
+              {columns.map((c) => <td key={c.key} style={c.align === "right" ? { textAlign: "right" } : undefined}>{c.render ? c.render(row) : (row as any)[c.key]}</td>)}
             </tr>
           ))}
         </tbody>
@@ -181,17 +181,15 @@ export function DataTable<T extends { id: string | number }>({
         >
           <thead>
             <tr>
-              {columns.map((c) => (
-                <th key={c.key} scope="col" aria-sort={!disabled && !viewMode && sort?.key === c.key ? (sort.dir === 1 ? "ascending" : "descending") : "none"}>
+              {columns.map((c) => {
+                const isSorted = !disabled && !viewMode && sort?.key === c.key;
+                const sortDirection = isSorted ? (sort!.dir === 1 ? "ascending" as const : "descending" as const) : "none" as const;
+                return (
+                <th key={c.key} scope="col" style={c.align === "right" ? { textAlign: "right" } : undefined} aria-sort={sortDirection}>
                   {c.sortable && !disabled && !viewMode ? (
-                    <button className="cds-th-sortable" onClick={() => toggleSort(c.key)}>
+                    <button className={`cds-th-sortable ${c.align === "right" ? "cds-th-sortable--right" : ""}`} onClick={() => toggleSort(c.key)}>
                       {c.header}
-                      <ChevronIcon
-                        className="cds-sort-icon"
-                        data-active={sort?.key === c.key}
-                        direction={sort?.key === c.key && sort.dir === -1 ? "down" : "up"}
-                        size={12}
-                      />
+                      <SortIcon className={`cds-sort-icon ${isSorted ? "cds-sort-icon--active" : ""}`} direction={sortDirection} size={12} />
                     </button>
                   ) : (
                     <span className={c.sortable ? "cds-th-sortable cds-th-sortable--disabled" : ""}>
@@ -199,7 +197,8 @@ export function DataTable<T extends { id: string | number }>({
                     </span>
                   )}
                 </th>
-              ))}
+                );
+              })}
             </tr>
           </thead>
           <tbody>
@@ -208,7 +207,7 @@ export function DataTable<T extends { id: string | number }>({
             ) : pageRows.map((row) => (
               <tr key={row.id}>
                 {columns.map((c) => (
-                  <td key={c.key}>
+                  <td key={c.key} style={c.align === "right" ? { textAlign: "right" } : undefined}>
                     {c.render ? c.render(row) : (row as any)[c.key]}
                   </td>
                 ))}

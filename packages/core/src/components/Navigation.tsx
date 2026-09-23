@@ -153,7 +153,9 @@ export interface StepDef {
   description?: string;
   /** Override the visual state for this step (docs / edge cases). */
   state?: StepState;
-  /** Optional status line under the description — shown for in-progress, warning, and error steps. */
+  /** Status line shown under every step, in every state — override the
+   *  default per-state wording ("Not started", "In progress", "Completed",
+   *  "Needs review", "Action required") with something specific to this step. */
   status?: string;
 }
 
@@ -171,8 +173,75 @@ function stepMarkerContent(state: StepState, index: number) {
   return index + 1;
 }
 
-export function Stepper({ steps, currentIndex, orientation = "horizontal" }: { steps: StepDef[]; currentIndex: number; orientation?: "horizontal" | "vertical" }) {
+/** Every step always shows a plain-language status — not just the ones
+ *  with something to flag — so a step being "done" or "not started yet"
+ *  reads as clearly as one that needs attention, instead of the absence
+ *  of a message being the only signal for those two states. */
+export function defaultStepStatus(state: StepState): string {
+  switch (state) {
+    case "completed":
+      return "Completed";
+    case "in-progress":
+      return "In progress";
+    case "warning":
+      return "Needs review";
+    case "error":
+      return "Action required";
+    case "default":
+    default:
+      return "Not started";
+  }
+}
+
+export function Stepper({ steps, currentIndex, orientation = "horizontal" }: { steps: StepDef[]; currentIndex: number; orientation?: "horizontal" | "vertical" | "mobile" }) {
   const vertical = orientation === "vertical";
+
+  if (orientation === "mobile") {
+    const resolvedStates = steps.map((step, i) => resolveStepState(step, i, currentIndex));
+    const current = steps[currentIndex];
+    const currentState = resolvedStates[currentIndex] ?? "default";
+
+    return (
+      <div className="cds-stepper cds-stepper--mobile" aria-label="Progress">
+        <div className="cds-stepper-mobile-track" role="list">
+          {resolvedStates.map((state, i) => (
+            <span
+              key={steps[i].label}
+              role="listitem"
+              className={`cds-stepper-mobile-segment cds-stepper-mobile-segment--${state}`}
+              aria-current={i === currentIndex ? "step" : undefined}
+              aria-label={`${steps[i].label}: ${state.replace("-", " ")}`}
+            />
+          ))}
+        </div>
+        {current && (
+          <div className="cds-stepper-mobile-count">
+            Step {currentIndex + 1} of {steps.length}
+          </div>
+        )}
+        {current && (
+          <div className={`cds-step cds-step--mobile cds-step--${currentState}`} aria-current="step">
+            <span className="cds-step-marker" aria-hidden="true">
+              {stepMarkerContent(currentState, currentIndex)}
+            </span>
+            <span className="cds-step-label">
+              <span className="cds-step-title">{current.label}</span>
+              {current.description && <span className="cds-step-desc">{current.description}</span>}
+              <span className="cds-step-status">
+                {currentState === "in-progress" ? (
+                  <span className="cds-step-status-spinner" aria-hidden="true" />
+                ) : (
+                  <span className="cds-step-status-dot" aria-hidden="true" />
+                )}
+                {current.status ?? defaultStepStatus(currentState)}
+              </span>
+            </span>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <ol className={`cds-stepper ${vertical ? "cds-stepper--vertical" : ""}`} aria-label="Progress" aria-orientation={orientation}>
       {steps.map((step, i) => {
@@ -189,16 +258,14 @@ export function Stepper({ steps, currentIndex, orientation = "horizontal" }: { s
             <span className="cds-step-label">
               <span className="cds-step-title">{step.label}</span>
               {step.description && <span className="cds-step-desc">{step.description}</span>}
-              {(state === "in-progress" || state === "warning" || state === "error") && step.status && (
-                <span className="cds-step-status">
-                  {state === "in-progress" ? (
-                    <span className="cds-step-status-spinner" aria-hidden="true" />
-                  ) : (
-                    <span className="cds-step-status-dot" aria-hidden="true" />
-                  )}
-                  {step.status}
-                </span>
-              )}
+              <span className="cds-step-status">
+                {state === "in-progress" ? (
+                  <span className="cds-step-status-spinner" aria-hidden="true" />
+                ) : (
+                  <span className="cds-step-status-dot" aria-hidden="true" />
+                )}
+                {step.status ?? defaultStepStatus(state)}
+              </span>
             </span>
             {i < steps.length - 1 && <span className="cds-step-connector" aria-hidden="true" />}
           </li>

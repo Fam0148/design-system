@@ -978,7 +978,7 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-hover .cds-input-affix-wrap .cds-input,
         .force-hover .cds-input-group .cds-input {
           border-color: var(--theme-neutral-border-strong) !important;
-          background: var(--core-color-surface-sunken) !important;
+          background: color-mix(in srgb, black 8%, var(--core-color-surface-default)) !important;
         }
         .force-hover .cds-input-group-addon,
         .force-hover .cds-incremental-selector__btn,
@@ -1015,7 +1015,7 @@ export default function Forms({ embedded = false }: { embedded?: boolean }) {
         .force-hover .cds-date-picker .cds-input-affix-wrap .cds-input,
         .force-hover .cds-input-affix-wrap .cds-input {
           border-color: var(--theme-neutral-border-strong) !important;
-          background: var(--core-color-surface-sunken) !important;
+          background: color-mix(in srgb, black 8%, var(--core-color-surface-default)) !important;
         }
         .force-focus .cds-input,
         .force-focus .cds-textarea,

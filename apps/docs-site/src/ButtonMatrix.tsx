@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, ButtonVariant } from "../../../packages/core/src/components/Button";
+import { usePreviewMode } from "./PreviewModeContext";
 
 export type MatrixSize = "sm" | "md" | "lg";
 export type VariantCategory = "all" | "brand" | "semantics" | "neutral";
@@ -145,7 +146,7 @@ const VARIANTS: VariantConfig[] = [
 
 export function ButtonMatrix() {
   const [size, setSize] = useState<MatrixSize>("md");
-  const [canvasBg, setCanvasBg] = useState<"light" | "dark">("light");
+  const { mode: canvasBg } = usePreviewMode();
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   const sizeLabels: Record<MatrixSize, string> = {
@@ -229,14 +230,14 @@ export function ButtonMatrix() {
 
   return (
     <div style={{ marginTop: 12, marginBottom: 32 }}>
-      {/* Interactive Control Toolbar */}
+      {/* Interactive Control Toolbar — size only; light/dark now comes from
+          the single site-wide toggle in the sidebar (PreviewModeContext). */}
       <div
         style={{
           display: "flex",
           flexWrap: "wrap",
           alignItems: "center",
-          justifyContent: "space-between",
-          gap: 16,
+          gap: 14,
           background: "var(--site-bg-elevated)",
           border: "1px solid var(--site-border)",
           borderRadius: 14,
@@ -245,69 +246,30 @@ export function ButtonMatrix() {
           boxShadow: "var(--core-elevation-2)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-          {/* Size Controls */}
-          <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--theme-neutral-text-subtle)" }}>
-            Size:
-          </span>
-          <div style={{ display: "inline-flex", background: "var(--site-bg)", borderRadius: 8, padding: 3, border: "1px solid var(--site-border)" }}>
-            {(["sm", "md", "lg"] as const).map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => setSize(s)}
-                style={{
-                  border: "none",
-                  background: size === s ? "var(--theme-brand-background-primary-strong)" : "transparent",
-                  color: size === s ? "var(--brand-text-primary-oncolor)" : "var(--site-text)",
-                  borderRadius: "var(--core-radius-sm)",
-                  padding: "4px 12px",
-                  fontSize: 12,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  transition: "all 120ms ease",
-                }}
-              >
-                {sizeLabels[s]}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Canvas Theme Toggle Switch (Right Side) */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: canvasBg === "light" ? "var(--site-text)" : "var(--theme-neutral-text-subtle)", transition: "color 0.3s ease" }}>
-            Light
-          </span>
-          <div
-            onClick={() => setCanvasBg((prev) => (prev === "light" ? "dark" : "light"))}
-            style={{
-              width: 44,
-              height: 24,
-              background: canvasBg === "dark" ? "var(--theme-brand-background-primary-strong)" : "var(--theme-neutral-border-strong)",
-              borderRadius: 12,
-              position: "relative",
-              cursor: "pointer",
-              transition: "background 0.3s ease",
-            }}
-          >
-            <div
+        <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--theme-neutral-text-subtle)" }}>
+          Size:
+        </span>
+        <div style={{ display: "inline-flex", background: "var(--site-bg)", borderRadius: 8, padding: 3, border: "1px solid var(--site-border)" }}>
+          {(["sm", "md", "lg"] as const).map((s) => (
+            <button
+              key={s}
+              type="button"
+              onClick={() => setSize(s)}
               style={{
-                width: 20,
-                height: 20,
-                background: "var(--theme-colors-neutral-0)",
-                borderRadius: "50%",
-                position: "absolute",
-                top: 2,
-                left: canvasBg === "dark" ? 22 : 2,
-                transition: "left 0.3s ease",
-                boxShadow: "var(--core-elevation-1)",
+                border: "none",
+                background: size === s ? "var(--theme-brand-background-primary-strong)" : "transparent",
+                color: size === s ? "var(--brand-text-primary-oncolor)" : "var(--site-text)",
+                borderRadius: "var(--core-radius-sm)",
+                padding: "4px 12px",
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 120ms ease",
               }}
-            />
-          </div>
-          <span style={{ fontSize: "var(--typography-font-size-xs)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: canvasBg === "dark" ? "var(--site-text)" : "var(--theme-neutral-text-subtle)", transition: "color 0.3s ease" }}>
-            Dark
-          </span>
+            >
+              {sizeLabels[s]}
+            </button>
+          ))}
         </div>
       </div>
 

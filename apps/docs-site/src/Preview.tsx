@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Switch } from "../../../packages/core/src/components/Misc";
+import React from "react";
+import { usePreviewMode } from "./PreviewModeContext";
 
 export function Preview({
   children,
@@ -8,54 +8,15 @@ export function Preview({
 }: {
   children: React.ReactNode;
   dark?: boolean;
-  /** Renders a Light/Dark switch above the canvas and drives data-mode locally,
-   *  instead of the caller having to manage/pass a `dark` boolean itself. */
+  /** When true, this canvas follows the site-wide Light/Dark switch (in the
+   *  sidebar) instead of always rendering in the `dark` prop's fixed mode. */
   showModeToggle?: boolean;
 }) {
-  const [mode, setMode] = useState<"light" | "dark">(dark ? "dark" : "light");
-  const resolvedMode = showModeToggle ? mode : dark ? "dark" : "light";
+  const { mode: globalMode } = usePreviewMode();
+  const resolvedMode = showModeToggle ? globalMode : dark ? "dark" : "light";
 
   return (
     <div>
-      {showModeToggle && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            gap: 10,
-            marginBottom: 10,
-          }}
-        >
-          <span
-            style={{
-              fontSize: "var(--typography-font-size-xs)",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              color: resolvedMode === "light" ? "var(--site-text)" : "var(--theme-neutral-text-subtle)",
-            }}
-          >
-            Light
-          </span>
-          <Switch
-            checked={resolvedMode === "dark"}
-            onChange={() => setMode((prev) => (prev === "light" ? "dark" : "light"))}
-            aria-label="Toggle preview canvas theme"
-          />
-          <span
-            style={{
-              fontSize: "var(--typography-font-size-xs)",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              color: resolvedMode === "dark" ? "var(--site-text)" : "var(--theme-neutral-text-subtle)",
-            }}
-          >
-            Dark
-          </span>
-        </div>
-      )}
       <div
         data-theme="core"
         data-mode={resolvedMode}

@@ -86,7 +86,14 @@ a { color: inherit; }
 .site-nav-link:hover { background: var(--site-bg-hover); color: var(--site-text); }
 .site-nav-link.active {
   background: var(--brand-background-primary-light);
-  color: var(--theme-primitive-color-primary-500);
+  /* Was the raw --theme-primitive-color-primary-500 primitive, which is
+     the same hardcoded hex in both modes. The background above IS
+     mode-aware (a pale tint in light, a near-black navy in dark), so in
+     dark mode that fixed medium-blue text sat on an almost-black bg at
+     ~2:1 contrast — illegible (WCAG 1.4.3 needs 4.5:1). The semantic
+     --brand-text-primary-default token resolves to a much lighter blue
+     in dark mode specifically for this reason. */
+  color: var(--brand-text-primary-default);
   border-color: var(--brand-border-primary-default);
   font-weight: 600;
 }
