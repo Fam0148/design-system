@@ -1523,8 +1523,8 @@
    Icon Button). Sized to the 24x24 CSS-pixel minimum target (WCAG 2.5.8). */
 .cds-alert__dismiss {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: var(--core-space-2);
+  right: var(--core-space-2);
   width: 24px;
   height: 24px;
   background: transparent;

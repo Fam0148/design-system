@@ -120,10 +120,10 @@ const ALERT_ICON: Record<AlertTone, string> = {
 
 export function Alert({ tone = "info", title, children, onDismiss }: { tone?: AlertTone; title: string; children?: React.ReactNode; onDismiss?: () => void }) {
   return (
-    <div className={`cds-alert cds-alert--${tone}`} role={tone === "danger" ? "alert" : "status"} style={{ position: "relative", paddingRight: onDismiss ? 40 : undefined }}>
+    <div className={`cds-alert cds-alert--${tone}`} role={tone === "danger" ? "alert" : "status"} style={{ position: "relative", paddingRight: onDismiss ? "var(--core-space-8)" : undefined }}>
       <Icon name={ALERT_ICON[tone]} size="md" className="cds-alert__icon" />
       <div>
-        <strong style={{ display: "block", marginBottom: children ? 2 : 0 }}>{title}</strong>
+        <strong style={{ display: "block", marginBottom: children ? "var(--core-space-1)" : 0 }}>{title}</strong>
         {children}
       </div>
       {onDismiss && (
